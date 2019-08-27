@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const session = require('express-session');
 const userRouter = require('./users/users.router');
-
+const postRouter = require('./posts/posts.router');
 
 mongoose.connect('mongodb://localhost:27017/lazy-cooking', { useNewUrlParser: true }, (error) => {
     if(error){
@@ -23,11 +23,7 @@ mongoose.connect('mongodb://localhost:27017/lazy-cooking', { useNewUrlParser: tr
         app.use(express.static('public'));
 
         app.use('/users', userRouter);
-
-
-
-
-
+        app.use('/posts',postRouter);
         app.listen(3001, (err) => {
             if(err){
                 throw err;
