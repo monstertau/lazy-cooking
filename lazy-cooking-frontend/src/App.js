@@ -4,6 +4,8 @@ import "./App.css";
 import "antd/dist/antd.css";
 import { Button, Input, Menu, Dropdown, Icon, Avatar } from "antd";
 import HomeScreen from "./pages/HomeScreen";
+import LoginScreen from "./pages/LoginScreen";
+import RegisterScreen from "./pages/RegisterScreen";
 const { Search } = Input;
 const menu = (
   <Menu>
@@ -93,6 +95,8 @@ class App extends React.Component {
         </nav>
         <BrowserRouter>
           <Route path="/" exact={true} component={HomeScreen} />
+          <Route path="/login" exact={true} component={LoginScreen} />
+          <Route path="/register" exact={true} component={RegisterScreen} />
         </BrowserRouter>
       </div>
     );
