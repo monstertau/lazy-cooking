@@ -121,7 +121,10 @@ userRouter.post('/login', (req, res) => {
                     fullName: user.fullName,
                     avatarUrl: user.avatarUrl,
                 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> e0a26bdeb934a321eca3342bf80e4afde2335df3
                 // response to client
                 res.status(201).json({
                     success: true,
