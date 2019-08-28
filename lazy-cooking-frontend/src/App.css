@@ -1,8 +1,3 @@
-<<<<<<< HEAD
-.App {
-  text-align: center;
-}
-=======
 @import '~antd/dist/antd.css';
 .App {
   text-align: center;
@@ -118,4 +113,3 @@ h6 {
 .label-error {
   color: red;
 }
->>>>>>> e0a26bdeb934a321eca3342bf80e4afde2335df3
