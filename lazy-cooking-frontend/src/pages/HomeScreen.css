@@ -1,0 +1,10 @@
+.imageCarousel{
+  width: 100%;
+  height: 300px;
+  background: url("https://static.toiimg.com/photo/68283907.cms") no-repeat;
+  object-fit: cover;
+}
+
+
+
+

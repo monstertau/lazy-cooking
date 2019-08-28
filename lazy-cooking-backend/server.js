@@ -15,13 +15,8 @@ mongoose.connect('mongodb://localhost:27017/lazy-cooking', { useNewUrlParser: tr
         const app = express();
         app.use(bodyParser.json());
         app.use(cors({
-<<<<<<< HEAD
-            origin: "http://localhost:3000/",
-            credentials: true,
-=======
             origin: "http://localhost:3000",
             credentials:true,
->>>>>>> e0a26bdeb934a321eca3342bf80e4afde2335df3
         }));
         app.use(session({
             secret: 'keyboard cat',
