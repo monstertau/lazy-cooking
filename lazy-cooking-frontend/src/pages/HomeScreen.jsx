@@ -7,6 +7,7 @@ class HomeScreen extends React.Component {
   render() {
     return (
       <div className="container" style={{marginTop:"20px"}}>
+        
         <Carousel autoplay>
           <div className="intro">
             <img src="https://static.toiimg.com/photo/68283907.cms" className="imageCarousel"/>
