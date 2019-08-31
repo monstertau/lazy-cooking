@@ -19,6 +19,7 @@ class App extends React.Component {
       email: "",
       fullName: "",
       id:"",
+      sessionCheck:"",
     }
   };
   handleLogOut = (e)=>{
@@ -65,7 +66,7 @@ class App extends React.Component {
       </Menu.Item>
     </Menu>
   );
-  componentWillMount() {
+  componentDidMount() {
     const email = window.localStorage.getItem(`email`);
     const fullName = window.localStorage.getItem(`fullName`);
     const id = window.localStorage.getItem(`id`);
@@ -74,13 +75,11 @@ class App extends React.Component {
         currentUser: {
           email: email,
           fullName: fullName,
-          id: id
+          id: id,
+          
         }
       });
     }
-  }
-  checkSession = e =>{
-    e.preventDefault();
     fetch('http://localhost:3001/users/check-session',{
       method:'GET',
       credentials: 'include',
@@ -88,14 +87,30 @@ class App extends React.Component {
     .then(res=>res.json())
     .then(data=>{
       console.log(data);
+      if(data.success === true){
+        this.setState({
+          currentUser:{
+            sessionCheck: "true",
+          }
+        })
+      }else{
+        window.localStorage.removeItem('email');
+        window.localStorage.removeItem('fullName');
+        window.localStorage.removeItem('avatarUrl');
+        window.localStorage.removeItem('id');
+      }
     })
     .catch(error=>{throw(error)})
-    
   }
+  // checkSession = e =>{
+  //   e.preventDefault();
+    
+    
+  // }
   render() {
     
     return (
-      <div onLoad={this.checkSession}>
+      <div>
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
           <Button icon="home" className="mr-6" type="danger" size="large" href="/">
             Home
@@ -114,7 +129,7 @@ class App extends React.Component {
             enterButton
             size="large"
           />
-          {this.state.currentUser.fullName ? (
+          {this.state.currentUser.sessionCheck ? (
             
             <ul className="navbar-nav mr-auto">
             <Button icon="form" style={{ marginLeft: "5px" }} size="large" href="/create-recipe">
