@@ -76,7 +76,7 @@ class App extends React.Component {
             enterButton
             size="large"
           />
-          {this.state.currentUser.fullName ? (
+          {window.localStorage.getItem(`fullName`) ? (
             
             <ul className="navbar-nav mr-auto">
             <Button icon="form" style={{ marginLeft: "5px" }} size="large" href="/create-recipe">
