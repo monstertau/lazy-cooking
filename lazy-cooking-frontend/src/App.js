@@ -133,7 +133,7 @@ class App extends React.Component {
           <Route path="/profile" exact={true} component={WrappedRegistrationForm} />
           <Route path="/create-recipe" exact={true} component={WrappedCreatePostScreen}/>
           <Route path="/blog" exact={true} component={Blog} />
-          <Route path="my-post" exact={true} component={MyPostScreen}/>
+          <Route path="/my-post" exact={true} component={MyPostScreen}/>
         </BrowserRouter>
       </div>
     );
