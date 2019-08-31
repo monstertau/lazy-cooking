@@ -159,15 +159,15 @@ userRouter.get('/test', (req, res) => {
     });
 });
 
-userRouter.get('/profile', (req, res) => {
+userRouter.get('/profile/:id', (req, res) => {
     //check login
-    if (!req.session.currentUser || !req.session.currentUser._id) {
+    if (!req.params.id) {
         res.status(400).json({
             success: false,
             message: 'Unauthenticated!',
         });
     } else {
-        UserModel.findOne({ email: req.session.currentUser.email }, (err, data) => {
+        UserModel.findOne({ _id: req.params.id }, (err, data) => {
             if (err) {
                 res.status(400).json({
                     success: false,
@@ -219,17 +219,17 @@ userRouter.post('/avatar', upload.single('avatar'), (req, res) => {
 
 userRouter.post('/update', (req, res) => {
     // check login
-    if (!req.session.currentUser || !req.session.currentUser._id) {
+    if (!req.body.id) {
         res.status(400).json({
             success: false,
             message: 'Unauthenticate!'
         })
     } else {
         // get data from req.body
-        const { email, fullName, phone, avatarUrl, emailOld } = req.body;
+        const { email, fullName, phone, avatarUrl, id } = req.body;
 
         //validate
-        if (!email || !emailOld) {
+        if (!email) {
             res.status(400).json({
                 success: false,
                 message: 'Invalid is not correct',
@@ -251,7 +251,7 @@ userRouter.post('/update', (req, res) => {
             })
         } else {
             // check password
-            UserModel.findOne({ email: emailOld }, (error, data) => {
+            UserModel.findOne({ _id:id }, (error, data) => {
                 if (error) {
                     res.status(500).json({
                         success: false,
@@ -260,7 +260,7 @@ userRouter.post('/update', (req, res) => {
                 } else if (data) {
 
                     // update
-                    UserModel.updateOne({ email: emailOld }, { $set: { fullName: fullName, phone: phone, avatarUrl: avatarUrl, email: email } }, (error, data) => {
+                    UserModel.updateOne({ _id: id }, { $set: { fullName: fullName, phone: phone, avatarUrl: avatarUrl, email: email } }, (error, data) => {
                         if (error) {
                             res.status(400).json({
                                 success: false,

@@ -65,7 +65,7 @@ class RegistrationForm extends React.Component {
     }
   }
   componentDidMount() {
-    fetch(`http://localhost:3001/users/profile`, {
+    fetch(`http://localhost:3001/users/profile/${window.localStorage.getItem('id')}`, {
       method: 'GET',
       credentials: 'include',
       headers: {
@@ -129,7 +129,7 @@ class RegistrationForm extends React.Component {
           },
           credentials: 'include',
           body: JSON.stringify({
-              emailOld : this.state.emailOld,
+              id : window.localStorage.getItem('id'),
               fullName: this.state.fullName,
               phone : this.state.phone,
               email: this.state.email,
