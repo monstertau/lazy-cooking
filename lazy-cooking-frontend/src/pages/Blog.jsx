@@ -49,7 +49,7 @@ class Blog extends Component {
                             key={item.title}
                             actions={[
                                 <IconText type="like-o" text="156" key="list-vertical-like-o" />,
-                                <IconText type="clock-circle" text={`Thời Gian: ${item.timetodone} phút`} key="list-vertical-like-o" />,
+                                <IconText type="clock-circle" text="156" key="list-vertical-like-o" />,
                                 <IconText type="bulb" text="156" key="list-vertical-like-o" />,
                             ]}
                             extra={
