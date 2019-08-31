@@ -62,7 +62,7 @@ class Blog extends Component {
                             }
                         >
                             <List.Item.Meta
-                                avatar={<Avatar src={item.imageUrl} />}
+                                avatar={<Avatar src={item.author.avatarUrl} />}
                                 title={<a href={item.href}>{item.title}</a>}
                             />
                             {item.content}

@@ -65,6 +65,7 @@ class RegistrationForm extends React.Component {
     }
   }
   componentDidMount() {
+    
     fetch(`http://localhost:3001/users/profile/${window.localStorage.getItem('id')}`, {
       method: 'GET',
       credentials: 'include',
