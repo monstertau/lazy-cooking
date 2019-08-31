@@ -13,8 +13,10 @@ class LogOutScreen extends React.Component {
         // clear window.localStorage
         window.localStorage.removeItem('email');
         window.localStorage.removeItem('fullName');
-
+        window.localStorage.removeItem('avatarUrl');
+        window.localStorage.removeItem('id');
         // clear fullname + email in state
+        
       })
       .catch((error) => {
         console.log(error);
