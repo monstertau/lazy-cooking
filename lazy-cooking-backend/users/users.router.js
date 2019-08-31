@@ -194,7 +194,6 @@ userRouter.get('/profile/:id', (req, res) => {
 
 userRouter.post('/avatar', upload.single('avatar'), (req, res) => {
     // rename file
-    console.log(req);
     const fileName = req.file.originalname.split(".");
     const fileType = fileName[fileName.length - 1];
     const newFileName = Date.now() + '.' + fileType;
