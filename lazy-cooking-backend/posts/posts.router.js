@@ -77,9 +77,9 @@ postRouter.get(`/getpost`, (req, res) => {
 
 });
 
-postRouter.get(`/mypost`, (req, res) => {
+postRouter.get(`/mypost/:userId`, (req, res) => {
   postModel
-    .find({})
+    .find({author:`${req.params.userId}`})
     .populate('author',"avatarUrl")
     .exec((error, data) => {
       if (error) {

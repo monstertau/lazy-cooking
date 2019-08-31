@@ -7,6 +7,8 @@ const IconText = ({ type, text }) => (
     {text}
   </span>
 );
+const urlParts = window.location.pathname.split('/');
+const userId = urlParts[urlParts.length - 1];
 class MyPostScreen extends Component {
   state = {
     havePost: true,
@@ -22,7 +24,7 @@ class MyPostScreen extends Component {
         if (data.success === false) {
           window.location.href = "/login";
         } else {
-          fetch("http://localhost:3001/posts/mypost", {
+          fetch(`http://localhost:3001/posts/mypost/${userId}`, {
             method: "GET",
             credentials: "include"
           })
@@ -30,8 +32,8 @@ class MyPostScreen extends Component {
             .then(data => {
               console.log(data);
               this.setState({
-                data:data.data
-              })
+                data: data.data
+              });
             });
         }
       });
@@ -60,12 +62,12 @@ class MyPostScreen extends Component {
                   <IconText type="like" text="0" key="upvote" />,
                   <IconText
                     type="bulb"
-                    text="Độ khó: 5"
+                    text={`Độ khó: ${item.level}`}
                     key="list-vertical-like-o"
                   />,
                   <IconText
                     type="clock-circle"
-                    text="Thời gian: 10 phút"
+                    text={`Thời gian: ${item.timetodone} phút`}
                     key="list-vertical-message"
                   />
                 ]}
@@ -73,12 +75,13 @@ class MyPostScreen extends Component {
                   <img
                     width={272}
                     alt="logo"
-                    src="https://sites.google.com/site/khxmuleleasarsnthes/_/rsrc/1480953778509/watthuprasngkh/googlelogo_color_284x96dp.png"
+                    src={item.imageUrl}
+                    
                   />
                 }
               >
                 <List.Item.Meta
-                  avatar={<Avatar src={item.avatarUrl} />}
+                  avatar={<Avatar src={item.author.avatarUrl} />}
                   title={<a href={item.href}>{item.title}</a>}
                   // description={item.description}
                 />
