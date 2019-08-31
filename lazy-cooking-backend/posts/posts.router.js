@@ -25,8 +25,12 @@ postRouter.post(`/create`, (req, res) => {
       category: req.body.category,
       materials: req.body.materials,
       level: req.body.level,
+<<<<<<< HEAD
       timetodone: req.body.timetodone,
       author: req.session.currentUser._id
+=======
+      timetodone: req.body.timetodone
+>>>>>>> 18fca50f78d0ddeefc41491635ac08631ff02b66
     };
     if (title.length > 50 || content.length > 1000) {
       res.status(400).json({
