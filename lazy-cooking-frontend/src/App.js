@@ -6,9 +6,10 @@ import { Button, Input, Menu, Dropdown, Icon, Avatar } from "antd";
 import HomeScreen from "./pages/HomeScreen";
 import LoginScreen from "./pages/LoginScreen";
 import RegisterScreen from "./pages/RegisterScreen";
-import LogOutScreen from "./pages/LogOutScreen";
 import WrappedRegistrationForm from "./pages/Profile";
 import WrappedCreatePostScreen from "./pages/CreatePostScreen";
+import Blog from "./pages/Blog";
+import MyPostScreen from "./pages/MyPostScreen";
 const { Search } = Input;
 
 class App extends React.Component {
@@ -18,10 +19,32 @@ class App extends React.Component {
       fullName: ""
     }
   };
+  handleLogOut = (e)=>{
+    e.preventDefault();
+    fetch('http://localhost:3001/users/logout', {
+      method: 'GET',
+      credentials: 'include',
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        // clear window.localStorage
+        window.localStorage.removeItem('email');
+        window.localStorage.removeItem('fullName');
+        window.localStorage.removeItem('avatarUrl');
+        window.localStorage.removeItem('id');
+        window.location.reload();
+        // clear fullname + email in state
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
   menu = (
     <Menu>
       <Menu.Item>
-        <p>Welcome,{this.state.currentUser.fullName} !</p>
+        <p>Welcome,{window.localStorage.getItem(`fullName`)} !</p>
       </Menu.Item>
       <Menu.Item>
         <a  href="/profile">
@@ -29,12 +52,12 @@ class App extends React.Component {
         </a>
       </Menu.Item>
       <Menu.Item>
-        <a  href="/">
+        <a  href="/my-post">
           Bài đăng của tôi
         </a>
       </Menu.Item>
       <Menu.Item>
-        <a href="/logout">
+        <a onClick={this.handleLogOut}>
           Đăng xuất
         </a>
       </Menu.Item>
@@ -64,7 +87,7 @@ class App extends React.Component {
           <Button size="large" type="link">
             Công thức
           </Button>
-          <Button size="large" type="link">
+          <Button size="large" href="/blog" type="link">
             Blogs{" "}
           </Button>
           <Button size="large" type="link">
@@ -75,7 +98,7 @@ class App extends React.Component {
             enterButton
             size="large"
           />
-          {this.state.currentUser.fullName ? (
+          {window.localStorage.getItem(`fullName`) ? (
             
             <ul className="navbar-nav mr-auto">
             <Button icon="form" style={{ marginLeft: "5px" }} size="large" href="/create-recipe">
@@ -107,9 +130,10 @@ class App extends React.Component {
           <Route path="/" exact={true} component={HomeScreen} />
           <Route path="/login" exact={true} component={LoginScreen} />
           <Route path="/register" exact={true} component={RegisterScreen} />
-          <Route path="/logout" exact={true} component={LogOutScreen} />
           <Route path="/profile" exact={true} component={WrappedRegistrationForm} />
           <Route path="/create-recipe" exact={true} component={WrappedCreatePostScreen}/>
+          <Route path="/blog" exact={true} component={Blog} />
+          <Route path="/my-post" exact={true} component={MyPostScreen}/>
         </BrowserRouter>
       </div>
     );

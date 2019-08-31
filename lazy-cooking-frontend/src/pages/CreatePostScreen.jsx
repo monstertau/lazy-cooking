@@ -19,7 +19,11 @@ class CreatePostScreen extends React.Component {
   state = {
     foods: foodArr,
     types: typeArr,
-    imageFile: undefined
+    imageFile: undefined,
+    loading: false,
+  };
+  enterLoading = () => {
+    this.setState({ loading: true });
   };
   handleImageChange = event => {
     // event.preventDefault();
@@ -100,6 +104,9 @@ class CreatePostScreen extends React.Component {
               .then(res => res.json())
               .then(data1 => {
                 console.log(data1);
+                if(data1.success){
+                  // window.location.href = "/my-post"
+                }
               });
           })
           .catch(error => {
@@ -140,7 +147,9 @@ class CreatePostScreen extends React.Component {
         <Form {...formItemLayout} onSubmit={this.handleSubmit}>
           <Form.Item label="Tiêu đề">
             {getFieldDecorator("title", {
-              rules: [{ required: true, message: "Please input your title!" }]
+              rules: [{ required: true, message: "Please input your title!" },{
+                max:50, message:"Title is below 50 characters"
+              }]
             })(
               <Input
                 prefix={
@@ -233,7 +242,7 @@ class CreatePostScreen extends React.Component {
 
           <Form.Item label="Nội dung ">
             {getFieldDecorator("content", {
-              rules: [{ required: true, message: "Please input your content!" }]
+              rules: [{ required: true, message: "Please input your content!" },]
             })(
               <TextArea
                 rows={30}
@@ -246,7 +255,7 @@ class CreatePostScreen extends React.Component {
           </Form.Item>
 
           <Form.Item wrapperCol={{ span: 12, offset: 6 }}>
-            <Button type="primary" htmlType="submit">
+            <Button type="primary" htmlType="submit" loading ={this.state.loading} onClick={this.enterLoading}>
               Đăng bài
             </Button>
           </Form.Item>
