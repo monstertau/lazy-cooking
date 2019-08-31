@@ -197,7 +197,6 @@ userRouter.post('/avatar', upload.single('avatar'), (req, res) => {
     const fileName = req.file.originalname.split(".");
     const fileType = fileName[fileName.length - 1];
     const newFileName = Date.now() + '.' + fileType;
-
     //save to public directory
     fs.rename(`public/avatar/${req.file.filename}`, `public/avatar/${req.file.originalname}`, (err) => {
         if (err) {

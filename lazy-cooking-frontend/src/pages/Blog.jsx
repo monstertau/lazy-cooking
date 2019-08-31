@@ -58,6 +58,7 @@ class Blog extends Component {
                                     height={272}
                                     alt="logo"
                                     src={item.imageUrl}
+                                    style={{objectFit:"contain"}}
                                 />
                             }
                         >
