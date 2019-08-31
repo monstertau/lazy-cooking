@@ -17,7 +17,8 @@ class App extends React.Component {
   state = {
     currentUser: {
       email: "",
-      fullName: ""
+      fullName: "",
+      id:"",
     }
   };
   handleLogOut = (e)=>{
@@ -48,12 +49,12 @@ class App extends React.Component {
         <p>Welcome,{window.localStorage.getItem(`fullName`)} !</p>
       </Menu.Item>
       <Menu.Item>
-        <a  href="/profile">
+        <a href={`/profile`}>
           Profile
         </a>
       </Menu.Item>
       <Menu.Item>
-        <a  href="/my-post">
+        <a  href={`/my-post/${window.localStorage.getItem('id')}`}>
           Bài đăng của tôi
         </a>
       </Menu.Item>
@@ -67,12 +68,13 @@ class App extends React.Component {
   componentWillMount() {
     const email = window.localStorage.getItem(`email`);
     const fullName = window.localStorage.getItem(`fullName`);
-
+    const id = window.localStorage.getItem(`id`);
     if (email && fullName) {
       this.setState({
         currentUser: {
           email: email,
-          fullName: fullName
+          fullName: fullName,
+          id: id
         }
       });
     }
@@ -134,7 +136,7 @@ class App extends React.Component {
           <Route path="/profile" exact={true} component={WrappedRegistrationForm} />
           <Route path="/create-recipe" exact={true} component={WrappedCreatePostScreen}/>
           <Route path="/blog" exact={true} component={Blog} />
-          <Route path="/my-post" exact={true} component={MyPostScreen}/>
+          <Route path="/my-post/:userId" exact={true} component={MyPostScreen}/>
           <Route path="/post/:postId" exact={true} component={DetailPostScreen}/>
         </BrowserRouter>
       </div>
