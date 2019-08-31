@@ -127,4 +127,8 @@ postRouter.post("/image", upload.single("image"), (req, res) => {
     }
   );
 });
+
+postRouter.get("/my-post",(req,res)=>{
+  
+})
 module.exports = postRouter;
