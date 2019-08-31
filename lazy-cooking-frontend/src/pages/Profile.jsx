@@ -42,7 +42,7 @@ class RegistrationForm extends React.Component {
     fullName: '',
     email: '',
     phone: 0,
-    avatarUrl: '',
+    avatarUrl: 'https://cdn.pixabay.com/photo/2013/07/13/12/07/avatar-159236_640.png',
     loading: false,
     emailOld: window.localStorage.getItem('email'),
     avatarFile: undefined
@@ -129,18 +129,18 @@ class RegistrationForm extends React.Component {
           },
           credentials: 'include',
           body: JSON.stringify({
-              id : window.localStorage.getItem('id'),
-              fullName: this.state.fullName,
-              phone : this.state.phone,
-              email: this.state.email,
-              avatarUrl : data.data.imageUrl
+            id: window.localStorage.getItem('id'),
+            fullName: this.state.fullName,
+            phone: this.state.phone,
+            email: this.state.email,
+            avatarUrl: data.data.imageUrl
           })
         })
           .then((res) => {
             return res.json();
           })
           .then((data2) => {
-              console.log(data2);
+            console.log(data2);
           })
       })
   };
@@ -201,69 +201,71 @@ class RegistrationForm extends React.Component {
 
 
     return (
-      <Form {...formItemLayout} onSubmit={this.handleSubmit}>
+      <div className="container">
+        <Form {...formItemLayout} onSubmit={this.handleSubmit}>
 
-        <div style={{ marginLeft: "600px" }}>
-          <Upload
-            style={{ height: "120px" }}
-            name="avatar"
-            listType="picture-card"
-            className="avatar-uploader"
-            showUploadList={false}
-            action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-            beforeUpload={beforeUpload}
-            onChange={this.handleChange}
-          >
-            {avatarUrl ? <img src={avatarUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
-          </Upload>
-        </div>
+          <div style={{ marginLeft: "600px" }}>
+            <Upload
+              style={{ height: "120px" }}
+              name="avatar"
+              listType="picture-card"
+              className="avatar-uploader"
+              showUploadList={false}
+              action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+              beforeUpload={beforeUpload}
+              onChange={this.handleChange}
+            >
+              {avatarUrl ? <img src={avatarUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
+            </Upload>
+          </div>
 
-        <Form.Item label="E-mail">
+          <Form.Item label="E-mail">
 
-          {getFieldDecorator('email', {
-            valuePropName: 'value',
-            initialValue: this.state.email,
-            rules: [
-              {
-                type: 'email',
-                message: 'The input is not valid E-mail!',
-              },
-              {
-                required: true,
-                message: 'Please input your E-mail!',
-              },
-            ],
-          })(<Input onChange={this.handleChangeEmail} />)}
-        </Form.Item>
-        <Form.Item
-          label={
-            <span>
-              Fullname&nbsp;
+            {getFieldDecorator('email', {
+              valuePropName: 'value',
+              initialValue: this.state.email,
+              rules: [
+                {
+                  type: 'email',
+                  message: 'The input is not valid E-mail!',
+                },
+                {
+                  required: true,
+                  message: 'Please input your E-mail!',
+                },
+              ],
+            })(<Input onChange={this.handleChangeEmail} />)}
+          </Form.Item>
+          <Form.Item
+            label={
+              <span>
+                Fullname&nbsp;
                 <Tooltip title="What do you want others to call you?">
-                <Icon type="question-circle-o" />
-              </Tooltip>
-            </span>
-          }
-        >
-          {getFieldDecorator('nickname', {
-            valuePropName: 'value',
-            initialValue: this.state.fullName,
-            rules: [{ required: true, message: 'Please input your nickname!', whitespace: true }],
-          })(<Input onChange={this.handleChangeFullName} />)}
-        </Form.Item>
-        <Form.Item label="Phone Number">
-          {getFieldDecorator('phone', {
-            valuePropName: 'value',
-            initialValue: "0" + this.state.phone,
-            rules: [{ required: true, message: 'Please input your phone number!' }],
-          })(<Input style={{ width: '100%' }} onChange={this.handlePhone} />)}
-        </Form.Item>
-        <Form.Item {...tailFormItemLayout}>
-          <Button type="primary" htmlType="submit">
-            Update
+                  <Icon type="question-circle-o" />
+                </Tooltip>
+              </span>
+            }
+          >
+            {getFieldDecorator('nickname', {
+              valuePropName: 'value',
+              initialValue: this.state.fullName,
+              rules: [{ required: true, message: 'Please input your nickname!', whitespace: true }],
+            })(<Input onChange={this.handleChangeFullName} />)}
+          </Form.Item>
+          <Form.Item label="Phone Number">
+            {getFieldDecorator('phone', {
+              valuePropName: 'value',
+              initialValue: "0" + this.state.phone,
+              rules: [{ required: true, message: 'Please input your phone number!' }],
+            })(<Input style={{ width: '100%' }} onChange={this.handlePhone} />)}
+          </Form.Item>
+          <Form.Item {...tailFormItemLayout}>
+            <Button type="primary" htmlType="submit">
+              Update
             </Button>
-        </Form.Item>
-      </Form>
+          </Form.Item>
+        </Form>
+      </div>
     );
   }
 }
