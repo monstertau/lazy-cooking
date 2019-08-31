@@ -6,7 +6,6 @@ import { Button, Input, Menu, Dropdown, Icon, Avatar } from "antd";
 import HomeScreen from "./pages/HomeScreen";
 import LoginScreen from "./pages/LoginScreen";
 import RegisterScreen from "./pages/RegisterScreen";
-import LogOutScreen from "./pages/LogOutScreen";
 import WrappedRegistrationForm from "./pages/Profile";
 import WrappedCreatePostScreen from "./pages/CreatePostScreen";
 import Blog from "./pages/Blog";
@@ -130,7 +129,6 @@ class App extends React.Component {
           <Route path="/" exact={true} component={HomeScreen} />
           <Route path="/login" exact={true} component={LoginScreen} />
           <Route path="/register" exact={true} component={RegisterScreen} />
-          <Route path="/logout" exact={true} component={LogOutScreen} />
           <Route path="/profile" exact={true} component={WrappedRegistrationForm} />
           <Route path="/create-recipe" exact={true} component={WrappedCreatePostScreen}/>
           <Route path="/blog" exact={true} component={Blog}></Route>
