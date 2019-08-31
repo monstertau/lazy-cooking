@@ -55,6 +55,7 @@ class Blog extends Component {
                             extra={
                                 <img
                                     width={272}
+                                    height={272}
                                     alt="logo"
                                     src={item.imageUrl}
                                 />
