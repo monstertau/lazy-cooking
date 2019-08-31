@@ -79,10 +79,23 @@ class App extends React.Component {
       });
     }
   }
+  checkSession = e =>{
+    e.preventDefault();
+    fetch('http://localhost:3001/users/check-session',{
+      method:'GET',
+      credentials: 'include',
+    })
+    .then(res=>res.json())
+    .then(data=>{
+      console.log(data);
+    })
+    .catch(error=>{throw(error)})
+    
+  }
   render() {
     
     return (
-      <div >
+      <div onLoad={this.checkSession}>
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
           <Button icon="home" className="mr-6" type="danger" size="large" href="/">
             Home
@@ -101,7 +114,7 @@ class App extends React.Component {
             enterButton
             size="large"
           />
-          {window.localStorage.getItem(`fullName`) ? (
+          {this.state.currentUser.fullName ? (
             
             <ul className="navbar-nav mr-auto">
             <Button icon="form" style={{ marginLeft: "5px" }} size="large" href="/create-recipe">
