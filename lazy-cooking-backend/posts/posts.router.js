@@ -77,6 +77,25 @@ postRouter.get(`/getpost`, (req, res) => {
 
 });
 
+postRouter.get(`/mypost`, (req, res) => {
+  postModel
+    .find({})
+    .populate('author',"avatarUrl")
+    .exec((error, data) => {
+      if (error) {
+        res.status(500).json({
+          success: false,
+          message: error.message
+        });
+      } else {
+        res.status(200).json({
+          success: true,
+          data: data,
+        });
+      }
+    });
+
+});
 
 
 postRouter.post("/image", upload.single("image"), (req, res) => {
