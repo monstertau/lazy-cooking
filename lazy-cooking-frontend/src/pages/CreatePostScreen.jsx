@@ -140,7 +140,9 @@ class CreatePostScreen extends React.Component {
         <Form {...formItemLayout} onSubmit={this.handleSubmit}>
           <Form.Item label="Tiêu đề">
             {getFieldDecorator("title", {
-              rules: [{ required: true, message: "Please input your title!" }]
+              rules: [{ required: true, message: "Please input your title!" },{
+                max:50, message:"Title is below 50 characters"
+              }]
             })(
               <Input
                 prefix={
@@ -233,7 +235,7 @@ class CreatePostScreen extends React.Component {
 
           <Form.Item label="Nội dung ">
             {getFieldDecorator("content", {
-              rules: [{ required: true, message: "Please input your content!" }]
+              rules: [{ required: true, message: "Please input your content!" },]
             })(
               <TextArea
                 rows={30}

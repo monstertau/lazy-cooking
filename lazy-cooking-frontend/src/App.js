@@ -21,7 +21,7 @@ class App extends React.Component {
   menu = (
     <Menu>
       <Menu.Item>
-        <p>Welcome,{this.state.currentUser.fullName} !</p>
+        <p>Welcome,{window.localStorage.getItem(`fullName`)} !</p>
       </Menu.Item>
       <Menu.Item>
         <a  href="/profile">
