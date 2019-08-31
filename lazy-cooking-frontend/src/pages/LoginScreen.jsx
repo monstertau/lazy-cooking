@@ -10,6 +10,30 @@ class LoginScreen extends Component {
         rememberMe: false,
         isError: false,
         message: '',
+        isLogin: false,
+    }
+
+    componentWillMount() {
+        fetch('http://localhost:3001/users/check-session', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            credentials: 'include',
+        })
+        .then((res) => res.json())
+        .then((data) => {
+            if(data.success === true){
+                this.setState({
+                    isLogin: true,
+                })
+            } else {
+                this.setState({
+                    isLogin: false,
+                })
+            }
+            
+        })
     }
 
     handleSubmit = (event) => {
@@ -93,9 +117,12 @@ class LoginScreen extends Component {
     }
 
     render() {
-
         return (
-            <div className="container">
+            <div>
+                {this.state.isLogin ? (
+                    window.location.replace("http://localhost:3000/")
+                ) : (
+                    <div className="container">
                 <div className="row mt-2">
                     <div className="col-2"></div>
                     <div className="col-8 get-in-touch">
@@ -139,6 +166,8 @@ class LoginScreen extends Component {
                     </div>
                     <div className="col-2"></div>
                 </div>
+            </div>
+                )}
             </div>
         );
     }
