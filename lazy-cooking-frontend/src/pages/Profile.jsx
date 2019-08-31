@@ -196,10 +196,10 @@ class RegistrationForm extends React.Component {
                 this.setState({
                   load: false
                 })
-                // window.localStorage.setItem('email', data.data.email);
-                // window.localStorage.setItem('fullName', data.data.fullName);
-                // window.localStorage.setItem('avatarUrl', data.data.avatarUrl);
-                // window.location.assign()
+                window.localStorage.setItem('email', this.state.email);
+                window.localStorage.setItem('fullName', this.state.fullName);
+                window.localStorage.setItem('avatarUrl', data.data.imageUrl);
+                window.location.reload();
               })
           }
           else {
@@ -225,6 +225,10 @@ class RegistrationForm extends React.Component {
                 this.setState({
                   load: false
                 })
+                window.sessionStorage.setItem('email', this.state.email);
+                window.sessionStorage.setItem('fullName', this.state.fullName);
+                window.sessionStorage.setItem('avatarUrl', data.data.imageUrl);
+                window.location.reload();
               })
           }
         })
@@ -253,10 +257,9 @@ class RegistrationForm extends React.Component {
             this.setState({
               load: false
             })
-            // window.localStorage.setItem('email', data.data.email);
-            // window.localStorage.setItem('fullName', data.data.fullName);
-            // window.localStorage.setItem('avatarUrl', data.data.avatarUrl);
-            // window.location.assign()
+            window.localStorage.setItem('email', this.state.email);
+            window.localStorage.setItem('fullName', this.state.fullName);
+            window.location.reload();
           })
       }
       else {
@@ -282,6 +285,9 @@ class RegistrationForm extends React.Component {
             this.setState({
               load: false
             })
+            window.sessionStorage.setItem('email', this.state.email);
+            window.sessionStorage.setItem('fullName', this.state.fullName);
+            window.location.reload();
           })
       }
     }
