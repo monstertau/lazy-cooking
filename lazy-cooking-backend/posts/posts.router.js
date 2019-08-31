@@ -60,7 +60,7 @@ postRouter.post(`/create`, (req, res) => {
 postRouter.get(`/getpost`, (req, res) => {
   postModel
     .find({})
-    .populate('author','avatarUrl')
+    .populate('author','email')
     .exec((error, data) => {
       if (error) {
         res.status(500).json({
