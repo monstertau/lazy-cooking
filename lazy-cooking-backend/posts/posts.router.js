@@ -49,7 +49,7 @@ postRouter.post(`/create`, (req, res) => {
         }
       });//asdasda
     }
-  }else {
+  } else {
     res.status(403).json({
       success: false,
       message: 'Unauthenticated',
@@ -58,54 +58,25 @@ postRouter.post(`/create`, (req, res) => {
 });
 
 postRouter.get(`/getpost`, (req, res) => {
-  //sorBy:price
-  //sortOrder:a-z
-  const pageNumber = Number(req.query.pageNumber);
-  const pageSize = 10;
-  if (isNaN(pageNumber)) {
-    res.status(500).json({
-      success: false,
-      message: "pageNumber are invalid"
+  postModel
+    .find({})
+    .exec((error, data) => {
+      if (error) {
+        res.status(500).json({
+          success: false,
+          message: error.message
+        });
+      } else {
+        res.status(200).json({
+          success: true,
+          data: data,
+        });
+      }
     });
-  } else if (pageNumber < 1 || pageSize < 1 || pageSize > 20) {
-    res.status(500).json({
-      success: false,
-      message: "pageNumber and pageSize are invalid"
-    });
-  } else {
-    postModel
-      .find({})
-      .sort({ createAt: -1 })
-      .skip(pageSize * (pageNumber - 1))
-      .limit(pageSize)
-      .exec((error, data) => {
-        if (error) {
-          res.status(500).json({
-            success: false,
-            message: error.message
-          });
-        } else {
-          postModel
-            .find({})
-            .countDocuments()
-            .exec((error, total) => {
-              if (error) {
-                res.status(500).json({
-                  success: false,
-                  message: error.message
-                });
-              } else {
-                res.status(200).json({
-                  success: true,
-                  data: data,
-                  total: total
-                });
-              }
-            });
-        }
-      });
-  }
+
 });
+
+
 
 postRouter.post("/image", upload.single("image"), (req, res) => {
   fs.rename(
