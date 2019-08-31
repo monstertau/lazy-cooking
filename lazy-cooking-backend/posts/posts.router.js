@@ -139,7 +139,6 @@ postRouter.get('/get-post-by-id/:postId', (req, res) => {
     } else {
       // console.log(data);
       //get author name
-      var authorName = '';
       userModel.findById(data.author, (error, user) => {
         if(error){
           res.status(500).json({
@@ -154,6 +153,7 @@ postRouter.get('/get-post-by-id/:postId', (req, res) => {
               ...data._doc,
               id: data._id,
               authorName: user.fullName,
+              avatarUrl: user.avatarUrl,  
             },
           })
         }
