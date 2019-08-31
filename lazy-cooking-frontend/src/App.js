@@ -8,6 +8,7 @@ import LoginScreen from "./pages/LoginScreen";
 import RegisterScreen from "./pages/RegisterScreen";
 import LogOutScreen from "./pages/LogOutScreen";
 import WrappedRegistrationForm from "./pages/Profile";
+import WrappedCreatePostScreen from "./pages/CreatePostScreen";
 const { Search } = Input;
 
 class App extends React.Component {
@@ -19,6 +20,9 @@ class App extends React.Component {
   };
   menu = (
     <Menu>
+      <Menu.Item>
+        <p>Welcome,{window.localStorage.getItem(`fullName`)} !</p>
+      </Menu.Item>
       <Menu.Item>
         <a  href="/profile">
           Profile
@@ -36,7 +40,7 @@ class App extends React.Component {
       </Menu.Item>
     </Menu>
   );
-  componentDidMount() {
+  componentWillMount() {
     const email = window.localStorage.getItem(`email`);
     const fullName = window.localStorage.getItem(`fullName`);
 
@@ -74,7 +78,7 @@ class App extends React.Component {
           {this.state.currentUser.fullName ? (
             
             <ul className="navbar-nav mr-auto">
-            <Button icon="form" style={{ marginLeft: "5px" }} size="large">
+            <Button icon="form" style={{ marginLeft: "5px" }} size="large" href="/create-recipe">
               Đăng công thức
             </Button>
             <Dropdown overlay={this.menu}>
@@ -105,6 +109,7 @@ class App extends React.Component {
           <Route path="/register" exact={true} component={RegisterScreen} />
           <Route path="/logout" exact={true} component={LogOutScreen} />
           <Route path="/profile" exact={true} component={WrappedRegistrationForm} />
+          <Route path="/create-recipe" exact={true} component={WrappedCreatePostScreen}/>
         </BrowserRouter>
       </div>
     );

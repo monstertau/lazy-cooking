@@ -13,8 +13,7 @@ const PostSchema = mongoose.Schema({
         require:true
     },
     imageUrl:{
-        type:String,
-        require:true 
+        type:String, 
     },
     author:{
         type: mongoose.Schema.Types.ObjectId,
@@ -26,11 +25,11 @@ const PostSchema = mongoose.Schema({
         default:0
     },
     category:{
-        type:String,
+        type:Array,
         require:true
     },
     materials:{
-        type:String,
+        type:Array,
         require:true
     },
     level:{
