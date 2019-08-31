@@ -65,26 +65,71 @@ class RegistrationForm extends React.Component {
     }
   }
   componentDidMount() {
-    
-    fetch(`http://localhost:3001/users/profile/${window.localStorage.getItem('id')}`, {
+    fetch('http://localhost:3001/users/check-session', {
       method: 'GET',
       credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
-      },
     })
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
+      .then(res => res.json())
+      .then(data => {
         console.log(data);
-        this.setState({
-          fullName: data.data.fullName,
-          email: data.data.email,
-          phone: data.data.phone,
-          avatarUrl: data.data.avatarUrl
-        })
+        if (!data.success) {
+          window.localStorage.removeItem('email');
+          window.localStorage.removeItem('fullName');
+          window.localStorage.removeItem('avatarUrl');
+          window.localStorage.removeItem('id');
+          window.sessionStorage.removeItem('email');
+          window.sessionStorage.removeItem('fullName');
+          window.sessionStorage.removeItem('avatarUrl');
+          window.sessionStorage.removeItem('id');
+          window.location.assign(`http://localhost:3000/login`);
+        }
+        else {
+          const id = window.localStorage.getItem('id');
+          if (id) {
+            fetch(`http://localhost:3001/users/profile/${id}`, {
+              method: 'GET',
+              credentials: 'include',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+            })
+              .then((res) => {
+                return res.json();
+              })
+              .then((data) => {
+                console.log(data);
+                this.setState({
+                  fullName: data.data.fullName,
+                  email: data.data.email,
+                  phone: data.data.phone,
+                  avatarUrl: data.data.avatarUrl
+                })
+              })
+          }
+          else {
+            fetch(`http://localhost:3001/users/profile/${window.sessionStorage.getItem('id')}`, {
+              method: 'GET',
+              credentials: 'include',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+            })
+              .then((res) => {
+                return res.json();
+              })
+              .then((data) => {
+                console.log(data);
+                this.setState({
+                  fullName: data.data.fullName,
+                  email: data.data.email,
+                  phone: data.data.phone,
+                  avatarUrl: data.data.avatarUrl
+                })
+              })
+          }
+        }
       })
+      .catch(error => { throw (error) })
   }
   handleChangeEmail = (event) => {
     this.setState({
@@ -123,6 +168,7 @@ class RegistrationForm extends React.Component {
         return res.json();
       })
       .then((data) => {
+        console.log(data.data.imageUrl);
         fetch(`http://localhost:3001/users/update`, {
           method: 'POST',
           headers: {

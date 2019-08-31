@@ -209,7 +209,7 @@ userRouter.post('/avatar', upload.single('avatar'), (req, res) => {
             res.status(201).json({
                 success: true,
                 data: {
-                    imageUrl: `http://localhost:3001/${newFileName}`
+                    imageUrl: `http://localhost:3001/avatar/${req.file.originalname}`
                 }
             })
         }
@@ -259,7 +259,7 @@ userRouter.post('/update', (req, res) => {
                 } else if (data) {
 
                     // update
-                    UserModel.updateOne({ _id: id }, { $set: { fullName: fullName, phone: phone, avatarUrl: avatarUrl, email: email } }, (error, data) => {
+                    UserModel.updateOne({ _id: id }, { $set: { fullName: fullName, phone: phone, avatarUrl: avatarUrl, email: email } }, (error, data2) => {
                         if (error) {
                             res.status(400).json({
                                 success: false,
@@ -274,7 +274,7 @@ userRouter.post('/update', (req, res) => {
                             // response update success
                             res.status(201).json({
                                 success: true,
-                                data: data,
+                                data: data2,
                             })
                         }
                     });
