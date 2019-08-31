@@ -9,7 +9,7 @@ const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+")
 const phoneRegex = /^\d{10}$/;
 const avatarUrlRegex = /\.(jpg|jpeg|png|gif)$/;
 const upload = multer({
-    dest: 'public/',
+    dest: 'public/avatar',
 });
 
 userRouter.post('/register', (req, res) => {
@@ -128,6 +128,7 @@ userRouter.post('/login', (req, res) => {
                         email: user.email,
                         fullName: user.fullName,
                         avatarUrl: user.avatarUrl,
+                        id: user._id
                     }
                 });
             }
@@ -193,12 +194,13 @@ userRouter.get('/profile', (req, res) => {
 
 userRouter.post('/avatar', upload.single('avatar'), (req, res) => {
     // rename file
+    console.log(req);
     const fileName = req.file.originalname.split(".");
     const fileType = fileName[fileName.length - 1];
     const newFileName = Date.now() + '.' + fileType;
 
     //save to public directory
-    fs.rename(`public/${req.file.filename}`, `public/${newFileName}`, (err) => {
+    fs.rename(`public/avatar/${req.file.filename}`, `public/avatar/${req.file.originalname}`, (err) => {
         if (err) {
             res.status(500).json({
                 success: false,
@@ -224,18 +226,13 @@ userRouter.post('/update', (req, res) => {
         })
     } else {
         // get data from req.body
-        const { email, fullName, phone, avatarUrl, password } = req.body;
+        const { email, fullName, phone, avatarUrl, emailOld } = req.body;
 
         //validate
-        if (email !== req.session.currentUser.email) {
+        if (!email || !emailOld) {
             res.status(400).json({
                 success: false,
                 message: 'Invalid is not correct',
-            });
-        } else if (!password) {
-            res.status(400).json({
-                success: false,
-                message: 'Please input password',
             });
         } else if (!fullName || fullName.trim().length === 0) {
             res.status(400).json({
@@ -249,76 +246,72 @@ userRouter.post('/update', (req, res) => {
             });
         } else if (!avatarUrl || !avatarUrlRegex.test(avatarUrl)) {
             res.status(400).json({
-                success: false, 
+                success: false,
                 message: 'Invalid avatar url!',
             })
         } else {
             // check password
-            UserModel.findOne({ email: email }, (error, data) => {
+            UserModel.findOne({ email: emailOld }, (error, data) => {
                 if (error) {
                     res.status(500).json({
                         success: false,
                         message: error.message,
                     });
                 } else if (data) {
-                    if (!bcryptjs.compareSync(password, data.password)) {
-                        res.status(500).json({
-                            success: false,
-                            message: 'Password is not correct!',
-                        });
-                    } else {
-                        // update
-                        UserModel.updateOne({ email: email }, { $set: {fullName: fullName, phone: phone, avatarUrl: avatarUrl}}, (error, data) => {
-                            if(error){
-                                res.status(400).json({
-                                    success: false,
-                                    message: error.message,
-                                });
-                            } else if(!data){
-                                res.status(400).json({
-                                    success: false,
-                                    message: 'deo co data',
-                                });
-                            } else {
-                                // response update success
-                                res.status(201).json({
-                                    success: true,
-                                })
-                            }
-                        });
 
-                        //update session
-                        // UserModel.findOne({ email: email }, (err, user) => {
-                        //     if (err) {
-                        //         res.status(500).json({
-                        //             success: false,
-                        //             message: err.message,
-                        //         });
-                        //     } else if (!user) {
-                        //         res.status(500).json({
-                        //             success: false,
-                        //             message: 'Email does not exist!',
-                        //         });
-                        //     } else {
-                        //         //save current user info to session storage
-                        //         req.session.reload((err) => {
-                        //             if(err){
-                        //                 res.status(400).json({
-                        //                     success: false,
-                        //                     message: err.message,
-                        //                 })
-                        //             } else{
-                        //                 res.render('index', {
-                        //                     _id: user._id,
-                        //                     email: user.email,
-                        //                     fullName: user.fullName,
-                        //                     avatarUrl: user.avatarUrl,
-                        //                 })
-                        //             }
-                        //         })
-                        //     }
-                        // });
-                    }
+                    // update
+                    UserModel.updateOne({ email: emailOld }, { $set: { fullName: fullName, phone: phone, avatarUrl: avatarUrl, email: email } }, (error, data) => {
+                        if (error) {
+                            res.status(400).json({
+                                success: false,
+                                message: error.message,
+                            });
+                        } else if (!data) {
+                            res.status(400).json({
+                                success: false,
+                                message: 'deo co data',
+                            });
+                        } else {
+                            // response update success
+                            res.status(201).json({
+                                success: true,
+                                data: data,
+                            })
+                        }
+                    });
+
+                    //update session
+                    // UserModel.findOne({ email: email }, (err, user) => {
+                    //     if (err) {
+                    //         res.status(500).json({
+                    //             success: false,
+                    //             message: err.message,
+                    //         });
+                    //     } else if (!user) {
+                    //         res.status(500).json({
+                    //             success: false,
+                    //             message: 'Email does not exist!',
+                    //         });
+                    //     } else {
+                    //         //save current user info to session storage
+                    //         req.session.reload((err) => {
+                    //             if(err){
+                    //                 res.status(400).json({
+                    //                     success: false,
+                    //                     message: err.message,
+                    //                 })
+                    //             } else{
+                    //                 res.render('index', {
+                    //                     _id: user._id,
+                    //                     email: user.email,
+                    //                     fullName: user.fullName,
+                    //                     avatarUrl: user.avatarUrl,
+                    //                 })
+                    //             }
+                    //         })
+                    //     }
+                    // });
+
                 }
             });
         }

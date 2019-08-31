@@ -60,7 +60,7 @@ class LoginScreen extends Component {
                         window.localStorage.setItem('email', data.data.email);
                         window.localStorage.setItem('fullName', data.data.fullName);
                         window.localStorage.setItem('avatarUrl', data.data.avatarUrl);
-
+                        window.localStorage.setItem('id',data.data.id);
                         //redirect to home page
                         window.location.replace("http://localhost:3000/")
                     }
