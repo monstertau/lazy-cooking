@@ -17,7 +17,9 @@ class App extends React.Component {
   state = {
     currentUser: {
       email: "",
-      fullName: ""
+      fullName: "",
+      id:"",
+      sessionCheck:"",
     }
   };
   handleLogOut = (e)=>{
@@ -48,12 +50,12 @@ class App extends React.Component {
         <p>Welcome,{window.localStorage.getItem(`fullName`)} !</p>
       </Menu.Item>
       <Menu.Item>
-        <a  href="/profile">
+        <a href={`/profile`}>
           Profile
         </a>
       </Menu.Item>
       <Menu.Item>
-        <a  href="/my-post">
+        <a  href={`/my-post/${window.localStorage.getItem('id')}`}>
           Bài đăng của tôi
         </a>
       </Menu.Item>
@@ -64,19 +66,47 @@ class App extends React.Component {
       </Menu.Item>
     </Menu>
   );
-  componentWillMount() {
+  componentDidMount() {
     const email = window.localStorage.getItem(`email`);
     const fullName = window.localStorage.getItem(`fullName`);
-
+    const id = window.localStorage.getItem(`id`);
     if (email && fullName) {
       this.setState({
         currentUser: {
           email: email,
-          fullName: fullName
+          fullName: fullName,
+          id: id,
+          
         }
       });
     }
+    fetch('http://localhost:3001/users/check-session',{
+      method:'GET',
+      credentials: 'include',
+    })
+    .then(res=>res.json())
+    .then(data=>{
+      console.log(data);
+      if(data.success === true){
+        this.setState({
+          currentUser:{
+            sessionCheck: "true",
+          }
+        })
+      }else{
+        window.localStorage.removeItem('email');
+        window.localStorage.removeItem('fullName');
+        window.localStorage.removeItem('avatarUrl');
+        window.localStorage.removeItem('id');
+      }
+    })
+    .catch(error=>{throw(error)})
   }
+  // checkSession = e =>{
+  //   e.preventDefault();
+    
+    
+  // }
   render() {
     
     return (
@@ -99,7 +129,7 @@ class App extends React.Component {
             enterButton
             size="large"
           />
-          {window.localStorage.getItem(`fullName`) ? (
+          {this.state.currentUser.sessionCheck ? (
             
             <ul className="navbar-nav mr-auto">
             <Button icon="form" style={{ marginLeft: "5px" }} size="large" href="/create-recipe">
@@ -134,7 +164,7 @@ class App extends React.Component {
           <Route path="/profile" exact={true} component={WrappedRegistrationForm} />
           <Route path="/create-recipe" exact={true} component={WrappedCreatePostScreen}/>
           <Route path="/blog" exact={true} component={Blog} />
-          <Route path="/my-post" exact={true} component={MyPostScreen}/>
+          <Route path="/my-post/:userId" exact={true} component={MyPostScreen}/>
           <Route path="/post/:postId" exact={true} component={DetailPostScreen}/>
         </BrowserRouter>
       </div>
