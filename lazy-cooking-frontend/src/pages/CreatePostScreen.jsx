@@ -105,7 +105,7 @@ class CreatePostScreen extends React.Component {
               .then(data1 => {
                 console.log(data1);
                 if(data1.success){
-                  window.location.href = "/your-post"
+                  window.location.href = "/my-post"
                 }
               });
           })

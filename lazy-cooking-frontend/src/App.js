@@ -9,6 +9,7 @@ import RegisterScreen from "./pages/RegisterScreen";
 import WrappedRegistrationForm from "./pages/Profile";
 import WrappedCreatePostScreen from "./pages/CreatePostScreen";
 import Blog from "./pages/Blog";
+import MyPostScreen from "./pages/MyPostScreen";
 const { Search } = Input;
 
 class App extends React.Component {
@@ -51,7 +52,7 @@ class App extends React.Component {
         </a>
       </Menu.Item>
       <Menu.Item>
-        <a  href="/">
+        <a  href="/my-post">
           Bài đăng của tôi
         </a>
       </Menu.Item>
@@ -131,7 +132,8 @@ class App extends React.Component {
           <Route path="/register" exact={true} component={RegisterScreen} />
           <Route path="/profile" exact={true} component={WrappedRegistrationForm} />
           <Route path="/create-recipe" exact={true} component={WrappedCreatePostScreen}/>
-          <Route path="/blog" exact={true} component={Blog}></Route>
+          <Route path="/blog" exact={true} component={Blog} />
+          <Route path="my-post" exact={true} component={MyPostScreen}/>
         </BrowserRouter>
       </div>
     );
