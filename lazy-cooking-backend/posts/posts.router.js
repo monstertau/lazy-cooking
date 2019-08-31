@@ -126,4 +126,24 @@ postRouter.post("/image", upload.single("image"), (req, res) => {
     }
   );
 });
+
+postRouter.get('/get-post-by-id/:postId', (req, res) => {
+  postModel.findById(req.params.postId, (err, data) => {
+    if(err) {
+      res.status(500).json({
+          success: false,
+          message: err.message,
+      })
+    } else {
+      // console.log(data);
+      res.status(200).json({
+        success: true,
+        data: {
+          ...data._doc,
+          id: data._id
+        }
+      })
+    }
+  })
+})
 module.exports = postRouter;
