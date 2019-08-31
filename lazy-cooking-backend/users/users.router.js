@@ -318,7 +318,7 @@ userRouter.post('/update', (req, res) => {
 });
 
 userRouter.get('/check-session', (req, res) => {
-    if(this.session.currentUser || this.session.currentUser._id){
+    if(req.session.currentUser){
         res.status(201).json({
             success: true,
         })
