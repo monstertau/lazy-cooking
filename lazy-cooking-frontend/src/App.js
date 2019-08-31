@@ -20,6 +20,7 @@ class App extends React.Component {
       fullName: "",
       id:"",
       sessionCheck:"",
+      avatarUrl: "",
     }
   };
   handleLogOut = (e)=>{
@@ -70,13 +71,14 @@ class App extends React.Component {
     const email = window.localStorage.getItem(`email`);
     const fullName = window.localStorage.getItem(`fullName`);
     const id = window.localStorage.getItem(`id`);
+    const avatarUrl = window.localStorage.getItem(`avatarUrl`);
     if (email && fullName) {
       this.setState({
         currentUser: {
           email: email,
           fullName: fullName,
           id: id,
-          
+          avatarUrl: avatarUrl
         }
       });
     }
@@ -98,6 +100,10 @@ class App extends React.Component {
         window.localStorage.removeItem('fullName');
         window.localStorage.removeItem('avatarUrl');
         window.localStorage.removeItem('id');
+        window.sessionStorage.removeItem('email');
+        window.sessionStorage.removeItem('fullName');
+        window.sessionStorage.removeItem('avatarUrl');
+        window.sessionStorage.removeItem('id');
       }
     })
     .catch(error=>{throw(error)})
@@ -137,7 +143,7 @@ class App extends React.Component {
             </Button>
             <Dropdown overlay={this.menu}>
               <a className="ant-dropdown-link" href="#">
-                <Avatar icon="user" style={{ marginLeft: "6px" }} size={45} />
+                <Avatar src={window.localStorage.getItem(`avatarUrl`)} style={{ marginLeft: "6px" }} size={45} />
               </a>
             </Dropdown>
           </ul>

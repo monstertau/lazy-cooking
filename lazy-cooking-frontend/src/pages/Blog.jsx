@@ -58,11 +58,12 @@ class Blog extends Component {
                                     height={272}
                                     alt="logo"
                                     src={item.imageUrl}
+                                    style={{objectFit:"contain"}}
                                 />
                             }
                         >
                             <List.Item.Meta
-                                avatar={<Avatar src={item.imageUrl} />}
+                                avatar={<Avatar src={item.author.avatarUrl} />}
                                 title={<a href={item.href}>{item.title}</a>}
                             />
                             {item.content}

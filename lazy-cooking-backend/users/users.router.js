@@ -197,7 +197,6 @@ userRouter.post('/avatar', upload.single('avatar'), (req, res) => {
     const fileName = req.file.originalname.split(".");
     const fileType = fileName[fileName.length - 1];
     const newFileName = Date.now() + '.' + fileType;
-
     //save to public directory
     fs.rename(`public/avatar/${req.file.filename}`, `public/avatar/${req.file.originalname}`, (err) => {
         if (err) {
@@ -209,7 +208,7 @@ userRouter.post('/avatar', upload.single('avatar'), (req, res) => {
             res.status(201).json({
                 success: true,
                 data: {
-                    imageUrl: `http://localhost:3001/${newFileName}`
+                    imageUrl: `http://localhost:3001/avatar/${req.file.originalname}`
                 }
             })
         }
@@ -259,7 +258,7 @@ userRouter.post('/update', (req, res) => {
                 } else if (data) {
 
                     // update
-                    UserModel.updateOne({ _id: id }, { $set: { fullName: fullName, phone: phone, avatarUrl: avatarUrl, email: email } }, (error, data) => {
+                    UserModel.updateOne({ _id: id }, { $set: { fullName: fullName, phone: phone, avatarUrl: avatarUrl, email: email } }, (error, data2) => {
                         if (error) {
                             res.status(400).json({
                                 success: false,
@@ -274,7 +273,7 @@ userRouter.post('/update', (req, res) => {
                             // response update success
                             res.status(201).json({
                                 success: true,
-                                data: data,
+                                data: data2,
                             })
                         }
                     });
