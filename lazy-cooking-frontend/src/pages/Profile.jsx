@@ -45,7 +45,8 @@ class RegistrationForm extends React.Component {
     avatarUrl: 'https://cdn.pixabay.com/photo/2013/07/13/12/07/avatar-159236_640.png',
     loading: false,
     emailOld: window.localStorage.getItem('email'),
-    avatarFile: undefined
+    avatarFile: undefined,
+    load: false
   };
   handleChange = info => {
     if (info.file.status === 'uploading') {
@@ -153,22 +154,83 @@ class RegistrationForm extends React.Component {
   }
   handleSubmit = e => {
     e.preventDefault();
-    const formData = new FormData();
-    formData.append('avatar', this.state.avatarFile);
-    console.log(formData);
-    fetch(`http://localhost:3001/users/avatar`, {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-      },
-      credentials: 'include',
-      body: formData
+    this.setState({
+      load: true
     })
-      .then((res) => {
-        return res.json();
+    if (this.state.avatarFile) {
+      const formData = new FormData();
+      formData.append('avatar', this.state.avatarFile);
+      fetch(`http://localhost:3001/users/avatar`, {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+        },
+        credentials: 'include',
+        body: formData
       })
-      .then((data) => {
-        console.log(data.data.imageUrl);
+        .then((res) => {
+          return res.json();
+        })
+        .then((data) => {
+          console.log(data.data.imageUrl);
+          if (window.localStorage.getItem('id')) {
+            fetch(`http://localhost:3001/users/update`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              credentials: 'include',
+              body: JSON.stringify({
+                id: window.localStorage.getItem('id'),
+                fullName: this.state.fullName,
+                phone: this.state.phone,
+                email: this.state.email,
+                avatarUrl: data.data.imageUrl
+              })
+            })
+              .then((res) => {
+                return res.json();
+              })
+              .then((data2) => {
+                console.log(data2);
+                this.setState({
+                  load: false
+                })
+                // window.localStorage.setItem('email', data.data.email);
+                // window.localStorage.setItem('fullName', data.data.fullName);
+                // window.localStorage.setItem('avatarUrl', data.data.avatarUrl);
+                // window.location.assign()
+              })
+          }
+          else {
+            fetch(`http://localhost:3001/users/update`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              credentials: 'include',
+              body: JSON.stringify({
+                id: window.sessionStorage.getItem('id'),
+                fullName: this.state.fullName,
+                phone: this.state.phone,
+                email: this.state.email,
+                avatarUrl: data.data.imageUrl
+              })
+            })
+              .then((res) => {
+                return res.json();
+              })
+              .then((data2) => {
+                console.log(data2);
+                this.setState({
+                  load: false
+                })
+              })
+          }
+        })
+    }
+    else {
+      if (window.localStorage.getItem('id')) {
         fetch(`http://localhost:3001/users/update`, {
           method: 'POST',
           headers: {
@@ -180,7 +242,7 @@ class RegistrationForm extends React.Component {
             fullName: this.state.fullName,
             phone: this.state.phone,
             email: this.state.email,
-            avatarUrl: data.data.imageUrl
+            avatarUrl: this.state.avatarUrl
           })
         })
           .then((res) => {
@@ -188,8 +250,41 @@ class RegistrationForm extends React.Component {
           })
           .then((data2) => {
             console.log(data2);
+            this.setState({
+              load: false
+            })
+            // window.localStorage.setItem('email', data.data.email);
+            // window.localStorage.setItem('fullName', data.data.fullName);
+            // window.localStorage.setItem('avatarUrl', data.data.avatarUrl);
+            // window.location.assign()
           })
-      })
+      }
+      else {
+        fetch(`http://localhost:3001/users/update`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include',
+          body: JSON.stringify({
+            id: window.sessionStorage.getItem('id'),
+            fullName: this.state.fullName,
+            phone: this.state.phone,
+            email: this.state.email,
+            avatarUrl: this.state.avatarUrl
+          })
+        })
+          .then((res) => {
+            return res.json();
+          })
+          .then((data2) => {
+            console.log(data2);
+            this.setState({
+              load: false
+            })
+          })
+      }
+    }
   };
 
   handleConfirmBlur = e => {
@@ -307,7 +402,7 @@ class RegistrationForm extends React.Component {
             })(<Input style={{ width: '100%' }} onChange={this.handlePhone} />)}
           </Form.Item>
           <Form.Item {...tailFormItemLayout}>
-            <Button type="primary" htmlType="submit">
+            <Button loading={this.state.load} type="primary" htmlType="submit">
               Update
             </Button>
           </Form.Item>
