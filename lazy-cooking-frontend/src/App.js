@@ -82,7 +82,7 @@ class App extends React.Component {
   render() {
     
     return (
-      <div>
+      <div >
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
           <Button icon="home" className="mr-6" type="danger" size="large" href="/">
             Home

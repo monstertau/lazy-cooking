@@ -21,7 +21,7 @@ const UserSchema = new mongoose.Schema({
     },
     avatarUrl: {
         type: String,
-        default: '',
+        default: 'https://i.stack.imgur.com/dr5qp.jpg',
     },
     createdAt: {
         type: Date,
