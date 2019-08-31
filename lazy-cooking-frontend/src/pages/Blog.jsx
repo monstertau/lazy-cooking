@@ -8,7 +8,7 @@ class Blog extends Component {
     render() {
         return (
 
-            <div>
+            <div id="blog">
                 <Card
                     id="card"
                     style={{ width: 300 }}
