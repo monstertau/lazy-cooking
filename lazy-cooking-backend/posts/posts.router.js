@@ -151,5 +151,31 @@ postRouter.get('/get-post-by-id/:postId', (req, res) => {
       })
     }
   })
+});
+
+postRouter.post('/update-vote', (req, res) => {
+    const postId = req.body.id;
+    postModel.updateOne({ _id: postId }, { $inc: { upvote: 1 } }, (error, data) => {
+      if(error){
+        res.status(400).json({
+          success: false,
+          message: error.message,
+        })
+      } else{
+        postModel.findById(postId, (err, post) => {
+          if(err) {
+            res.status(500).json({
+                success: false,
+                message: err.message,
+            })
+          } else {
+            res.status(201).json({
+              success: true,
+              upvote: post.upvote,
+            })
+          }
+        })
+      }
+  });
 })
 module.exports = postRouter;

@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
-import { Icon} from "antd";
+import { Icon, Button, Typography, Input } from 'antd';
+const { Title, Paragraph, Text } = Typography;
+const { TextArea } = Input;
+
 class DetailPostScreen extends Component {
 
     state = {
@@ -23,6 +26,7 @@ class DetailPostScreen extends Component {
             headers: {
                 'Content-Type': 'application/json'
             },
+            credentials: 'include',
         })
             .then((res) => res.json())
             .then((data) => {
@@ -40,6 +44,30 @@ class DetailPostScreen extends Component {
                     materials: data.data.materials,
                     createdAt: data.data.createdAt,
                     upVote: data.data.upvote,
+                })
+            })
+            .catch((error) => {
+                console.log(error);
+                window.alert(error.message);
+            })
+    }
+
+    handleClickLike = () => {
+        fetch(`http://localhost:3001/posts/update-vote`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                id: this.state.id,
+              }),
+            credentials: 'include',
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                console.log(data);
+                this.setState({
+                    upVote: data.upvote,
                 })
             })
             .catch((error) => {
@@ -84,12 +112,21 @@ class DetailPostScreen extends Component {
                         <img src={this.state.imageUrl} />
                     </div>
                     <div className="detail-content mt-5">
-                        <p>{this.state.content}</p>
+                        <Text>{this.state.content}</Text>
                     </div>
                 </div>
                 <div className="review-react-container mt-5">
-                    <div className="react">
-                        <button className="btn"><i><Icon type="like" /></i></button>
+                    <div className="icons-list react">
+                        <Button value="small" shape="round" type="primary" onClick={this.handleClickLike}><Icon type="like" /></Button> • {this.state.upVote} people like this
+                    </div>  
+                    <div className="review">
+                        <div>
+                            <TextArea placeholder="Write your comment here!" autosize={{ minRows: 4 }}></TextArea>
+                        </div>
+                        <div className="btn-comment">
+                            <Button type="primary" className="btn-comment">Send</Button>
+                        </div>
+
                     </div>
                 </div>
             </div>
