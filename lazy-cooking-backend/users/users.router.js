@@ -9,11 +9,7 @@ const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+")
 const phoneRegex = /^\d{10}$/;
 const avatarUrlRegex = /\.(jpg|jpeg|png|gif)$/;
 const upload = multer({
-<<<<<<< HEAD
     dest: 'public/avatar',
-=======
-    dest: 'public/',
->>>>>>> 18fca50f78d0ddeefc41491635ac08631ff02b66
 });
 
 userRouter.post('/register', (req, res) => {
@@ -132,10 +128,7 @@ userRouter.post('/login', (req, res) => {
                         email: user.email,
                         fullName: user.fullName,
                         avatarUrl: user.avatarUrl,
-<<<<<<< HEAD
                         id: user._id
-=======
->>>>>>> 18fca50f78d0ddeefc41491635ac08631ff02b66
                     }
                 });
             }
@@ -201,20 +194,13 @@ userRouter.get('/profile', (req, res) => {
 
 userRouter.post('/avatar', upload.single('avatar'), (req, res) => {
     // rename file
-<<<<<<< HEAD
     console.log(req);
-=======
->>>>>>> 18fca50f78d0ddeefc41491635ac08631ff02b66
     const fileName = req.file.originalname.split(".");
     const fileType = fileName[fileName.length - 1];
     const newFileName = Date.now() + '.' + fileType;
 
     //save to public directory
-<<<<<<< HEAD
     fs.rename(`public/avatar/${req.file.filename}`, `public/avatar/${req.file.originalname}`, (err) => {
-=======
-    fs.rename(`public/${req.file.filename}`, `public/${newFileName}`, (err) => {
->>>>>>> 18fca50f78d0ddeefc41491635ac08631ff02b66
         if (err) {
             res.status(500).json({
                 success: false,
@@ -240,29 +226,14 @@ userRouter.post('/update', (req, res) => {
         })
     } else {
         // get data from req.body
-<<<<<<< HEAD
         const { email, fullName, phone, avatarUrl, emailOld } = req.body;
 
         //validate
         if (!email || !emailOld) {
-=======
-        const { email, fullName, phone, avatarUrl, password } = req.body;
-
-        //validate
-        if (email !== req.session.currentUser.email) {
->>>>>>> 18fca50f78d0ddeefc41491635ac08631ff02b66
             res.status(400).json({
                 success: false,
                 message: 'Invalid is not correct',
             });
-<<<<<<< HEAD
-=======
-        } else if (!password) {
-            res.status(400).json({
-                success: false,
-                message: 'Please input password',
-            });
->>>>>>> 18fca50f78d0ddeefc41491635ac08631ff02b66
         } else if (!fullName || fullName.trim().length === 0) {
             res.status(400).json({
                 success: false,
@@ -275,27 +246,18 @@ userRouter.post('/update', (req, res) => {
             });
         } else if (!avatarUrl || !avatarUrlRegex.test(avatarUrl)) {
             res.status(400).json({
-<<<<<<< HEAD
                 success: false,
-=======
-                success: false, 
->>>>>>> 18fca50f78d0ddeefc41491635ac08631ff02b66
                 message: 'Invalid avatar url!',
             })
         } else {
             // check password
-<<<<<<< HEAD
             UserModel.findOne({ email: emailOld }, (error, data) => {
-=======
-            UserModel.findOne({ email: email }, (error, data) => {
->>>>>>> 18fca50f78d0ddeefc41491635ac08631ff02b66
                 if (error) {
                     res.status(500).json({
                         success: false,
                         message: error.message,
                     });
                 } else if (data) {
-<<<<<<< HEAD
 
                     // update
                     UserModel.updateOne({ email: emailOld }, { $set: { fullName: fullName, phone: phone, avatarUrl: avatarUrl, email: email } }, (error, data) => {
@@ -350,66 +312,6 @@ userRouter.post('/update', (req, res) => {
                     //     }
                     // });
 
-=======
-                    if (!bcryptjs.compareSync(password, data.password)) {
-                        res.status(500).json({
-                            success: false,
-                            message: 'Password is not correct!',
-                        });
-                    } else {
-                        // update
-                        UserModel.updateOne({ email: email }, { $set: {fullName: fullName, phone: phone, avatarUrl: avatarUrl}}, (error, data) => {
-                            if(error){
-                                res.status(400).json({
-                                    success: false,
-                                    message: error.message,
-                                });
-                            } else if(!data){
-                                res.status(400).json({
-                                    success: false,
-                                    message: 'deo co data',
-                                });
-                            } else {
-                                // response update success
-                                res.status(201).json({
-                                    success: true,
-                                })
-                            }
-                        });
-
-                        //update session
-                        // UserModel.findOne({ email: email }, (err, user) => {
-                        //     if (err) {
-                        //         res.status(500).json({
-                        //             success: false,
-                        //             message: err.message,
-                        //         });
-                        //     } else if (!user) {
-                        //         res.status(500).json({
-                        //             success: false,
-                        //             message: 'Email does not exist!',
-                        //         });
-                        //     } else {
-                        //         //save current user info to session storage
-                        //         req.session.reload((err) => {
-                        //             if(err){
-                        //                 res.status(400).json({
-                        //                     success: false,
-                        //                     message: err.message,
-                        //                 })
-                        //             } else{
-                        //                 res.render('index', {
-                        //                     _id: user._id,
-                        //                     email: user.email,
-                        //                     fullName: user.fullName,
-                        //                     avatarUrl: user.avatarUrl,
-                        //                 })
-                        //             }
-                        //         })
-                        //     }
-                        // });
-                    }
->>>>>>> 18fca50f78d0ddeefc41491635ac08631ff02b66
                 }
             });
         }
