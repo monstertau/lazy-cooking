@@ -1,5 +1,6 @@
 const express = require("express");
 const postModel = require("./posts.model");
+const userModel = require('../users/users.model');
 const postRouter = express.Router();
 const multer = require("multer");
 const fs = require("fs");
@@ -98,4 +99,37 @@ postRouter.post("/image", upload.single("image"), (req, res) => {
     }
   );
 });
+
+postRouter.get('/get-post-by-id/:postId', (req, res) => {
+  postModel.findById(req.params.postId, (err, data) => {
+    if(err) {
+      res.status(500).json({
+          success: false,
+          message: err.message,
+      })
+    } else {
+      // console.log(data);
+      //get author name
+      userModel.findById(data.author, (error, user) => {
+        if(error){
+          res.status(500).json({
+            success: false,
+            message: data.message,
+          })
+        } else {
+          //return
+          res.status(200).json({
+            success: true,
+            data: {
+              ...data._doc,
+              id: data._id,
+              authorName: user.fullName,
+              avatarUrl: user.avatarUrl,  
+            },
+          })
+        }
+      })
+    }
+  })
+})
 module.exports = postRouter;

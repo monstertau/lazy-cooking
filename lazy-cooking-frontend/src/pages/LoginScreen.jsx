@@ -57,10 +57,17 @@ class LoginScreen extends Component {
                         });
                     } else {
                         // save current user to localStorage
-                        window.localStorage.setItem('email', data.data.email);
-                        window.localStorage.setItem('fullName', data.data.fullName);
-                        window.localStorage.setItem('avatarUrl', data.data.avatarUrl);
-                        window.localStorage.setItem('id',data.data.id);
+                        if (this.state.rememberMe === true) {
+                            window.localStorage.setItem('email', data.data.email);
+                            window.localStorage.setItem('fullName', data.data.fullName);
+                            window.localStorage.setItem('avatarUrl', data.data.avatarUrl);
+                            window.localStorage.setItem('id', data.data.id);
+                        } else {
+                            window.sessionStorage.setItem('email', data.data.email);
+                            window.sessionStorage.setItem('fullName', data.data.fullName);
+                            window.sessionStorage.setItem('avatarUrl', data.data.avatarUrl);
+                            window.sessionStorage.setItem('id', data.data.id);
+                        }
                         //redirect to home page
                         window.location.replace("http://localhost:3000/")
                     }
@@ -79,8 +86,14 @@ class LoginScreen extends Component {
             isError: false,
         })
     }
+    handleRememberMe = () => {
+        this.setState({
+            rememberMe: !this.state.rememberMe,
+        })
+    }
 
     render() {
+
         return (
             <div className="container">
                 <div className="row mt-2">
@@ -116,7 +129,7 @@ class LoginScreen extends Component {
                                     null
                                 )}
                             <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="customCheck1" />
+                                <input type="checkbox" class="custom-control-input" id="customCheck1" onChange={this.handleRememberMe} />
                                 <label class="custom-control-label" for="customCheck1">Remember me</label>
                             </div>
                             <div className="form-field col-lg-12 mt-0">

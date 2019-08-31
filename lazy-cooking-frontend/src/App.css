@@ -112,3 +112,13 @@ h6 {
 .label-error {
   color: red;
 }
+
+.headline{
+  border-bottom-style: solid;
+  border-bottom-color: slategrey;
+  border-bottom-width: 1px;
+}
+.review-react-container{
+  background-color: hsl(0, 0%, 94%);
+  color: hsl(220, 17%, 14%)
+}

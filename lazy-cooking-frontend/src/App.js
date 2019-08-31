@@ -10,6 +10,7 @@ import WrappedRegistrationForm from "./pages/Profile";
 import WrappedCreatePostScreen from "./pages/CreatePostScreen";
 import Blog from "./pages/Blog";
 import MyPostScreen from "./pages/MyPostScreen";
+import DetailPostScreen from './pages/DetailPostScreen';
 const { Search } = Input;
 
 class App extends React.Component {
@@ -134,6 +135,7 @@ class App extends React.Component {
           <Route path="/create-recipe" exact={true} component={WrappedCreatePostScreen}/>
           <Route path="/blog" exact={true} component={Blog} />
           <Route path="/my-post" exact={true} component={MyPostScreen}/>
+          <Route path="/post/:postId" exact={true} component={DetailPostScreen}/>
         </BrowserRouter>
       </div>
     );
