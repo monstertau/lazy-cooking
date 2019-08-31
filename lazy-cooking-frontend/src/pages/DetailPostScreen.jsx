@@ -9,8 +9,12 @@ class DetailPostScreen extends Component {
 
     render() {
         return (
-            <div>
-                
+            <div className="container">
+                <div className="link-tag">
+                    <a href="/blog">Blog</a>
+                    <span>.</span>
+                    <a href="">category</a>
+                </div>
             </div>
         );
     }

@@ -1,5 +1,6 @@
 const express = require("express");
 const postModel = require("./posts.model");
+const userModel = require('../users/users.model');
 const postRouter = express.Router();
 const multer = require("multer");
 const fs = require("fs");
@@ -137,11 +138,24 @@ postRouter.get('/get-post-by-id/:postId', (req, res) => {
       })
     } else {
       // console.log(data);
-      res.status(200).json({
-        success: true,
-        data: {
-          ...data._doc,
-          id: data._id
+      //get author name
+      var authorName = '';
+      userModel.findById(data.author, (error, user) => {
+        if(error){
+          res.status(500).json({
+            success: false,
+            message: data.message,
+          })
+        } else {
+          //return
+          res.status(200).json({
+            success: true,
+            data: {
+              ...data._doc,
+              id: data._id,
+              authorName: user.fullName,
+            },
+          })
         }
       })
     }
