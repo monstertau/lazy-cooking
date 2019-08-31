@@ -19,6 +19,28 @@ class App extends React.Component {
       fullName: ""
     }
   };
+  handleLogOut = (e)=>{
+    e.preventDefault();
+    fetch('http://localhost:3001/users/logout', {
+      method: 'GET',
+      credentials: 'include',
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        // clear window.localStorage
+        window.localStorage.removeItem('email');
+        window.localStorage.removeItem('fullName');
+        window.localStorage.removeItem('avatarUrl');
+        window.localStorage.removeItem('id');
+        window.location.reload();
+        // clear fullname + email in state
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
   menu = (
     <Menu>
       <Menu.Item>
@@ -35,7 +57,7 @@ class App extends React.Component {
         </a>
       </Menu.Item>
       <Menu.Item>
-        <a href="/logout">
+        <a onClick={this.handleLogOut}>
           Đăng xuất
         </a>
       </Menu.Item>
