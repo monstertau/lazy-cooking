@@ -9,6 +9,7 @@ import RegisterScreen from "./pages/RegisterScreen";
 import LogOutScreen from "./pages/LogOutScreen";
 import WrappedRegistrationForm from "./pages/Profile";
 import WrappedCreatePostScreen from "./pages/CreatePostScreen";
+import Blog from "./pages/Blog";
 const { Search } = Input;
 
 class App extends React.Component {
@@ -64,7 +65,7 @@ class App extends React.Component {
           <Button size="large" type="link">
             Công thức
           </Button>
-          <Button size="large" type="link">
+          <Button size="large" href="/blog" type="link">
             Blogs{" "}
           </Button>
           <Button size="large" type="link">
@@ -110,6 +111,7 @@ class App extends React.Component {
           <Route path="/logout" exact={true} component={LogOutScreen} />
           <Route path="/profile" exact={true} component={WrappedRegistrationForm} />
           <Route path="/create-recipe" exact={true} component={WrappedCreatePostScreen}/>
+          <Route path="/blog" exact={true} component={Blog}></Route>
         </BrowserRouter>
       </div>
     );
