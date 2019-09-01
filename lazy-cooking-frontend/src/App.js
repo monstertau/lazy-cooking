@@ -48,7 +48,10 @@ class App extends React.Component {
   menu = (
     <Menu>
       <Menu.Item>
-        <p>Welcome,{window.localStorage.getItem(`fullName`)} !</p>
+        {window.localStorage.getItem('fullName')? (
+          <p>Welcome,{window.localStorage.getItem(`fullName`)} !</p>
+        ): (<p>Welcome,{window.sessionStorage.getItem(`fullName`)} !</p>)}
+        
       </Menu.Item>
       <Menu.Item>
         <a href={`/profile`}>
@@ -143,7 +146,10 @@ class App extends React.Component {
             </Button>
             <Dropdown overlay={this.menu}>
               <a className="ant-dropdown-link" href="#">
-                <Avatar src={window.localStorage.getItem(`avatarUrl`)} style={{ marginLeft: "6px" }} size={45} />
+                {window.localStorage.getItem('avatarUrl')? (
+                  <Avatar src={window.localStorage.getItem(`avatarUrl`)} style={{ marginLeft: "6px" }} size={45} />
+                ):( <Avatar src={window.sessionStorage.getItem(`avatarUrl`)} style={{ marginLeft: "6px" }} size={45} />)}
+                
               </a>
             </Dropdown>
           </ul>
