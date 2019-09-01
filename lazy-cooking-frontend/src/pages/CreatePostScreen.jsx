@@ -105,7 +105,11 @@ class CreatePostScreen extends React.Component {
               .then(data1 => {
                 console.log(data1);
                 if(data1.success){
+                  if(window.localStorage.getItem('id')){
                   window.location.href = `/my-post/${window.localStorage.getItem('id')}`
+                  }else{
+                    window.location.href = `/my-post/${window.sessionStorage.getItem('id')}`
+                  }
                 }
               });
           })

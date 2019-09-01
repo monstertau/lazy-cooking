@@ -59,7 +59,7 @@ class MyPostScreen extends Component {
               <List.Item
                 key={item.title}
                 actions={[
-                  <IconText type="like" text="0" key="upvote" />,
+                  <IconText type="like" text={item.upvote} key="upvote" />,
                   <IconText
                     type="bulb"
                     text={`Độ khó: ${item.level}`}
@@ -81,7 +81,7 @@ class MyPostScreen extends Component {
                 }
               >
                 <List.Item.Meta
-                  avatar={<Avatar src={item.author.avatarUrl} />}
+                  avatar={<Avatar src={item.author.avatarUrl}/>}
                   title={<a href={item.href}>{item.title}</a>}
                   // description={item.description}
                 />
