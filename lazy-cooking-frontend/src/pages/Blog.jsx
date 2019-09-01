@@ -41,7 +41,7 @@ class Blog extends Component {
                         onChange: page => {
                             console.log(page);
                         },
-                        pageSize: 3,
+                        pageSize: 7,
                     }}
                     dataSource={this.state.data}
                     renderItem={item => (
