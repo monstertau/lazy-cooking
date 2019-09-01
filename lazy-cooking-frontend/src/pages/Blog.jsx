@@ -48,9 +48,9 @@ class Blog extends Component {
                         <List.Item
                             key={item.title}
                             actions={[
-                                <IconText type="like-o" text="156" key="list-vertical-like-o" />,
-                                <IconText type="clock-circle" text="156" key="list-vertical-like-o" />,
-                                <IconText type="bulb" text="156" key="list-vertical-like-o" />,
+                                <IconText type="like-o" text={item.upvote} key="list-vertical-like-o" />,
+                                <IconText type="clock-circle" text={`Thời Gian: ${item.timetodone} phút`} key="list-vertical-like-o" />,
+                                <IconText type="bulb" text={`Độ Khó: ${item.level} sao`} key="list-vertical-like-o" />,
                             ]}
                             extra={
                                 <img

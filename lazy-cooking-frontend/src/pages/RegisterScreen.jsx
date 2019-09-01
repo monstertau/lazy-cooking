@@ -65,12 +65,14 @@ class RegisterScreen extends Component {
                 })
                 .then((data) => {
                     //check mail exist
-                    if (data.message === 'Email has been used!') {
+                    if (!data.success) {
+                        console.log(data);
                         this.setState({
                             isError: true,
-                            message: 'Email has been used!'
+                            message: data.message
                         });
                     } else {
+                        console.log(data);
                         //redirect to login page
                         window.location.replace("http://localhost:3000/login")
                     }

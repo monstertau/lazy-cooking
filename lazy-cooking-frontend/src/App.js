@@ -44,11 +44,58 @@ class App extends React.Component {
       .catch(error => {
         console.log(error);
       });
+<<<<<<< HEAD
   };
   componentWillMount() {
     fetch("http://localhost:3001/users/check-session", {
       method: "GET",
       credentials: "include"
+=======
+  }
+  menu = (
+    <Menu>
+      <Menu.Item>
+        {window.localStorage.getItem('fullName')? (
+          <p>Welcome,{window.localStorage.getItem(`fullName`)} !</p>
+        ): (<p>Welcome,{window.sessionStorage.getItem(`fullName`)} !</p>)}
+        
+      </Menu.Item>
+      <Menu.Item>
+        <a href={`/profile`}>
+          Profile
+        </a>
+      </Menu.Item>
+      <Menu.Item>
+        <a  href={`/my-post/${window.localStorage.getItem('id')}`}>
+          Bài đăng của tôi
+        </a>
+      </Menu.Item>
+      <Menu.Item>
+        <a onClick={this.handleLogOut}>
+          Đăng xuất
+        </a>
+      </Menu.Item>
+    </Menu>
+  );
+  componentDidMount() {
+    const email = window.localStorage.getItem(`email`);
+    const fullName = window.localStorage.getItem(`fullName`);
+    const id = window.localStorage.getItem(`id`);
+    const avatarUrl = window.localStorage.getItem(`avatarUrl`);
+    if (email && fullName) {
+      this.setState({
+        currentUser: {
+          email: email,
+          fullName: fullName,
+          id: id,
+          avatarUrl: avatarUrl
+        }
+      });
+    }
+    fetch('http://localhost:3001/users/check-session',{
+      method:'GET',
+      credentials: 'include',
+>>>>>>> d0f65ae34c9a854d83cbf91500736b3f1fbf1df8
     })
       .then(res => res.json())
       .then(data => {
@@ -130,6 +177,7 @@ class App extends React.Component {
           />
           {this.state.currentUser.sessionCheck ? (
             <ul className="navbar-nav mr-auto">
+<<<<<<< HEAD
               <Button
                 icon="form"
                 style={{ marginLeft: "5px" }}
@@ -167,6 +215,20 @@ class App extends React.Component {
                 </a>
               </Dropdown>
             </ul>
+=======
+            <Button icon="form" style={{ marginLeft: "5px" }} size="large" href="/create-recipe">
+              Đăng công thức
+            </Button>
+            <Dropdown overlay={this.menu}>
+              <a className="ant-dropdown-link" href="#">
+                {window.localStorage.getItem('avatarUrl')? (
+                  <Avatar src={window.localStorage.getItem(`avatarUrl`)} style={{ marginLeft: "6px" }} size={45} />
+                ):( <Avatar src={window.sessionStorage.getItem(`avatarUrl`)} style={{ marginLeft: "6px" }} size={45} />)}
+                
+              </a>
+            </Dropdown>
+          </ul>
+>>>>>>> d0f65ae34c9a854d83cbf91500736b3f1fbf1df8
           ) : (
             <ul className="navbar-nav mr-auto">
               <Button

@@ -193,13 +193,21 @@ class RegistrationForm extends React.Component {
               })
               .then((data2) => {
                 console.log(data2);
-                this.setState({
-                  load: false
-                })
-                window.localStorage.setItem('email', this.state.email);
-                window.localStorage.setItem('fullName', this.state.fullName);
-                window.localStorage.setItem('avatarUrl', data.data.imageUrl);
-                window.location.reload();
+                if (data2.success) {
+                  this.setState({
+                    load: false
+                  })
+                  window.localStorage.setItem('email', this.state.email);
+                  window.localStorage.setItem('fullName', this.state.fullName);
+                  window.localStorage.setItem('avatarUrl', data.data.imageUrl);
+                  window.location.reload();
+                }
+                else {
+                  this.setState({
+                    load: false
+                  })
+                  message.error(data2.message);
+                }
               })
           }
           else {
@@ -222,13 +230,21 @@ class RegistrationForm extends React.Component {
               })
               .then((data2) => {
                 console.log(data2);
-                this.setState({
-                  load: false
-                })
-                window.sessionStorage.setItem('email', this.state.email);
-                window.sessionStorage.setItem('fullName', this.state.fullName);
-                window.sessionStorage.setItem('avatarUrl', data.data.imageUrl);
-                window.location.reload();
+                if (data2.success) {
+                  this.setState({
+                    load: false
+                  })
+                  window.sessionStorage.setItem('email', this.state.email);
+                  window.sessionStorage.setItem('fullName', this.state.fullName);
+                  window.sessionStorage.setItem('avatarUrl', data.data.imageUrl);
+                  window.location.reload();
+                }
+                else {
+                  this.setState({
+                    load: false
+                  })
+                  message.error(data2.message);
+                }
               })
           }
         })
@@ -254,12 +270,20 @@ class RegistrationForm extends React.Component {
           })
           .then((data2) => {
             console.log(data2);
-            this.setState({
-              load: false
-            })
-            window.localStorage.setItem('email', this.state.email);
-            window.localStorage.setItem('fullName', this.state.fullName);
-            window.location.reload();
+            if (data2.success) {
+              this.setState({
+                load: false
+              })
+              window.localStorage.setItem('email', this.state.email);
+              window.localStorage.setItem('fullName', this.state.fullName);
+              window.location.reload();
+            }
+            else {
+              this.setState({
+                load: false
+              })
+              message.error(data2.message);
+            }
           })
       }
       else {
@@ -282,12 +306,20 @@ class RegistrationForm extends React.Component {
           })
           .then((data2) => {
             console.log(data2);
-            this.setState({
-              load: false
-            })
-            window.sessionStorage.setItem('email', this.state.email);
-            window.sessionStorage.setItem('fullName', this.state.fullName);
-            window.location.reload();
+            if (data2.success) {
+              this.setState({
+                load: false
+              })
+              window.sessionStorage.setItem('email', this.state.email);
+              window.sessionStorage.setItem('fullName', this.state.fullName);
+              window.location.reload();
+            }
+            else {
+              this.setState({
+                load: false
+              })
+              message.error(data2.message);
+            }
           })
       }
     }
@@ -403,9 +435,9 @@ class RegistrationForm extends React.Component {
           <Form.Item label="Phone Number">
             {getFieldDecorator('phone', {
               valuePropName: 'value',
-              initialValue: "0" + this.state.phone,
+              initialValue:  this.state.phone,
               rules: [{ required: true, message: 'Please input your phone number!' }],
-            })(<Input style={{ width: '100%' }} onChange={this.handlePhone} />)}
+            })(<Input style={{ width: '100%' }}  onChange={this.handlePhone} />)}
           </Form.Item>
           <Form.Item {...tailFormItemLayout}>
             <Button loading={this.state.load} type="primary" htmlType="submit">
