@@ -44,13 +44,6 @@ class App extends React.Component {
       .catch(error => {
         console.log(error);
       });
-<<<<<<< HEAD
-  };
-  componentWillMount() {
-    fetch("http://localhost:3001/users/check-session", {
-      method: "GET",
-      credentials: "include"
-=======
   }
   menu = (
     <Menu>
@@ -95,7 +88,6 @@ class App extends React.Component {
     fetch('http://localhost:3001/users/check-session',{
       method:'GET',
       credentials: 'include',
->>>>>>> d0f65ae34c9a854d83cbf91500736b3f1fbf1df8
     })
       .then(res => res.json())
       .then(data => {
@@ -177,45 +169,6 @@ class App extends React.Component {
           />
           {this.state.currentUser.sessionCheck ? (
             <ul className="navbar-nav mr-auto">
-<<<<<<< HEAD
-              <Button
-                icon="form"
-                style={{ marginLeft: "5px" }}
-                size="large"
-                href="/create-recipe"
-              >
-                Đăng công thức
-              </Button>
-              <Dropdown
-                overlay={
-                  <Menu>
-                    <Menu.Item>
-                      <p>Welcome,{this.state.currentUser.fullName} !</p>
-                    </Menu.Item>
-                    <Menu.Item>
-                      <a href={`/profile`}>Profile</a>
-                    </Menu.Item>
-                    <Menu.Item>
-                      <a href={`/my-post/${this.state.currentUser.id}`}>
-                        Bài đăng của tôi
-                      </a>
-                    </Menu.Item>
-                    <Menu.Item>
-                      <a onClick={this.handleLogOut}>Đăng xuất</a>
-                    </Menu.Item>
-                  </Menu>
-                }
-              >
-                <a className="ant-dropdown-link" href="#">
-                  <Avatar
-                    src={this.state.currentUser.avatarUrl}
-                    style={{ marginLeft: "6px" }}
-                    size={45}
-                  />
-                </a>
-              </Dropdown>
-            </ul>
-=======
             <Button icon="form" style={{ marginLeft: "5px" }} size="large" href="/create-recipe">
               Đăng công thức
             </Button>
@@ -228,7 +181,6 @@ class App extends React.Component {
               </a>
             </Dropdown>
           </ul>
->>>>>>> d0f65ae34c9a854d83cbf91500736b3f1fbf1df8
           ) : (
             <ul className="navbar-nav mr-auto">
               <Button
