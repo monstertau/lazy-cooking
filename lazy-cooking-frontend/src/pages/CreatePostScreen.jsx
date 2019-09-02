@@ -11,10 +11,11 @@ import {
   message
 } from "antd";
 import "antd/dist/antd.css";
+import {foodArr,typeArr} from "./data"
 const { Option } = Select;
 const { TextArea } = Input;
-const foodArr = ["Thịt Lợn", "Thịt Bò", "Thịt Gà"];
-const typeArr = ["Bữa sáng", "Bữa trưa", "Bữa chiều"];
+
+
 class CreatePostScreen extends React.Component {
   state = {
     foods: foodArr,
