@@ -60,8 +60,8 @@ postRouter.post(`/create`, (req, res) => {
 postRouter.get(`/getpost`, (req, res) => {
   postModel
     .find({})
-    .sort({createAt:-1})
-    .populate('author','avatarUrl')
+    .sort({createdAt:-1})
+    .populate('author','avatarUrl fullName')
     .exec((error, data) => {
       if (error) {
         res.status(500).json({

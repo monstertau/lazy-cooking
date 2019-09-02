@@ -11,6 +11,7 @@ import WrappedCreatePostScreen from "./pages/CreatePostScreen";
 import Blog from "./pages/Blog";
 import MyPostScreen from "./pages/MyPostScreen";
 import DetailPostScreen from "./pages/DetailPostScreen";
+import SimpleMeal from "./pages/SimpleMeal";
 const { Search } = Input;
 
 class App extends React.Component {
@@ -147,7 +148,7 @@ class App extends React.Component {
           <Button size="large" href="/blog" type="link">
             Blogs{" "}
           </Button>
-          <Button size="large" type="link">
+          <Button size="large" href="/simpleMeal" type="link">
             Bữa ăn đơn giản{" "}
           </Button>
           <Search
@@ -234,6 +235,11 @@ class App extends React.Component {
             path="/post/:postId"
             exact={true}
             component={DetailPostScreen}
+          />
+          <Route
+            path="/simpleMeal"
+            exact={true}
+            component={SimpleMeal}
           />
         </BrowserRouter>
       </div>
