@@ -39,6 +39,14 @@ const PostSchema = mongoose.Schema({
     timetodone:{
         type:Number,
         require:true
+    },
+    materialSlug:{
+        type:Array,
+        require:true
+    },
+    categorySlug:{
+        type:Array,
+        require:true
     }
 })
 const postModel = mongoose.model('Posts',PostSchema);
