@@ -17,7 +17,8 @@ class DetailPostScreen extends Component {
         category: [],
         materials: [],
         createdAt: '',
-        upVote: '',
+        totalVote: '',
+        voted: false,
     }
 
     componentWillMount() {
@@ -43,7 +44,8 @@ class DetailPostScreen extends Component {
                     category: data.data.category,
                     materials: data.data.materials,
                     createdAt: data.data.createdAt,
-                    upVote: data.data.upvote,
+                    totalVote: data.data.totalVote,
+                    voted: data.data.voted,
                 })
             })
             .catch((error) => {
@@ -60,15 +62,20 @@ class DetailPostScreen extends Component {
             },
             body: JSON.stringify({
                 id: this.state.id,
-              }),
+            }),
             credentials: 'include',
         })
             .then((res) => res.json())
             .then((data) => {
                 console.log(data);
-                this.setState({
-                    upVote: data.upvote,
-                })
+                if (data.success == false) {
+                    window.alert('Please login for vote this!');
+                } else {
+                    this.setState({
+                        totalVote: data.data.totalVote,
+                        voted: data.data.voted,
+                    })
+                }
             })
             .catch((error) => {
                 console.log(error);
@@ -89,17 +96,17 @@ class DetailPostScreen extends Component {
                             <img src={this.state.avatarUrl} className="align-self-center mr-3 avatarImage" />
                             <div className="media-body">
                                 <h6 className="mt-0">{this.state.authorName}</h6>
-                                <small>Thích: {this.state.upVote}</small>
+                                <small><Icon type="like" /> Thích: {this.state.upVote}</small>
                             </div>
                         </div>
                         <div className="col-3 align-self-center">
-                            <h6>Thời gian làm: {this.state.timeToDone}</h6>
+                            <h6><Icon type="clock-circle" /> Thời gian làm: {this.state.timeToDone}</h6>
                         </div>
                         <div className="col-3 align-self-center">
-                            <h6>Độ khó: {this.state.level}</h6>
+                            <h6><Icon type="bulb" /> Độ khó: {this.state.level}</h6>
                         </div>
                         <div className="col-3 align-self-center">
-                            <h6>Nguyên Liệu: {this.state.materials.map((item) => {
+                            <h6><Icon type="profile" /> Nguyên Liệu: {this.state.materials.map((item) => {
                                 return (
                                     <small className="materials" key={item}>{item}, </small>
                                 )
@@ -109,16 +116,22 @@ class DetailPostScreen extends Component {
                 </div>
                 <div className="content">
                     <div className="image text-center mt-5">
-                        <img src={this.state.imageUrl} />
+                        <img className="postImage" src={this.state.imageUrl} />
                     </div>
                     <div className="detail-content mt-5">
                         <Text>{this.state.content}</Text>
                     </div>
                 </div>
                 <div className="review-react-container mt-5">
-                    <div className="icons-list react">
-                        <Button value="small" shape="round" type="primary" onClick={this.handleClickLike}><Icon type="like" /></Button> • {this.state.upVote} people like this
-                    </div>  
+                    {this.state.voted ? (
+                        <div className="icons-list react">
+                            <Button value="small" shape="round" type="primary" onClick={this.handleClickLike}><Icon type="dislike" /></Button> • You and {this.state.totalVote - 1} people like this
+                    </div>
+                    ) : (
+                            <div className="icons-list react">
+                                <Button value="small" shape="round" type="primary" onClick={this.handleClickLike}><Icon type="like" /></Button> • {this.state.totalVote} people like this
+                    </div>
+                        )}
                     <div className="review">
                         <div>
                             <TextArea placeholder="Write your comment here!" autosize={{ minRows: 4 }}></TextArea>

@@ -139,6 +139,11 @@ h6 {
 
 .avatarImage{
   border-radius: 50%;
-  width: 20px;
-  height: 20px;
+  width: 35px;
+  height: 35px;
+}
+
+.postImage{
+  width: 750px;
+  height: 400px;
 }

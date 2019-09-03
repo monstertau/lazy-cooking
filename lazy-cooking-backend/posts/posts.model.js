@@ -21,8 +21,8 @@ const PostSchema = mongoose.Schema({
         require:true
     },
     upvote:{
-        type:Number,
-        default:0
+        type : Array,
+        default:[],
     },
     category:{
         type:Array,

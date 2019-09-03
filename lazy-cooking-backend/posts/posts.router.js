@@ -13,7 +13,7 @@ postRouter.post(`/create`, (req, res) => {
     const {
       content,
       title,
-      
+
     } = req.body;
     const post = {
       content: req.body.content,
@@ -33,19 +33,19 @@ postRouter.post(`/create`, (req, res) => {
     //     message: "Title and content too long"
     //   });
     // } else {
-      postModel.create(post, (error, data) => {
-        if (error) {
-          res.status(500).json({
-            success: false,
-            message: error.message
-          });
-        } else {
-          res.status(201).json({
-            success: true,
-            data: data
-          });
-        }
-      });//asdasda
+    postModel.create(post, (error, data) => {
+      if (error) {
+        res.status(500).json({
+          success: false,
+          message: error.message
+        });
+      } else {
+        res.status(201).json({
+          success: true,
+          data: data
+        });
+      }
+    });//asdasda
     // }
   } else {
     res.status(403).json({
@@ -58,8 +58,8 @@ postRouter.post(`/create`, (req, res) => {
 postRouter.get(`/getpost`, (req, res) => {
   postModel
     .find({})
-    .sort({createdAt:-1})
-    .populate('author','avatarUrl fullName')
+    .sort({ createdAt: -1 })
+    .populate('author', 'avatarUrl fullName')
     .exec((error, data) => {
       if (error) {
         res.status(500).json({
@@ -78,9 +78,9 @@ postRouter.get(`/getpost`, (req, res) => {
 
 postRouter.get(`/mypost/:userId`, (req, res) => {
   postModel
-    .find({author:`${req.params.userId}`})
-    .sort({createdAt:-1})
-    .populate('author',"avatarUrl")
+    .find({ author: `${req.params.userId}` })
+    .sort({ createdAt: -1 })
+    .populate('author', "avatarUrl")
     .exec((error, data) => {
       if (error) {
         res.status(500).json({
@@ -121,30 +121,41 @@ postRouter.post("/image", upload.single("image"), (req, res) => {
 });
 
 postRouter.get('/get-post-by-id/:postId', (req, res) => {
+  var voted = false;
   postModel.findById(req.params.postId, (err, data) => {
-    if(err) {
+    if (err) {
       res.status(500).json({
-          success: false,
-          message: err.message,
+        success: false,
+        message: err.message,
       })
     } else {
-      // console.log(data);
+      if (req.session.currentUser && req.session.currentUser._id) {
+        const find = data._doc.upvote.filter(key => key == req.session.currentUser._id);
+        if (find.length !== 0) {
+          voted = true;
+        } else {
+          voted = false;
+        }
+      }
       //get author name
       userModel.findById(data.author, (error, user) => {
-        if(error){
+        if (error) {
           res.status(500).json({
             success: false,
             message: data.message,
           })
         } else {
           //return
+
           res.status(200).json({
             success: true,
             data: {
               ...data._doc,
               id: data._id,
               authorName: user.fullName,
-              avatarUrl: user.avatarUrl,  
+              avatarUrl: user.avatarUrl,
+              totalVote: data._doc.upvote.length,
+              voted: voted,
             },
           })
         }
@@ -154,28 +165,107 @@ postRouter.get('/get-post-by-id/:postId', (req, res) => {
 });
 
 postRouter.post('/update-vote', (req, res) => {
+  if (req.session.currentUser && req.session.currentUser._id) {
     const postId = req.body.id;
-    postModel.updateOne({ _id: postId }, { $inc: { upvote: 1 } }, (error, data) => {
-      if(error){
-        res.status(400).json({
+    const userId = req.session.currentUser._id;
+    postModel.findById(postId, (err, post) => {
+      if (err) {
+        res.status(500).json({
           success: false,
-          message: error.message,
+          message: err.message,
         })
-      } else{
-        postModel.findById(postId, (err, post) => {
-          if(err) {
-            res.status(500).json({
+      } else {
+        const find = post.upvote.filter(key => key == userId);
+        if (find.length !== 0) {
+          //add user id
+          postModel.update({ _id: postId }, { $pull: { upvote: userId } }, (err, data) => {
+            if (err) {
+              res.status(500).json({
                 success: false,
                 message: err.message,
-            })
-          } else {
-            res.status(201).json({
-              success: true,
-              upvote: post.upvote,
-            })
-          }
-        })
+              })
+            } else {
+              postModel.findById({ _id: postId }, (error, updatedData) => {
+                if (error) {
+                  res.status(500).json({
+                    success: false,
+                    message: updatedData.message,
+                  })
+                } else {
+                  res.status(201).json({
+                    success: true,
+                    data: {
+                      ...updatedData._doc,
+                      totalVote: updatedData.upvote.length,
+                      voted: false,
+                    }
+                  })
+                }
+              })
+            }
+          })
+        } else {
+          // remove user id
+          postModel.update({ _id: postId }, { $push: { upvote: userId } }, (err, data) => {
+            if (err) {
+              res.status(500).json({
+                success: false,
+                message: err.message,
+              })
+            } else {
+              postModel.findById({ _id: postId }, (error, updatedData) => {
+                if (error) {
+                  res.status(500).json({
+                    success: false,
+                    message: updatedData.message,
+                  })
+                } else {
+                  res.status(201).json({
+                    success: true,
+                    data: {
+                      ...updatedData._doc,
+                      totalVote: updatedData.upvote.length,
+                      voted: true,
+                    }
+                  })
+                }
+              })
+            }
+          })
+        }
+        // if(post.upvote.include(userId)){
+        //   postModel.update({_id: postId}, {$pull: {upvote: userId}}, (err, data) => {
+        //     if(err){
+        //       res.status(500).json({
+        //         success: false,
+        //         message: err.message,
+        //       })
+        //     } else{
+        //       console.log(data);
+        //     }
+        //   })
+        // } else {
+        //   postModel.update({_id: postId}, {$push: {upvote: userId}}, (err, data) => {
+        //     if(err){
+        //       res.status(500).json({
+        //         success: false,
+        //         message: err.message,
+        //       })
+        //     } else{
+        //       console.log(data);
+        //     }
+        //   })
+        // }
       }
-  });
+    })
+    //     }
+    // });
+  } else {
+    res.status(403).json({
+      success: false,
+      message: 'Unauthenticated',
+    });
+  }
+
 })
 module.exports = postRouter;
