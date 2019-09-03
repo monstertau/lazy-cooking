@@ -136,3 +136,9 @@ h6 {
 .btn-comment {
   margin-top: 3px;
 }
+
+.avatarImage{
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+}

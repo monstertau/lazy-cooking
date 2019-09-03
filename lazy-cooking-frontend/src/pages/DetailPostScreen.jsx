@@ -86,7 +86,7 @@ class DetailPostScreen extends Component {
                     </div>
                     <div className="row">
                         <div className="media col-3">
-                            <img src={this.state.avatarUrl} className="align-self-center mr-3" />
+                            <img src={this.state.avatarUrl} className="align-self-center mr-3 avatarImage" />
                             <div className="media-body">
                                 <h6 className="mt-0">{this.state.authorName}</h6>
                                 <small>Thích: {this.state.upVote}</small>
