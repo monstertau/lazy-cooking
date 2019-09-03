@@ -27,12 +27,12 @@ postRouter.post(`/create`, (req, res) => {
       materialSlug: req.body.materialSlug,
       categorySlug: req.body.categorySlug,
     };
-    if (title.length > 50 || content.length > 1000) {
-      res.status(400).json({
-        success: false,
-        message: "Title and content too long"
-      });
-    } else {
+    // if (title.length > 50 || content.length > 1000) {
+    //   res.status(400).json({
+    //     success: false,
+    //     message: "Title and content too long"
+    //   });
+    // } else {
       postModel.create(post, (error, data) => {
         if (error) {
           res.status(500).json({
@@ -46,7 +46,7 @@ postRouter.post(`/create`, (req, res) => {
           });
         }
       });//asdasda
-    }
+    // }
   } else {
     res.status(403).json({
       success: false,
@@ -79,6 +79,7 @@ postRouter.get(`/getpost`, (req, res) => {
 postRouter.get(`/mypost/:userId`, (req, res) => {
   postModel
     .find({author:`${req.params.userId}`})
+    .sort({createdAt:-1})
     .populate('author',"avatarUrl")
     .exec((error, data) => {
       if (error) {
