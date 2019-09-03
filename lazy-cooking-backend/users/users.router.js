@@ -6,7 +6,7 @@ const multer = require('multer');
 const fs = require('fs');
 
 const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-const phoneRegex = /^\d{10}$/;
+const phoneRegex = /(09|01[2|6|8|9])+([0-9]{8})\b/g;
 const avatarUrlRegex = /\.(jpg|jpeg|png|gif)$/;
 const upload = multer({
     dest: 'public/avatar',
@@ -32,7 +32,7 @@ userRouter.post('/register', (req, res) => {
             success: false,
             message: 'Please input full name',
         });
-    } else if (!phone || !phoneRegex.test(phone)) {
+    } else if (!phone ) {
         res.status(400).json({
             success: false,
             message: 'Phone number must be contain 10 digits!',
@@ -237,10 +237,10 @@ userRouter.post('/update', (req, res) => {
                 success: false,
                 message: 'Please input full name',
             });
-        } else if (!phone || !phoneRegex.test(phone)) {
+        } else if (!phone) {
             res.status(400).json({
                 success: false,
-                message: 'Phone number must be contain 10 digits!',
+                message: 'Phone number is invalid!',
             });
         } else if (!avatarUrl || !avatarUrlRegex.test(avatarUrl)) {
             res.status(400).json({

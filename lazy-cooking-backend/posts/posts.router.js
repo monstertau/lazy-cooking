@@ -13,11 +13,7 @@ postRouter.post(`/create`, (req, res) => {
     const {
       content,
       title,
-      imageUrl,
-      category,
-      materials,
-      level,
-      timetodone
+      
     } = req.body;
     const post = {
       content: req.body.content,
@@ -27,7 +23,9 @@ postRouter.post(`/create`, (req, res) => {
       materials: req.body.materials,
       level: req.body.level,
       timetodone: req.body.timetodone,
-      author: req.session.currentUser._id
+      author: req.session.currentUser._id,
+      materialSlug: req.body.materialSlug,
+      categorySlug: req.body.categorySlug,
     };
     if (title.length > 50 || content.length > 1000) {
       res.status(400).json({
@@ -60,7 +58,8 @@ postRouter.post(`/create`, (req, res) => {
 postRouter.get(`/getpost`, (req, res) => {
   postModel
     .find({})
-    .populate('author','avatarUrl')
+    .sort({createdAt:-1})
+    .populate('author','avatarUrl fullName')
     .exec((error, data) => {
       if (error) {
         res.status(500).json({
