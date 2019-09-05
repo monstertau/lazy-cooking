@@ -1,4 +1,5 @@
 import React from "react";
+import {Editor, EditorState, RichUtils} from 'draft-js';
 import {
   Form,
   Select,
@@ -24,6 +25,7 @@ class CreatePostScreen extends React.Component {
     categorySlug: [],
     levelSlug: "",
     timeSlug: "",
+    editorState: EditorState.createEmpty(),
   };
   ChangeToSlug = item => {
     let str = item.toLowerCase(); // xóa dấu
@@ -40,6 +42,7 @@ class CreatePostScreen extends React.Component {
     str = str.replace(/-+$/g, ""); // return
     return str;
   };
+  onChange = (editorState) => this.setState({editorState});
   handleLevelChange = value => {
     console.log(value);
     if (value === 1 || value === 2 || value === 0) {
@@ -151,55 +154,55 @@ class CreatePostScreen extends React.Component {
         console.log(data);
         const formData = new FormData();
         formData.append("image", this.state.imageFile);
-        fetch(`http://localhost:3001/posts/image`, {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            Accept: "application/json"
-          },
-          body: formData
-        })
-          .then(res => {
-            return res.json();
-          })
-          .then(info => {
-            console.log(info);
-            fetch("http://localhost:3001/posts/create", {
-              method: "POST",
-              credentials: "include",
-              headers: {
-                "Content-Type": "application/json"
-              },
-              body: JSON.stringify({
-                content: data.content,
-                title: data.title,
-                imageUrl: info.data.imageUrl,
-                category: data.category,
-                materials: data.materials,
-                level: data.level,
-                timetodone: data.timetodone,
-                slug: data.slug
-              })
-            })
-              .then(res => res.json())
-              .then(data1 => {
-                console.log(data1);
-                if (data1.success) {
-                  if (window.localStorage.getItem("id")) {
-                    window.location.href = `/my-post/${window.localStorage.getItem(
-                      "id"
-                    )}`;
-                  } else {
-                    window.location.href = `/my-post/${window.sessionStorage.getItem(
-                      "id"
-                    )}`;
-                  }
-                }
-              });
-          })
-          .catch(error => {
-            throw error;
-          });
+        // fetch(`http://localhost:3001/posts/image`, {
+        //   method: "POST",
+        //   credentials: "include",
+        //   headers: {
+        //     Accept: "application/json"
+        //   },
+        //   body: formData
+        // })
+        //   .then(res => {
+        //     return res.json();
+        //   })
+        //   .then(info => {
+        //     console.log(info);
+        //     fetch("http://localhost:3001/posts/create", {
+        //       method: "POST",
+        //       credentials: "include",
+        //       headers: {
+        //         "Content-Type": "application/json"
+        //       },
+        //       body: JSON.stringify({
+        //         content: data.content,
+        //         title: data.title,
+        //         imageUrl: info.data.imageUrl,
+        //         category: data.category,
+        //         materials: data.materials,
+        //         level: data.level,
+        //         timetodone: data.timetodone,
+        //         slug: data.slug
+        //       })
+        //     })
+        //       .then(res => res.json())
+        //       .then(data1 => {
+        //         console.log(data1);
+        //         if (data1.success) {
+        //           if (window.localStorage.getItem("id")) {
+        //             window.location.href = `/my-post/${window.localStorage.getItem(
+        //               "id"
+        //             )}`;
+        //           } else {
+        //             window.location.href = `/my-post/${window.sessionStorage.getItem(
+        //               "id"
+        //             )}`;
+        //           }
+        //         }
+        //       });
+        //   })
+        //   .catch(error => {
+        //     throw error;
+        //   });
       } else {
         throw err;
       }
@@ -341,13 +344,7 @@ class CreatePostScreen extends React.Component {
             {getFieldDecorator("content", {
               rules: [{ required: true, message: "Please input your content!" }]
             })(
-              <TextArea
-                rows={30}
-                prefix={
-                  <Icon type="container" style={{ color: "rgba(0,0,0,.25)" }} />
-                }
-                placeholder="Điền nội dung vào đây (ghi rõ các bước)"
-              />
+              <Editor editorState={this.state.editorState} onChange={this.onChange} />
             )}
           </Form.Item>
 

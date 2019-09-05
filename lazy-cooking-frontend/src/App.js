@@ -48,82 +48,82 @@ class App extends React.Component {
       });
   };
   componentDidMount() {
-    fetch("http://localhost:3001/users/check-session", {
-      method: "GET",
-      credentials: "include"
-    })
-      .then(res => res.json())
-      .then(data => {
-        if (data.success === true) {
-          if (
-            window.localStorage.getItem("email") ||
-            window.sessionStorage.getItem("email")
-          ) {
-            const email = window.localStorage.getItem(`email`);
-            const fullName = window.localStorage.getItem(`fullName`);
-            const id = window.localStorage.getItem(`id`);
-            const avatarUrl = window.localStorage.getItem(`avatarUrl`);
-            if (email && fullName && id) {
-              this.setState({
-                currentUser: {
-                  sessionCheck: true,
-                  email: email,
-                  fullName: fullName,
-                  id: id,
-                  avatarUrl: avatarUrl
-                }
-              });
-            } else {
-              const email = window.sessionStorage.getItem(`email`);
-              const fullName = window.sessionStorage.getItem(`fullName`);
-              const id = window.sessionStorage.getItem(`id`);
-              const avatarUrl = window.sessionStorage.getItem(`avatarUrl`);
-              this.setState({
-                currentUser: {
-                  sessionCheck: true,
-                  email: email,
-                  fullName: fullName,
-                  id: id,
-                  avatarUrl: avatarUrl
-                }
-              });
-            }
-          } else {
-            fetch("http://localhost:3001/users/logout", {
-              method: "GET",
-              credentials: "include"
-            })
-              .then(res => {
-                return res.json();
-              })
-              .then(data => {
-                // clear window.localStorage
-                window.localStorage.removeItem("email");
-                window.localStorage.removeItem("fullName");
-                window.localStorage.removeItem("avatarUrl");
-                window.localStorage.removeItem("id");
-
-                // clear fullname + email in state
-              })
-              .catch(error => {
-                console.log(error);
-              });
+    if (
+      window.localStorage.getItem("email") ||
+      window.sessionStorage.getItem("email")
+    ) {
+      const email = window.localStorage.getItem(`email`);
+      const fullName = window.localStorage.getItem(`fullName`);
+      const id = window.localStorage.getItem(`id`);
+      const avatarUrl = window.localStorage.getItem(`avatarUrl`);
+      if (email && fullName && id) {
+        this.setState({
+          currentUser: {
+            
+            email: email,
+            fullName: fullName,
+            id: id,
+            avatarUrl: avatarUrl
           }
-        } else {
-          console.log(data);
+        });
+      } else {
+        const email = window.sessionStorage.getItem(`email`);
+        const fullName = window.sessionStorage.getItem(`fullName`);
+        const id = window.sessionStorage.getItem(`id`);
+        const avatarUrl = window.sessionStorage.getItem(`avatarUrl`);
+        this.setState({
+          currentUser: {
+            email: email,
+            fullName: fullName,
+            id: id,
+            avatarUrl: avatarUrl
+          }
+        });
+      }
+    } else {
+      fetch("http://localhost:3001/users/logout", {
+        method: "GET",
+        credentials: "include"
+      })
+        .then(res => {
+          return res.json();
+        })
+        .then(data => {
+          // clear window.localStorage
           window.localStorage.removeItem("email");
           window.localStorage.removeItem("fullName");
           window.localStorage.removeItem("avatarUrl");
           window.localStorage.removeItem("id");
-          window.sessionStorage.removeItem("email");
-          window.sessionStorage.removeItem("fullName");
-          window.sessionStorage.removeItem("avatarUrl");
-          window.sessionStorage.removeItem("id");
-        }
-      })
-      .catch(error => {
-        throw error;
-      });
+
+          // clear fullname + email in state
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
+    // fetch("http://localhost:3001/users/check-session", {
+    //   method: "GET",
+    //   credentials: "include"
+    // })
+    //   .then(res => res.json())
+    //   .then(data => {
+    //     if (data.success === true) {
+          
+    //     } else {
+    //       console.log(data);
+    //       window.localStorage.removeItem("email");
+    //       window.localStorage.removeItem("fullName");
+    //       window.localStorage.removeItem("avatarUrl");
+    //       window.localStorage.removeItem("id");
+    //       window.sessionStorage.removeItem("email");
+    //       window.sessionStorage.removeItem("fullName");
+    //       window.sessionStorage.removeItem("avatarUrl");
+    //       window.sessionStorage.removeItem("id");
+    //     }
+    //   })
+    //   .catch(error => {
+    //     throw error;
+    //   });
   }
   // checkSession = e =>{
   //   e.preventDefault();
@@ -194,7 +194,7 @@ class App extends React.Component {
             enterButton
             size="large"
           />
-          {this.state.currentUser.sessionCheck ? (
+          {(window.localStorage.getItem("email")||window.sessionStorage.getItem("email")) ? (
             <>
               <Button
                 icon="form"
