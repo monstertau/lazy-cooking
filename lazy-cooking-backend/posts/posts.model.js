@@ -43,6 +43,10 @@ const PostSchema = mongoose.Schema({
     slug:{
         type:Array,
         require:true
+    },
+    comments: {
+        type: Array,
+        default: [],
     }
 })
 const postModel = mongoose.model('Posts',PostSchema);

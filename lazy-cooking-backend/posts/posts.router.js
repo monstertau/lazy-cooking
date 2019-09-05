@@ -235,40 +235,73 @@ postRouter.post("/update-vote", (req, res) => {
             }
           );
         }
-        // if(post.upvote.include(userId)){
-        //   postModel.update({_id: postId}, {$pull: {upvote: userId}}, (err, data) => {
-        //     if(err){
-        //       res.status(500).json({
-        //         success: false,
-        //         message: err.message,
-        //       })
-        //     } else{
-        //       console.log(data);
-        //     }
-        //   })
-        // } else {
-        //   postModel.update({_id: postId}, {$push: {upvote: userId}}, (err, data) => {
-        //     if(err){
-        //       res.status(500).json({
-        //         success: false,
-        //         message: err.message,
-        //       })
-        //     } else{
-        //       console.log(data);
-        //     }
-        //   })
-        // }
       }
-    });
-    //     }
-    // });
+    })
   } else {
     res.status(403).json({
       success: false,
       message: "Unauthenticated"
     });
   }
-});
+})
+
+postRouter.post('/comment', (req, res) => {
+
+  if (req.session.currentUser && req.session.currentUser._id) {
+    const postId = req.body.postId;
+    const content = req.body.content;
+    const userId = req.session.currentUser._id;
+    if (!content || content.trim().length === 0) {
+      res.status(400).json({
+        success: false,
+        message: 'Please input your comment',
+      })
+    } else {
+      const commentId = Date.now();
+      //get user Name
+      userModel.findById(userId, (error, user) => {
+        if (error) {
+          res.status(500).json({
+            success: false,
+            message: data.message,
+          })
+        } else {
+          const userName = user.fullName;
+          const avatarUrl = user.avatarUrl;
+
+          //save to database
+          postModel.update({ _id: postId }, { $push: { comments: { id: commentId, userId: userId, userName: userName, userAvatarUrl: avatarUrl, content: content } } }, (err, data) => {
+            if (err) {
+              res.status(500).json({
+                success: false,
+                message: err.message,
+              })
+            } else {
+              postModel.findById({ _id: postId }, (error, updatedData) => {
+                if (error) {
+                  res.status(500).json({
+                    success: false,
+                    message: updatedData.message,
+                  })
+                } else {
+                  res.status(201).json({
+                    success: true,
+                    data: updatedData.comments,
+                  })
+                }
+              })
+            }
+          })
+        }
+      })
+    }
+  } else {
+    res.status(500).json({
+      success: false,
+      message: 'Unauthenticated',
+    })
+  }
+})
 postRouter.get("/get-recipe/:type", (req, res) => {
   console.log(req.params.type);
   if (req.params.type === "all") {
