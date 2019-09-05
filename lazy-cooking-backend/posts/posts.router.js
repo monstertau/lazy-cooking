@@ -303,9 +303,7 @@ postRouter.post('/comment', (req, res) => {
   }
 })
 
-postRouter.get(`/simpleMeal`,(req,res)=>{
-    
-})
+
 postRouter.get("/get-recipe/:type", (req, res) => {
   console.log(req.params.type);
   if (req.params.type === "all") {
