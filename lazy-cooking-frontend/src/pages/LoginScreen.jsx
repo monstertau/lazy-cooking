@@ -1,17 +1,39 @@
 import React, { Component } from 'react';
+import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
+import firebase from 'firebase';
 
 const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+const config = {
+    apiKey: 'AIzaSyCkrqRgSiubYxCkhBCbWHPQ27-tm3VnE2Y',
+    authDomain: 'login-with-gg-fdb99.firebaseapp.com',
+    // ...
+};
+firebase.initializeApp(config);
 
 class LoginScreen extends Component {
 
     state = {
         email: '',
         password: '',
+        fullName: '',
+        phone: '',
         rememberMe: false,
         isError: false,
         message: '',
         isLogin: false,
+        isSignedIn: false,
     }
+
+    uiConfig = {
+        signInFlow: 'popup',
+        signInOptions: [
+            firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+        ],
+        callbacks: {
+            signInSuccessWithAuthResult: () => false
+        }
+    };
 
     componentWillMount() {
         fetch('http://localhost:3001/users/check-session', {
@@ -21,21 +43,33 @@ class LoginScreen extends Component {
             },
             credentials: 'include',
         })
-        .then((res) => res.json())
-        .then((data) => {
-            if(data.success === true){
-                this.setState({
-                    isLogin: true,
-                })
-            } else {
-                this.setState({
-                    isLogin: false,
-                })
-            }
-            
-        })
+            .then((res) => res.json())
+            .then((data) => {
+                if (data.success === true) {
+                    this.setState({
+                        isLogin: true,
+                    })
+                } else {
+                    this.setState({
+                        isLogin: false,
+                    })
+                }
+
+            })
     }
 
+    componentDidMount() {
+        this.unregisterAuthObserver = firebase.auth().onAuthStateChanged(
+            (user) => {
+                // this.setState({
+                //     isSignedIn: !this.state.isSignedIn,
+                //     fullName: user.displayName,
+                //     email: user.email,
+                // });
+
+            }
+        );
+    }
     handleSubmit = (event) => {
         event.preventDefault();
 
@@ -119,55 +153,127 @@ class LoginScreen extends Component {
     render() {
         return (
             <div>
-                {this.state.isLogin ? (
-                    window.location.replace("http://localhost:3000/")
-                ) : (
-                    <div className="container">
-                <div className="row mt-2">
-                    <div className="col-2"></div>
-                    <div className="col-8 get-in-touch">
-                        <h2 className="title ">Login</h2>
-                        <form className="contact-form row mt-0" onSubmit={this.handleSubmit}>
-                            <div className="form-field col-lg-12">
-                                <h6>Email:</h6>
-                                <input className="input-text js-input" type="text" onInput={this.handleInput}
-                                    value={this.state.email}
-                                    onChange={(event) => {
-                                        this.setState({
-                                            email: event.target.value,
-                                        });
-                                    }} />
-                            </div>
-                            <div className="form-field col-lg-12 ">
-                                <h6>Password:</h6>
-                                <input className="input-text js-input" type="password" onInput={this.handleInput}
-                                    value={this.state.password}
-                                    onChange={(event) => {
-                                        this.setState({
-                                            password: event.target.value,
-                                        });
-                                    }} />
-                            </div>
-                            {this.state.isError ? (
-                                <div className="form-field col-lg-12 mt-0">
-                                    <h6 className="label-error">{this.state.message}</h6>
+                {this.state.isSignedIn ? (
+                    //login gg if it is the first time
+                    <div>
+                        <div className="container">
+                            <div className="row mt-2">
+                                <div className="col-2"></div>
+                                <div className="col-8 get-in-touch">
+                                    <h5 className="confirm">Confirm your infomation</h5>
+                                    <form className="contact-form row mt-0" >
+                                        <div className="form-field col-lg-12">
+                                            <h6>Email:</h6>
+                                            <input className="input-text js-input" type="text" onInput={this.handleInput}
+                                                value={this.state.email}
+                                                onChange={(event) => {
+                                                    this.setState({
+                                                        email: event.target.value,
+                                                    });
+                                                }} />
+
+                                        </div>
+                                        <div className="form-field col-lg-12 ">
+                                            <h6>Full name:</h6>
+                                            <input className="input-text js-input" type="text" onInput={this.handleInput}
+                                                value={this.state.fullName}
+                                                onChange={(event) => {
+                                                    this.setState({
+                                                        fullName: event.target.value,
+                                                    });
+                                                }} />
+                                        </div>
+                                        <div className="form-field col-lg-12">
+                                            <h6>Phone:</h6>
+                                            <input className="input-text js-input" type="text" onInput={this.handleInput}
+                                                value={this.state.phone}
+                                                onChange={(event) => {
+                                                    this.setState({
+                                                        phone: event.target.value,
+                                                    });
+                                                }} />
+                                        </div>
+                                        {this.state.isError ? (
+                                            <div className="form-field col-lg-12 mt-0">
+                                                <h6 className="label-error">{this.state.message}</h6>
+                                            </div>
+                                        ) : (
+                                                null
+                                            )}
+                                        <div className="form-field col-lg-12 mt-0 text-right">
+                                            <button className="submit-btn">Submit</button>
+                                        </div>
+                                    </form>
                                 </div>
-                            ) : (
-                                    null
-                                )}
-                            <div class="custom-control custom-checkbox ml-3">
-                                <input type="checkbox" class="custom-control-input" id="customCheck1" onChange={this.handleRememberMe} />
-                                <label class="custom-control-label remember" for="customCheck1">Remember me</label>
+                                <div className="col-2"></div>
                             </div>
-                            <div className="form-field col-lg-12 mt-2 text-right">
-                                <button className="submit-btn">Login</button>
-                            </div>
-                        </form>
+                        </div>
                     </div>
-                    <div className="col-2"></div>
-                </div>
-            </div>
-                )}
+                ) : (
+                        // normal loggin
+                        <div>
+                            {this.state.isLogin ? (
+                                window.location.replace("http://localhost:3000/")
+                            ) : (
+                                    <div className="container">
+                                        <div className="row mt-2">
+                                            <div className="col-2"></div>
+                                            <div className="col-8 get-in-touch">
+                                                <h2 className="title ">Login</h2>
+                                                <form className="contact-form row mt-0" onSubmit={this.handleSubmit}>
+                                                    <div className="form-field col-lg-12">
+                                                        <h6>Email:</h6>
+                                                        <input className="input-text js-input" type="text" onInput={this.handleInput}
+                                                            value={this.state.email}
+                                                            onChange={(event) => {
+                                                                this.setState({
+                                                                    email: event.target.value,
+                                                                });
+                                                            }} />
+                                                    </div>
+                                                    <div className="form-field col-lg-12 ">
+                                                        <h6>Password:</h6>
+                                                        <input className="input-text js-input" type="password" onInput={this.handleInput}
+                                                            value={this.state.password}
+                                                            onChange={(event) => {
+                                                                this.setState({
+                                                                    password: event.target.value,
+                                                                });
+                                                            }} />
+                                                    </div>
+                                                    {this.state.isError ? (
+                                                        <div className="form-field col-lg-12 mt-0">
+                                                            <h6 className="label-error">{this.state.message}</h6>
+                                                        </div>
+                                                    ) : (
+                                                            null
+                                                        )}
+                                                    <div className="custom-control custom-checkbox ml-3">
+                                                        <input type="checkbox" className="custom-control-input" id="customCheck1" onChange={this.handleRememberMe} />
+                                                        <label className="custom-control-label remember" htmlFor="customCheck1">Remember me</label>
+                                                    </div>
+                                                    <div className="form-field col-lg-12 mt-2 text-right">
+                                                        <button className="submit-btn">Login</button>
+                                                    </div>
+                                                </form>
+                                                <div className="text-center or">
+                                                    <p>OR</p>
+                                                </div>
+                                                <div>
+                                                    <StyledFirebaseAuth
+                                                        uiCallback={ui => ui.disableAutoSignIn()}
+                                                        uiConfig={this.uiConfig}
+                                                        firebaseAuth={firebase.auth()}
+                                                    />
+
+                                                </div>
+                                            </div>
+                                            <div className="col-2"></div>
+                                        </div>
+                                    </div>
+                                )}
+                        </div>
+                    )}
             </div>
         );
     }

@@ -47,7 +47,6 @@
   line-height: 48px;
   padding-bottom: 30px;
      color: purple;
-    
 }
 
 .contact-form .form-field {
@@ -154,4 +153,31 @@ h6 {
 
 .remember{
   color: #5543ca;
+}
+
+.or{
+  color: 0, 0%, 70%;
+}
+
+.btn-gg{
+  display: inline-block;
+  background-color: #000;
+   background-image: linear-gradient(125deg,#a72879,#064497);
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 16px;
+  padding: 8px 16px;
+  border: none;
+  cursor: pointer;  
+}
+
+.confirm{
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 2em;
+  line-height: 30px;
+  padding-bottom: 30px;
+     color: purple;
 }
