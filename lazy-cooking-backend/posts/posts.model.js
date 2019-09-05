@@ -40,11 +40,7 @@ const PostSchema = mongoose.Schema({
         type:Number,
         require:true
     },
-    materialSlug:{
-        type:Array,
-        require:true
-    },
-    categorySlug:{
+    slug:{
         type:Array,
         require:true
     }

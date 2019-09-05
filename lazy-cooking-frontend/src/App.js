@@ -148,36 +148,36 @@ class App extends React.Component {
             overlay={
               <Menu mode="inline">
                 <SubMenu title="Thực đơn">
-                  <Menu.Item ><a href="/recipe/?category=bua-sang">Bữa sáng</a></Menu.Item>
-                  <Menu.Item ><a href="/recipe/?category=bua-trua">Bữa trưa</a></Menu.Item>
-                  <Menu.Item ><a href="/recipe?category=bua-chieu">Bữa chiều</a></Menu.Item>
+                  <Menu.Item ><a href="/recipe/bua-sang">Bữa sáng</a></Menu.Item>
+                  <Menu.Item ><a href="/recipe/bua-trua">Bữa trưa</a></Menu.Item>
+                  <Menu.Item ><a href="/recipe/bua-chieu">Bữa chiều</a></Menu.Item>
                 </SubMenu>
                 <Menu.Divider/>
                 <SubMenu title="Nguyên liệu">
-                  <Menu.Item >Thịt gà</Menu.Item>
-                  <Menu.Item>Thịt bò</Menu.Item>
-                  <Menu.Item>Thịt lợn</Menu.Item>
-                  <Menu.Item>Thịt Cá</Menu.Item>
-                  <Menu.Item>Thịt Cua</Menu.Item>
-                  <Menu.Item>Thịt Tôm</Menu.Item>
+                  <Menu.Item ><a href="/recipe/thit-ga">Thịt gà</a></Menu.Item>
+                  <Menu.Item><a href="/recipe/thit-bo">Thịt gà</a></Menu.Item>
+                  <Menu.Item><a href="/recipe/thit-lon">Thịt lợn</a></Menu.Item>
+                  <Menu.Item><a href="/recipe/thit-ca">Thịt cá</a></Menu.Item>
+                  <Menu.Item><a href="/recipe/thit-cua">Thịt cua</a></Menu.Item>
+                  <Menu.Item><a href="/recipe/thit-tom">Thịt gà</a></Menu.Item>
                 </SubMenu>
                 <Menu.Divider/>
                 <SubMenu title="Độ khó">
-                  <Menu.Item>Dễ</Menu.Item>
-                  <Menu.Item>Vừa</Menu.Item>
-                  <Menu.Item>Khó</Menu.Item>
+                  <Menu.Item><a href="/recipe/de">Dễ</a></Menu.Item>
+                  <Menu.Item><a href="/recipe/trung-binh">Trung bình</a></Menu.Item>
+                  <Menu.Item><a href="/recipe/kho">Khó</a></Menu.Item>
                 </SubMenu>
                 <Menu.Divider/>
                 <SubMenu title="Thời gian làm">
-                  <Menu.Item>0-10 phút</Menu.Item>
-                  <Menu.Item>10-30 phút</Menu.Item>
-                  <Menu.Item>30-60 phút</Menu.Item>
-                  <Menu.Item>Trên 60 phút</Menu.Item>
+                  <Menu.Item><a href="/recipe/duoi-10-phut">Dưới 10 phút</a></Menu.Item>
+                  <Menu.Item><a href="/recipe/10-den-30-phut">10-30 phút</a></Menu.Item>
+                  <Menu.Item><a href="/recipe/30-den-60-phut">30-60 phút</a></Menu.Item>
+                  <Menu.Item><a href="/recipe/tren-60-phut">Trên 60 phút</a></Menu.Item>
                 </SubMenu>
               </Menu>
             }
           >
-            <Button size="large" href="/recipe" type="link" icon="file-done">
+            <Button size="large" href="/recipe/all" type="link" icon="file-done">
               Công thức
             </Button>
           </Dropdown>
@@ -275,7 +275,7 @@ class App extends React.Component {
             exact={true}
             component={DetailPostScreen}
           />
-          <Route path="recipe"
+          <Route path="/recipe/:type" exact={true}
           component={ShowRecipeScreen}
           />
         </BrowserRouter>

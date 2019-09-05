@@ -21,7 +21,9 @@ class CreatePostScreen extends React.Component {
     imageFile: undefined,
     loading: false,
     materialSlug: [],
-    categorySlug: []
+    categorySlug: [],
+    levelSlug: "",
+    timeSlug: "",
   };
   ChangeToSlug = item => {
     let str = item.toLowerCase(); // xóa dấu
@@ -38,6 +40,42 @@ class CreatePostScreen extends React.Component {
     str = str.replace(/-+$/g, ""); // return
     return str;
   };
+  handleLevelChange = value => {
+    console.log(value);
+    if (value === 1 || value === 2 || value === 0) {
+      this.setState({
+        levelSlug: "de"
+      });
+    } else if (value === 3 || value === 4) {
+      this.setState({
+        levelSlug: "trung-binh"
+      });
+    } else {
+      this.setState({
+        levelSlug: "kho"
+      });
+    }
+  };
+  handleTimeChange = value =>{
+    console.log(value)
+    if(value <= 10){
+      this.setState({
+        timeSlug: "duoi-10-phut"
+      });
+    }else if(value <= 30){
+      this.setState({
+        timeSlug: "10-den-30-phut"
+      });
+    }else if(value <= 60){
+      this.setState({
+        timeSlug: "30-den-60-phut"
+      });
+    }else{
+      this.setState({
+        timeSlug: "tren-60-phut"
+      });
+    }
+  }
   handleCategoryChange = value => {
     console.log(value);
     const array = [];
@@ -107,8 +145,9 @@ class CreatePostScreen extends React.Component {
     e.preventDefault();
     this.props.form.validateFields((err, data) => {
       if (!err) {
-        data.materialSlug = this.state.materialSlug;
-        data.categorySlug = this.state.categorySlug;
+        data.slug = this.state.categorySlug.concat(this.state.materialSlug);
+        data.slug = data.slug.concat(this.state.levelSlug);
+        data.slug = data.slug.concat(this.state.timeSlug);
         console.log(data);
         const formData = new FormData();
         formData.append("image", this.state.imageFile);
@@ -139,18 +178,21 @@ class CreatePostScreen extends React.Component {
                 materials: data.materials,
                 level: data.level,
                 timetodone: data.timetodone,
-                materialSlug: data.materialSlug,
-                categorySlug:data.categorySlug
+                slug: data.slug
               })
             })
               .then(res => res.json())
               .then(data1 => {
                 console.log(data1);
-                if(data1.success){
-                  if(window.localStorage.getItem('id')){
-                  window.location.href = `/my-post/${window.localStorage.getItem('id')}`
-                  }else{
-                    window.location.href = `/my-post/${window.sessionStorage.getItem('id')}`
+                if (data1.success) {
+                  if (window.localStorage.getItem("id")) {
+                    window.location.href = `/my-post/${window.localStorage.getItem(
+                      "id"
+                    )}`;
+                  } else {
+                    window.location.href = `/my-post/${window.sessionStorage.getItem(
+                      "id"
+                    )}`;
                   }
                 }
               });
@@ -263,14 +305,14 @@ class CreatePostScreen extends React.Component {
                   message: "Hãy chọn độ khó cho món ăn của bạn!"
                 }
               ]
-            })(<Rate />)}
+            })(<Rate onChange={this.handleLevelChange} />)}
           </Form.Item>
 
           <Form.Item label="Thời gian làm:">
             {getFieldDecorator("timetodone", {
               initialValue: 1,
               rules: [{ required: true, message: "Hãy chọn thời gian làm!" }]
-            })(<InputNumber min={1} />)}
+            })(<InputNumber min={1} onChange={this.handleTimeChange}/>)}
             <span className="ant-form-text"> Phút</span>
           </Form.Item>
 
