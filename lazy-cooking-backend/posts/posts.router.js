@@ -179,4 +179,8 @@ postRouter.post('/update-vote', (req, res) => {
       }
   });
 })
+
+postRouter.get(`/simpleMeal`,(req,res)=>{
+    
+})
 module.exports = postRouter;
