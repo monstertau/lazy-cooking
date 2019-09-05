@@ -69,7 +69,8 @@ class MyPostScreen extends Component {
                     type="clock-circle"
                     text={`Thời gian: ${item.timetodone} phút`}
                     key="list-vertical-message"
-                  />
+                  />,
+                  <IconText type="user" text={`Người Đăng: ${item.author.fullName}`} key="list-vertical-like-o" />,
                 ]}
                 extra={
                   <img

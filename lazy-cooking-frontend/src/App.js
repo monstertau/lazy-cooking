@@ -11,9 +11,10 @@ import WrappedCreatePostScreen from "./pages/CreatePostScreen";
 import Blog from "./pages/Blog";
 import MyPostScreen from "./pages/MyPostScreen";
 import DetailPostScreen from "./pages/DetailPostScreen";
-import SimpleMeal from "./pages/SimpleMeal";
+import MenuItem from "antd/lib/menu/MenuItem";
+import ShowRecipeScreen from "./pages/ShowRecipeScreen";
 const { Search } = Input;
-
+const { SubMenu } = Menu;
 class App extends React.Component {
   state = {
     currentUser: {
@@ -101,7 +102,7 @@ class App extends React.Component {
                 window.localStorage.removeItem("fullName");
                 window.localStorage.removeItem("avatarUrl");
                 window.localStorage.removeItem("id");
-                
+
                 // clear fullname + email in state
               })
               .catch(error => {
@@ -142,22 +143,59 @@ class App extends React.Component {
           >
             Home
           </Button>
-          <Button size="large" type="link">
-            Công thức
-          </Button>
-          <Button size="large" href="/blog" type="link">
+
+          <Dropdown
+            overlay={
+              <Menu mode="inline">
+                <SubMenu title="Thực đơn">
+                  <Menu.Item ><a href="/recipe/bua-sang">Bữa sáng</a></Menu.Item>
+                  <Menu.Item ><a href="/recipe/bua-trua">Bữa trưa</a></Menu.Item>
+                  <Menu.Item ><a href="/recipe/bua-chieu">Bữa chiều</a></Menu.Item>
+                </SubMenu>
+                <Menu.Divider/>
+                <SubMenu title="Nguyên liệu">
+                  <Menu.Item ><a href="/recipe/thit-ga">Thịt gà</a></Menu.Item>
+                  <Menu.Item><a href="/recipe/thit-bo">Thịt gà</a></Menu.Item>
+                  <Menu.Item><a href="/recipe/thit-lon">Thịt lợn</a></Menu.Item>
+                  <Menu.Item><a href="/recipe/thit-ca">Thịt cá</a></Menu.Item>
+                  <Menu.Item><a href="/recipe/thit-cua">Thịt cua</a></Menu.Item>
+                  <Menu.Item><a href="/recipe/thit-tom">Thịt gà</a></Menu.Item>
+                </SubMenu>
+                <Menu.Divider/>
+                <SubMenu title="Độ khó">
+                  <Menu.Item><a href="/recipe/de">Dễ</a></Menu.Item>
+                  <Menu.Item><a href="/recipe/trung-binh">Trung bình</a></Menu.Item>
+                  <Menu.Item><a href="/recipe/kho">Khó</a></Menu.Item>
+                </SubMenu>
+                <Menu.Divider/>
+                <SubMenu title="Thời gian làm">
+                  <Menu.Item><a href="/recipe/duoi-10-phut">Dưới 10 phút</a></Menu.Item>
+                  <Menu.Item><a href="/recipe/10-den-30-phut">10-30 phút</a></Menu.Item>
+                  <Menu.Item><a href="/recipe/30-den-60-phut">30-60 phút</a></Menu.Item>
+                  <Menu.Item><a href="/recipe/tren-60-phut">Trên 60 phút</a></Menu.Item>
+                </SubMenu>
+              </Menu>
+            }
+          >
+            <Button size="large" href="/recipe/all" type="link" icon="file-done">
+              Công thức
+            </Button>
+          </Dropdown>
+
+          <Button size="large" href="/blog" type="link" icon ="book">
             Blogs{" "}
           </Button>
-          <Button size="large" href="/simpleMeal" type="link">
+          <Button size="large" type="link" icon ="shopping-cart">
             Bữa ăn đơn giản{" "}
           </Button>
+
           <Search
             placeholder="Nhập công thức muốn tìm kiếm"
             enterButton
             size="large"
           />
           {this.state.currentUser.sessionCheck ? (
-            <ul className="navbar-nav mr-auto">
+            <>
               <Button
                 icon="form"
                 style={{ marginLeft: "5px" }}
@@ -186,7 +224,7 @@ class App extends React.Component {
                   </Menu>
                 }
               >
-                <a className="ant-dropdown-link" href="#">
+                <a className="ant-dropdown-link" href="/profile">
                   <Avatar
                     src={this.state.currentUser.avatarUrl}
                     style={{ marginLeft: "6px" }}
@@ -194,9 +232,9 @@ class App extends React.Component {
                   />
                 </a>
               </Dropdown>
-            </ul>
+            </>
           ) : (
-            <ul className="navbar-nav mr-auto">
+            <>
               <Button
                 size="large"
                 style={{ marginLeft: "9px", marginRight: "9px" }}
@@ -208,9 +246,10 @@ class App extends React.Component {
               <Button size="large" type="danger" icon="logout" href="/register">
                 Đăng kí
               </Button>
-            </ul>
+            </>
           )}
         </nav>
+
         <BrowserRouter>
           <Route path="/" exact={true} component={HomeScreen} />
           <Route path="/login" exact={true} component={LoginScreen} />
@@ -236,10 +275,8 @@ class App extends React.Component {
             exact={true}
             component={DetailPostScreen}
           />
-          <Route
-            path="/simpleMeal"
-            exact={true}
-            component={SimpleMeal}
+          <Route path="/recipe/:type" exact={true}
+          component={ShowRecipeScreen}
           />
         </BrowserRouter>
       </div>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Icon, Button, Typography, Input } from 'antd';
+import { Icon, Button, Typography, Input, Comment, Avatar, Form, List } from 'antd';
 const { Title, Paragraph, Text } = Typography;
 const { TextArea } = Input;
 
@@ -17,7 +17,12 @@ class DetailPostScreen extends Component {
         category: [],
         materials: [],
         createdAt: '',
-        upVote: '',
+        totalVote: '',
+        voted: false,
+        comments: [],
+        userComment: '',
+        isError: false,
+        message: '',
     }
 
     componentWillMount() {
@@ -30,7 +35,6 @@ class DetailPostScreen extends Component {
         })
             .then((res) => res.json())
             .then((data) => {
-                console.log(data);
                 this.setState({
                     id: data.data.id,
                     authorName: data.data.authorName,
@@ -43,7 +47,9 @@ class DetailPostScreen extends Component {
                     category: data.data.category,
                     materials: data.data.materials,
                     createdAt: data.data.createdAt,
-                    upVote: data.data.upvote,
+                    totalVote: data.data.totalVote,
+                    voted: data.data.voted,
+                    comments: data.data.comments,
                 })
             })
             .catch((error) => {
@@ -60,15 +66,20 @@ class DetailPostScreen extends Component {
             },
             body: JSON.stringify({
                 id: this.state.id,
-              }),
+            }),
             credentials: 'include',
         })
             .then((res) => res.json())
             .then((data) => {
                 console.log(data);
-                this.setState({
-                    upVote: data.upvote,
-                })
+                if (data.success == false && data.message == "Unauthenticated") {
+                    window.alert('Please login for vote this!');
+                } else {
+                    this.setState({
+                        totalVote: data.data.totalVote,
+                        voted: data.data.voted,
+                    })
+                }
             })
             .catch((error) => {
                 console.log(error);
@@ -76,6 +87,48 @@ class DetailPostScreen extends Component {
             })
     }
 
+    handleSubmitComment = (event) => {
+        event.preventDefault()
+        if(this.state.userComment.trim().length === 0){
+            this.setState({
+                isError: true,
+                message: 'Please input your comment!'
+            })
+        } else {
+            fetch(`http://localhost:3001/posts/comment`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                postId: this.state.id,
+                content: this.state.userComment,
+            }),
+            credentials: 'include',
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                if (data.success == false && data.message == "Unauthenticated") {
+                    window.alert('Please login for vote this!');
+                } else {
+                    this.setState({
+                        comments: data.data,
+                        userComment: '',
+                    })
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+                window.alert(error.message);
+            })
+        }
+    }
+
+    handleInput = () => {
+        this.setState({
+            isError: false,
+        })
+    }
 
     render() {
         return (
@@ -86,20 +139,20 @@ class DetailPostScreen extends Component {
                     </div>
                     <div className="row">
                         <div className="media col-3">
-                            <img src={this.state.avatarUrl} className="align-self-center mr-3" />
-                            <div className="media-body">
+                            <img src={this.state.avatarUrl} className="align-self-center avatarImage" />
+                            <div className="media-body ml-1 ">
                                 <h6 className="mt-0">{this.state.authorName}</h6>
-                                <small>Thích: {this.state.upVote}</small>
+                                <small><Icon type="like" /> Thích: {this.state.totalVote}</small>
                             </div>
                         </div>
                         <div className="col-3 align-self-center">
-                            <h6>Thời gian làm: {this.state.timeToDone}</h6>
+                            <h6><Icon type="clock-circle" /> Thời gian làm: {this.state.timeToDone} phút</h6>
                         </div>
                         <div className="col-3 align-self-center">
-                            <h6>Độ khó: {this.state.level}</h6>
+                            <h6><Icon type="bulb" /> Độ khó: {this.state.level}</h6>
                         </div>
                         <div className="col-3 align-self-center">
-                            <h6>Nguyên Liệu: {this.state.materials.map((item) => {
+                            <h6><Icon type="profile" /> Nguyên Liệu: {this.state.materials.map((item) => {
                                 return (
                                     <small className="materials" key={item}>{item}, </small>
                                 )
@@ -109,24 +162,60 @@ class DetailPostScreen extends Component {
                 </div>
                 <div className="content">
                     <div className="image text-center mt-5">
-                        <img src={this.state.imageUrl} />
+                        <img className="postImage" src={this.state.imageUrl} />
                     </div>
                     <div className="detail-content mt-5">
                         <Text>{this.state.content}</Text>
                     </div>
                 </div>
                 <div className="review-react-container mt-5">
-                    <div className="icons-list react">
-                        <Button value="small" shape="round" type="primary" onClick={this.handleClickLike}><Icon type="like" /></Button> • {this.state.upVote} people like this
-                    </div>  
-                    <div className="review">
-                        <div>
-                            <TextArea placeholder="Write your comment here!" autosize={{ minRows: 4 }}></TextArea>
-                        </div>
-                        <div className="btn-comment">
-                            <Button type="primary" className="btn-comment">Send</Button>
-                        </div>
+                    {this.state.voted ? (
+                        <div className="icons-list react">
+                            <Button value="small" shape="round" type="primary" onClick={this.handleClickLike}><Icon type="dislike" /></Button> • You and {this.state.totalVote - 1} people like this
+                    </div>
+                    ) : (
+                            <div className="icons-list react">
+                                <Button value="small" shape="round" type="primary" onClick={this.handleClickLike}><Icon type="like" /></Button> • {this.state.totalVote} people like this
+                    </div>
+                        )}
 
+                    <div className="review">
+                        <div className="comments">
+                            {this.state.comments.map((item) => {
+                                return (
+                                    <div className="media mt-2 user-comment" key={item.id}>
+                                        <img className="align-self-center mr-2 ml-1 avatarImage" src={item.userAvatarUrl} />
+                                        <div className="media-body mb-1">
+                                            <a href=""><h6 className="mt-0" >{item.userName}</h6></a>
+                                            {item.content}</div>
+                                    </div>
+                                )
+                            })}
+                        </div>
+                        <div className="input-comment mt-3">
+                            <form onSubmit={this.handleSubmitComment}>
+                                <div className="media">
+                                    <img src={this.state.avatarUrl} className="align-self-center mr-3 avatarImage" />
+                                    <textarea className="form-control" rows="2" placeholder="Add your comment here!" onInput={this.handleInput}
+                                              value={this.state.userComment}
+                                              onChange={(event) => {
+                                                  this.setState({
+                                                    userComment: event.target.value,
+                                                  });
+                                              }}></textarea>
+                                </div>
+                                {this.state.isError ? (
+                                <div className="form-field col-lg-12 mt-0 text-right">
+                                    <p className="label-error">{this.state.message}</p>
+                                </div>
+                            ) : (
+                                    null
+                                )}
+                                <div className="btn-comment text-right">
+                                    <button className="btn btn-primary btn-sm">Add Comment</button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>

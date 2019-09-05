@@ -158,7 +158,7 @@ class RegisterScreen extends Component {
                             ) : (
                                     null
                                 )}
-                            <div className="form-field col-lg-12 mt-0">
+                            <div className="form-field col-lg-12 mt-0 text-right">
                                 <button className="submit-btn">Register</button>
                             </div>
                         </form>
