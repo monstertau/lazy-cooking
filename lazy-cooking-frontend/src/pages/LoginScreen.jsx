@@ -157,7 +157,7 @@ class LoginScreen extends Component {
                                 )}
                             <div class="custom-control custom-checkbox ml-3">
                                 <input type="checkbox" class="custom-control-input" id="customCheck1" onChange={this.handleRememberMe} />
-                                <label class="custom-control-label" for="customCheck1">Remember me</label>
+                                <label class="custom-control-label remember" for="customCheck1">Remember me</label>
                             </div>
                             <div className="form-field col-lg-12 mt-2 text-right">
                                 <button className="submit-btn">Login</button>
