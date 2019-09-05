@@ -47,6 +47,10 @@ const PostSchema = mongoose.Schema({
     categorySlug:{
         type:Array,
         require:true
+    },
+    comments: {
+        type: Array,
+        default: [],
     }
 })
 const postModel = mongoose.model('Posts',PostSchema);
