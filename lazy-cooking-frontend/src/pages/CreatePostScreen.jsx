@@ -216,7 +216,22 @@ class CreatePostScreen extends React.Component {
     }
     return e && e.fileList;
   };
-
+  componentDidMount() {
+    fetch("http://localhost:3001/users/check-session", {
+      method: "GET",
+      credentials: "include"
+    })
+      .then(res => res.json())
+      .then(data => {
+        console.log(data);
+        if (!data.success) {
+          window.location.assign(`http://localhost:3000/login`);
+        }
+      })
+      .catch(error => {
+        throw error;
+      });
+  }
   render() {
     const foodItems = this.state.foods.map((item, key) => (
       <Option value={item}>{item}</Option>
@@ -322,7 +337,8 @@ class CreatePostScreen extends React.Component {
           <Form.Item label="Ảnh ví dụ" extra="kích thước tối đa 2mb">
             {getFieldDecorator("fileupload", {
               valuePropName: "fileList",
-              getValueFromEvent: this.normFile
+              getValueFromEvent: this.normFile,
+              rules:[{required: true, message: "Hãy chọn ảnh ví dụ!"}]
             })(
               <Upload
                 name="logo"

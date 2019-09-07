@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 import "antd/dist/antd.css";
-import { Empty, List, Avatar, Icon } from "antd";
+import { Empty, List, Avatar, Icon, Button, Popconfirm, message } from "antd";
 const IconText = ({ type, text }) => (
   <span>
     <Icon type={type} style={{ marginRight: 8 }} />
     {text}
   </span>
 );
-const urlParts = window.location.pathname.split('/');
+const urlParts = window.location.pathname.split("/");
 const userId = urlParts[urlParts.length - 1];
 class MyPostScreen extends Component {
   state = {
@@ -38,6 +38,41 @@ class MyPostScreen extends Component {
         }
       });
   }
+  handleDeleteChange = itemId => {
+    // console.log(itemId);
+    if (itemId) {
+    } else {
+    }
+  };
+  confirm = itemId => {
+    console.log(itemId);
+
+    // message.success("Xóa thành công!");
+    // setTimeout("window.location.reload();",1000);
+    fetch(`http://localhost:3001/posts/delete/${itemId}`, {
+      method: "PUT",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          message.success("Xóa thành công!");
+          setTimeout("window.location.reload();", 1000);
+        } else {
+          message.error("Xóa thất bại!");
+        }
+      })
+      .catch(error => {
+        throw error;
+      });
+  };
+
+  cancel = e => {
+    console.log(e);
+  };
   render() {
     return (
       <div className="container mt-5 mb-5">
@@ -52,14 +87,14 @@ class MyPostScreen extends Component {
               onChange: page => {
                 console.log(page);
               },
-              pageSize: 5
+              pageSize: 10
             }}
             dataSource={this.state.data}
             renderItem={item => (
               <List.Item
                 key={item.title}
                 actions={[
-                  <IconText type="like" text={item.upvote} key="upvote" />,
+                  <IconText type="like" text={item.upvote.length} key="upvote" />,
                   <IconText
                     type="bulb"
                     text={`Độ khó: ${item.level}`}
@@ -69,21 +104,36 @@ class MyPostScreen extends Component {
                     type="clock-circle"
                     text={`Thời gian: ${item.timetodone} phút`}
                     key="list-vertical-message"
-                  />,
-                  
+                  />
                 ]}
                 extra={
-                  <img
-                    width={272}
-                    alt="logo"
-                    src={item.imageUrl}
-                    
-                  />
+                  <>
+                    <img width={272} alt="logo" src={item.imageUrl} />
+
+                    <div className="mt-2" style={{ textAlign: "right" }}>
+                      <Button.Group>
+                        <Button icon="edit">Chỉnh sửa</Button>
+                        <Popconfirm
+                          title="Bạn có muốn xóa post này không?"
+                          onConfirm={() => this.confirm(item._id)}
+                          onCancel={this.cancel}
+                          okText="Có"
+                          cancelText="Không"
+                        >
+                          <Button icon="delete">Xóa</Button>
+                        </Popconfirm>
+                      </Button.Group>
+                    </div>
+                  </>
                 }
               >
                 <List.Item.Meta
-                  avatar={<Avatar src={item.author.avatarUrl}/>}
-                  title={<a href={`/post/${item._id}`}>{item.title}</a>}
+                  avatar={<Avatar src={item.author.avatarUrl} />}
+                  title={
+                    <h5>
+                      <a href={`/post/${item._id}`}>{item.title}</a>
+                    </h5>
+                  }
                   // description={item.description}
                 />
                 {item.content}
