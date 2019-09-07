@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "antd/dist/antd.css";
-import { Empty, List, Avatar, Icon, Card,Row,Col } from "antd";
+import { Empty, List, Avatar, Icon, Card, Row, Col } from "antd";
 const { Meta } = Card;
 
 const IconText = ({ type, text }) => (
@@ -30,28 +30,31 @@ const data = [
   }
 ];
 class ShowRecipeScreen extends Component {
-  state={
-    data:[],
-  }
+  state = {
+    data: []
+  };
   componentDidMount() {
     console.log(this.props.match.params.type);
-    fetch(`http://localhost:3001/posts/get-recipe/${this.props.match.params.type}`, {
-      method: "GET",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json"
+    fetch(
+      `http://localhost:3001/posts/get-recipe/${this.props.match.params.type}`,
+      {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json"
+        }
       }
-    })
-    .then(res=>res.json())
-    .then(data=>{
-      console.log(data)
-      this.setState({
-        data:data.data,
+    )
+      .then(res => res.json())
+      .then(data => {
+        console.log(data);
+        this.setState({
+          data: data.data
+        });
       })
-    })
-    .catch(error=>{
-      throw(error)
-    })
+      .catch(error => {
+        throw error;
+      });
   }
   render() {
     return (
@@ -76,10 +79,10 @@ class ShowRecipeScreen extends Component {
           dataSource={this.state.data}
           renderItem={item => (
             <List.Item>
-              
-              <Card 
+              <a href={`/post/${item._id}`}>
+              <Card
                 hoverable
-                style={{ height:400 }}
+                style={{ height: 400 }}
                 cover={
                   <img
                     alt="example"
@@ -89,33 +92,29 @@ class ShowRecipeScreen extends Component {
                     object-fit="cover"
                   />
                 }
-                
                 actions={[
-                  <IconText type="like" text={1} key="upvote" />,
+                  <IconText type="like" text={`${item.upvote.length}`} key="upvote" />,
                   <IconText
                     type="bulb"
-                    text={"Độ khó: "+item.level}
+                    text={"Độ khó: " + item.level}
                     key="list-vertical-like-o"
                   />,
                   <IconText
                     type="clock-circle"
-                    text={item.timetodone+" phút"}
+                    text={item.timetodone + " phút"}
                     key="list-vertical-message"
-                  />,
-                  
+                  />
                 ]}
               >
                 <Meta
-                  avatar={
-                    <Avatar src={item.author.avatarUrl} />
-                  }
+                  avatar={<Avatar src={item.author.avatarUrl} />}
                   title={item.title}
-                  description={"Người đăng: "+ item.author.fullName.split(" ")[2]}
-                  
+                  description={
+                    "Người đăng: " + item.author.fullName.split(" ")[2]
+                  }
                 />
-                
               </Card>
-              
+              </a>
             </List.Item>
           )}
         />

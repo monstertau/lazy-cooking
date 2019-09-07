@@ -13,6 +13,7 @@ import MyPostScreen from "./pages/MyPostScreen";
 import DetailPostScreen from "./pages/DetailPostScreen";
 import MenuItem from "antd/lib/menu/MenuItem";
 import ShowRecipeScreen from "./pages/ShowRecipeScreen";
+import SimpleMeal from "./pages/SimpleMeal";
 const { Search } = Input;
 const { SubMenu } = Menu;
 class App extends React.Component {
@@ -185,7 +186,7 @@ class App extends React.Component {
           <Button size="large" href="/blog" type="link" icon ="book">
             Blogs{" "}
           </Button>
-          <Button size="large" type="link" icon ="shopping-cart">
+          <Button size="large" href="/simple-meal" type="link" icon ="shopping-cart">
             Bữa ăn đơn giản{" "}
           </Button>
 
@@ -277,6 +278,9 @@ class App extends React.Component {
           />
           <Route path="/recipe/:type" exact={true}
           component={ShowRecipeScreen}
+          />
+          <Route path="/simple-meal" exact={true}
+          component={SimpleMeal}
           />
         </BrowserRouter>
       </div>
