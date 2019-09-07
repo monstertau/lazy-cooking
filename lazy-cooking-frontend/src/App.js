@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter, Route, Link } from "react-router-dom";
 import "./App.css";
 import "antd/dist/antd.css";
-import { Button, Input, Menu, Dropdown, Icon, Avatar } from "antd";
+import { Button, Input, Menu, Dropdown, Icon, Avatar, List } from "antd";
 import HomeScreen from "./pages/HomeScreen";
 import WrappedLoginScreen from "./pages/LoginScreen";
 import RegisterScreen from "./pages/RegisterScreen";
@@ -16,7 +16,15 @@ import ShowRecipeScreen from "./pages/ShowRecipeScreen";
 import SimpleMeal from "./pages/SimpleMeal";
 const { Search } = Input;
 const { SubMenu } = Menu;
+
+const IconText = ({ type, text }) => (
+  <span>
+    <Icon type={type} style={{ marginRight: 8 }} />
+    {text}
+  </span>
+)
 class App extends React.Component {
+
   state = {
     currentUser: {
       email: "",
@@ -24,7 +32,10 @@ class App extends React.Component {
       id: "",
       sessionCheck: false,
       avatarUrl: ""
-    }
+    },
+    keyword: '',
+    isSearch: false,
+    searchData: [],
   };
   handleLogOut = e => {
     e.preventDefault();
@@ -60,7 +71,7 @@ class App extends React.Component {
       if (email && fullName && id) {
         this.setState({
           currentUser: {
-            
+
             email: email,
             fullName: fullName,
             id: id,
@@ -109,7 +120,7 @@ class App extends React.Component {
     //   .then(res => res.json())
     //   .then(data => {
     //     if (data.success === true) {
-          
+
     //     } else {
     //       console.log(data);
     //       window.localStorage.removeItem("email");
@@ -130,126 +141,196 @@ class App extends React.Component {
   //   e.preventDefault();
 
   // }
+
+  handleSearch = (keyword) => {
+    this.setState({
+      isSearch: true,
+    });
+
+    fetch(`http://localhost:3001/posts/search/${keyword}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      credentials: 'include',
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        this.setState({
+          searchData: data.data,
+        })
+      })
+      .catch((error) => { 
+        console.log(error);
+        window.alert(error.message);
+      })
+
+  }
   render() {
-    console.log(this.state);
+    // console.log(this.state);
     return (
       <div>
-        <nav className="navbar navbar-expand-lg navbar-light bg-light">
-          <Button
-            icon="home"
-            className="mr-6"
-            type="danger"
-            size="large"
-            href="/"
-          >
-            Home
+        <div>
+          <nav className="navbar navbar-expand-lg navbar-light bg-light">
+            <Button
+              icon="home"
+              className="mr-6"
+              type="danger"
+              size="large"
+              href="/"
+            >
+              Home
           </Button>
 
-          <Dropdown
-            overlay={
-              <Menu mode="inline">
-                <SubMenu title="Thực đơn">
-                  <Menu.Item ><a href="/recipe/bua-sang">Bữa sáng</a></Menu.Item>
-                  <Menu.Item ><a href="/recipe/bua-trua">Bữa trưa</a></Menu.Item>
-                  <Menu.Item ><a href="/recipe/bua-chieu">Bữa chiều</a></Menu.Item>
-                </SubMenu>
-                <Menu.Divider/>
-                <SubMenu title="Nguyên liệu">
-                  <Menu.Item ><a href="/recipe/thit-ga">Thịt gà</a></Menu.Item>
-                  <Menu.Item><a href="/recipe/thit-bo">Thịt gà</a></Menu.Item>
-                  <Menu.Item><a href="/recipe/thit-lon">Thịt lợn</a></Menu.Item>
-                  <Menu.Item><a href="/recipe/thit-ca">Thịt cá</a></Menu.Item>
-                  <Menu.Item><a href="/recipe/thit-cua">Thịt cua</a></Menu.Item>
-                  <Menu.Item><a href="/recipe/thit-tom">Thịt gà</a></Menu.Item>
-                </SubMenu>
-                <Menu.Divider/>
-                <SubMenu title="Độ khó">
-                  <Menu.Item><a href="/recipe/de">Dễ</a></Menu.Item>
-                  <Menu.Item><a href="/recipe/trung-binh">Trung bình</a></Menu.Item>
-                  <Menu.Item><a href="/recipe/kho">Khó</a></Menu.Item>
-                </SubMenu>
-                <Menu.Divider/>
-                <SubMenu title="Thời gian làm">
-                  <Menu.Item><a href="/recipe/duoi-10-phut">Dưới 10 phút</a></Menu.Item>
-                  <Menu.Item><a href="/recipe/10-den-30-phut">10-30 phút</a></Menu.Item>
-                  <Menu.Item><a href="/recipe/30-den-60-phut">30-60 phút</a></Menu.Item>
-                  <Menu.Item><a href="/recipe/tren-60-phut">Trên 60 phút</a></Menu.Item>
-                </SubMenu>
-              </Menu>
-            }
-          >
-            <Button size="large" href="/recipe/all" type="link" icon="file-done">
-              Công thức
+            <Dropdown
+              overlay={
+                <Menu mode="inline">
+                  <SubMenu title="Thực đơn">
+                    <Menu.Item ><a href="/recipe/bua-sang">Bữa sáng</a></Menu.Item>
+                    <Menu.Item ><a href="/recipe/bua-trua">Bữa trưa</a></Menu.Item>
+                    <Menu.Item ><a href="/recipe/bua-chieu">Bữa chiều</a></Menu.Item>
+                  </SubMenu>
+                  <Menu.Divider />
+                  <SubMenu title="Nguyên liệu">
+                    <Menu.Item ><a href="/recipe/thit-ga">Thịt gà</a></Menu.Item>
+                    <Menu.Item><a href="/recipe/thit-bo">Thịt gà</a></Menu.Item>
+                    <Menu.Item><a href="/recipe/thit-lon">Thịt lợn</a></Menu.Item>
+                    <Menu.Item><a href="/recipe/thit-ca">Thịt cá</a></Menu.Item>
+                    <Menu.Item><a href="/recipe/thit-cua">Thịt cua</a></Menu.Item>
+                    <Menu.Item><a href="/recipe/thit-tom">Thịt gà</a></Menu.Item>
+                  </SubMenu>
+                  <Menu.Divider />
+                  <SubMenu title="Độ khó">
+                    <Menu.Item><a href="/recipe/de">Dễ</a></Menu.Item>
+                    <Menu.Item><a href="/recipe/trung-binh">Trung bình</a></Menu.Item>
+                    <Menu.Item><a href="/recipe/kho">Khó</a></Menu.Item>
+                  </SubMenu>
+                  <Menu.Divider />
+                  <SubMenu title="Thời gian làm">
+                    <Menu.Item><a href="/recipe/duoi-10-phut">Dưới 10 phút</a></Menu.Item>
+                    <Menu.Item><a href="/recipe/10-den-30-phut">10-30 phút</a></Menu.Item>
+                    <Menu.Item><a href="/recipe/30-den-60-phut">30-60 phút</a></Menu.Item>
+                    <Menu.Item><a href="/recipe/tren-60-phut">Trên 60 phút</a></Menu.Item>
+                  </SubMenu>
+                </Menu>
+              }
+            >
+              <Button size="large" href="/recipe/all" type="link" icon="file-done">
+                Công thức
             </Button>
-          </Dropdown>
+            </Dropdown>
 
-          <Button size="large" href="/blog" type="link" icon ="book">
-            Blogs{" "}
-          </Button>
-          <Button size="large" href="/simple-meal" type="link" icon ="shopping-cart">
-            Bữa ăn đơn giản{" "}
-          </Button>
+            <Button size="large" href="/blog" type="link" icon="book">
+              Blogs{" "}
+            </Button>
+            <Button size="large" href="/simple-meal" type="link" icon="shopping-cart">
+              Bữa ăn đơn giản{" "}
+            </Button>
 
-          <Search
-            placeholder="Nhập công thức muốn tìm kiếm"
-            enterButton
-            size="large"
-          />
-          {(window.localStorage.getItem("email")||window.sessionStorage.getItem("email")) ? (
-            <>
-              <Button
-                icon="form"
-                style={{ marginLeft: "5px" }}
-                size="large"
-                href="/create-recipe"
-              >
-                Đăng công thức
+            <Search
+              placeholder="Nhập công thức muốn tìm kiếm"
+              enterButton
+              size="large"
+              onSearch={this.handleSearch}
+            />
+            {(window.localStorage.getItem("email") || window.sessionStorage.getItem("email")) ? (
+              <>
+                <Button
+                  icon="form"
+                  style={{ marginLeft: "5px" }}
+                  size="large"
+                  href="/create-recipe"
+                >
+                  Đăng công thức
               </Button>
-              <Dropdown
-                overlay={
-                  <Menu>
-                    <Menu.Item>
-                      <p>Welcome,{this.state.currentUser.fullName} !</p>
-                    </Menu.Item>
-                    <Menu.Item>
-                      <a href={`/profile`}>Profile</a>
-                    </Menu.Item>
-                    <Menu.Item>
-                      <a href={`/my-post/${this.state.currentUser.id}`}>
-                        Bài đăng của tôi
+                <Dropdown
+                  overlay={
+                    <Menu>
+                      <Menu.Item>
+                        <p>Welcome,{this.state.currentUser.fullName} !</p>
+                      </Menu.Item>
+                      <Menu.Item>
+                        <a href={`/profile`}>Profile</a>
+                      </Menu.Item>
+                      <Menu.Item>
+                        <a href={`/my-post/${this.state.currentUser.id}`}>
+                          Bài đăng của tôi
                       </a>
-                    </Menu.Item>
-                    <Menu.Item>
-                      <a onClick={this.handleLogOut}>Đăng xuất</a>
-                    </Menu.Item>
-                  </Menu>
-                }
-              >
-                <a className="ant-dropdown-link" href="/profile">
-                  <Avatar
-                    src={this.state.currentUser.avatarUrl}
-                    style={{ marginLeft: "6px" }}
-                    size={45}
+                      </Menu.Item>
+                      <Menu.Item>
+                        <a onClick={this.handleLogOut}>Đăng xuất</a>
+                      </Menu.Item>
+                    </Menu>
+                  }
+                >
+                  <a className="ant-dropdown-link" href="/profile">
+                    <Avatar
+                      src={this.state.currentUser.avatarUrl}
+                      style={{ marginLeft: "6px" }}
+                      size={45}
+                    />
+                  </a>
+                </Dropdown>
+              </>
+            ) : (
+                <>
+                  <Button
+                    size="large"
+                    style={{ marginLeft: "9px", marginRight: "9px" }}
+                    icon="login"
+                    href="/login"
+                  >
+                    Đăng nhập
+              </Button>
+                  <Button size="large" type="danger" icon="logout" href="/register">
+                    Đăng kí
+              </Button>
+                </>
+              )}
+          </nav>
+        </div>
+
+        <div>
+          <div className="container mt-5 mb-5" >
+            <List
+              itemLayout="vertical"
+              size="large"
+              pagination={{
+                onChange: page => {
+                  console.log(page);
+                },
+                pageSize: 7,
+              }}
+              dataSource={this.state.searchData}
+              renderItem={item => (
+                <List.Item
+                  key={item.title}
+                  actions={[
+                    <IconText type="like-o" text={item.upvote.length} key="list-vertical-like-o" />,
+                    <IconText type="clock-circle" text={`Thời Gian: ${item.timetodone} phút`} key="list-vertical-like-o" />,
+                    <IconText type="bulb" text={`Độ Khó: ${item.level} sao`} key="list-vertical-like-o" />,
+                    <IconText type="user" text={`Người Đăng: ${item.author.fullName}`} key="list-vertical-like-o" />,
+                  ]}
+                  extra={
+                    <img
+                      width={272}
+                      height={272}
+                      alt="logo"
+                      src={item.imageUrl}
+                      style={{ objectFit: "contain" }}
+                    />
+                  }
+                >
+                  <List.Item.Meta
+                    avatar={<Avatar src={item.author.avatarUrl} />}
+                    title={<a href={`/post/${item._id}`}>{item.title}</a>}
                   />
-                </a>
-              </Dropdown>
-            </>
-          ) : (
-            <>
-              <Button
-                size="large"
-                style={{ marginLeft: "9px", marginRight: "9px" }}
-                icon="login"
-                href="/login"
-              >
-                Đăng nhập
-              </Button>
-              <Button size="large" type="danger" icon="logout" href="/register">
-                Đăng kí
-              </Button>
-            </>
-          )}
-        </nav>
+                  {item.content}
+                </List.Item>
+              )}
+            />
+          </div>
+        </div>
 
         <BrowserRouter>
           <Route path="/" exact={true} component={HomeScreen} />
@@ -277,13 +358,15 @@ class App extends React.Component {
             component={DetailPostScreen}
           />
           <Route path="/recipe/:type" exact={true}
-          component={ShowRecipeScreen}
+            component={ShowRecipeScreen}
           />
           <Route path="/simple-meal" exact={true}
-          component={SimpleMeal}
+            component={SimpleMeal}
           />
         </BrowserRouter>
       </div>
+
+
     );
   }
 }

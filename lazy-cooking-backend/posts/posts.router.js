@@ -359,11 +359,11 @@ postRouter.get("/get-recipe/:type", (req, res) => {
 postRouter.get(`/simpleMeal`, (req, res) => {
   console.log(req.query);
   postModel
-    .find({ 
-      slug:{"$all":req.query.slug},
-      level:Number(req.query.level),
-      timetodone:{"$lte":Number(req.query.timetodone)}
-    } )
+    .find({
+      slug: { "$all": req.query.slug },
+      level: Number(req.query.level),
+      timetodone: { "$lte": Number(req.query.timetodone) }
+    })
     .sort({ createdAt: -1 })
     .populate("author", "avatarUrl fullName")
     .exec((err, data) => {
@@ -380,18 +380,41 @@ postRouter.get(`/simpleMeal`, (req, res) => {
       }
     });
 });
-postRouter.put("/delete/:postId",(req,res)=>{
-  postModel.findByIdAndDelete(req.params.postId,(error,data)=>{
-    if(error){
+postRouter.put("/delete/:postId", (req, res) => {
+  postModel.findByIdAndDelete(req.params.postId, (error, data) => {
+    if (error) {
       res.status(500).json({
         success: false,
         message: error.message
       });
-    }else{
+    } else {
       res.status(201).json({
-        success:true
+        success: true
       })
     }
   })
+})
+
+postRouter.get('/search/:keyword', (req, res) => {
+
+  const keyword = req.params.keyword;
+
+  postModel.find({ title: { "$regex": keyword, $options: 'i' } })
+    .sort({ createdAt: -1 })
+    .populate("author", "avatarUrl fullName")
+    .exec((err, data) => {
+      if (err) {
+        res.status(500).json({
+          success: false,
+          message: error.message
+        });
+      } else {
+        res.status(200).json({
+          success: true,
+          data: data
+        });
+      }
+    });
+  ;
 })
 module.exports = postRouter;
