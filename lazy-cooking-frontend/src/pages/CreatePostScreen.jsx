@@ -344,10 +344,11 @@ class CreatePostScreen extends React.Component {
             {getFieldDecorator("content", {
               rules: [{ required: true, message: "Please input your content!" }]
             })(
-              <Editor
-                editorState={this.state.editorState}
-                onChange={this.onChange}
-              />
+              // <Editor
+              //   editorState={this.state.editorState}
+              //   onChange={this.onChange}
+              // />
+              <TextArea row={4}></TextArea>
             )}
           </Form.Item>
 
