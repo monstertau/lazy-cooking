@@ -250,7 +250,7 @@ class CreatePostScreen extends React.Component {
     return (
       <div className="container" style={{ marginTop: "20px" }}>
         <h3>Tạo công thức</h3>
-        <Form {...formItemLayout} onSubmit={this.handleSubmit}>
+        <Form {...formItemLayout} onSubmit={this.handleSubmit} layout="horizontal">
           <Form.Item label="Tiêu đề">
             {getFieldDecorator("title", {
               rules: [
