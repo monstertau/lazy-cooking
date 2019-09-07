@@ -126,6 +126,10 @@ class App extends React.Component {
     //     throw error;
     //   });
   }
+  handleSearch=(val)=>{
+    console.log(val);
+    
+  }
   // checkSession = e =>{
   //   e.preventDefault();
 
@@ -194,6 +198,7 @@ class App extends React.Component {
             placeholder="Nhập công thức muốn tìm kiếm"
             enterButton
             size="large"
+            onSearch={this.handleSearch}
           />
           {(window.localStorage.getItem("email")||window.sessionStorage.getItem("email")) ? (
             <>
