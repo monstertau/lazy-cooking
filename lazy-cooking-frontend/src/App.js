@@ -4,7 +4,7 @@ import "./App.css";
 import "antd/dist/antd.css";
 import { Button, Input, Menu, Dropdown, Icon, Avatar } from "antd";
 import HomeScreen from "./pages/HomeScreen";
-import LoginScreen from "./pages/LoginScreen";
+import WrappedLoginScreen from "./pages/LoginScreen";
 import RegisterScreen from "./pages/RegisterScreen";
 import WrappedRegistrationForm from "./pages/Profile";
 import WrappedCreatePostScreen from "./pages/CreatePostScreen";
@@ -126,10 +126,6 @@ class App extends React.Component {
     //     throw error;
     //   });
   }
-  handleSearch=(val)=>{
-    console.log(val);
-    
-  }
   // checkSession = e =>{
   //   e.preventDefault();
 
@@ -198,7 +194,6 @@ class App extends React.Component {
             placeholder="Nhập công thức muốn tìm kiếm"
             enterButton
             size="large"
-            onSearch={this.handleSearch}
           />
           {(window.localStorage.getItem("email")||window.sessionStorage.getItem("email")) ? (
             <>
@@ -258,7 +253,7 @@ class App extends React.Component {
 
         <BrowserRouter>
           <Route path="/" exact={true} component={HomeScreen} />
-          <Route path="/login" exact={true} component={LoginScreen} />
+          <Route path="/login" exact={true} component={WrappedLoginScreen} />
           <Route path="/register" exact={true} component={RegisterScreen} />
           <Route
             path="/profile"

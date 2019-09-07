@@ -32,7 +32,7 @@ userRouter.post('/register', (req, res) => {
             success: false,
             message: 'Please input full name',
         });
-    } else if (!phone ) {
+    } else if (!phone) {
         res.status(400).json({
             success: false,
             message: 'Phone number must be contain 10 digits!',
@@ -224,7 +224,7 @@ userRouter.post('/update', (req, res) => {
         })
     } else {
         // get data from req.body
-        const { email, fullName, phone, avatarUrl, id } = req.body;
+        const { email, fullName, phone, avatarUrl, id, pass } = req.body;
 
         //validate
         if (!email) {
@@ -249,7 +249,7 @@ userRouter.post('/update', (req, res) => {
             })
         } else {
             // check password
-            UserModel.findOne({ _id:id }, (error, data) => {
+            UserModel.findOne({ _id: id }, (error, data) => {
                 if (error) {
                     res.status(500).json({
                         success: false,
@@ -277,39 +277,6 @@ userRouter.post('/update', (req, res) => {
                             })
                         }
                     });
-
-                    //update session
-                    // UserModel.findOne({ email: email }, (err, user) => {
-                    //     if (err) {
-                    //         res.status(500).json({
-                    //             success: false,
-                    //             message: err.message,
-                    //         });
-                    //     } else if (!user) {
-                    //         res.status(500).json({
-                    //             success: false,
-                    //             message: 'Email does not exist!',
-                    //         });
-                    //     } else {
-                    //         //save current user info to session storage
-                    //         req.session.reload((err) => {
-                    //             if(err){
-                    //                 res.status(400).json({
-                    //                     success: false,
-                    //                     message: err.message,
-                    //                 })
-                    //             } else{
-                    //                 res.render('index', {
-                    //                     _id: user._id,
-                    //                     email: user.email,
-                    //                     fullName: user.fullName,
-                    //                     avatarUrl: user.avatarUrl,
-                    //                 })
-                    //             }
-                    //         })
-                    //     }
-                    // });
-
                 }
             });
         }
@@ -317,7 +284,7 @@ userRouter.post('/update', (req, res) => {
 });
 
 userRouter.get('/check-session', (req, res) => {
-    if(req.session.currentUser){
+    if (req.session.currentUser) {
         res.status(201).json({
             success: true,
         })
@@ -326,6 +293,42 @@ userRouter.get('/check-session', (req, res) => {
             success: false,
         })
     }
+})
+
+userRouter.post('/login-with-google', (req, res) => {
+    const { email } = req.body;
+    UserModel.findOne({ email: email }, (error, data) => {
+        if (error) {
+            res.status(500).json({
+                success: false,
+                message: error.message,
+            });
+        } else if (!data) {
+            res.status(500).json({
+                success: true,
+                message: 'Account is not register yet!',
+                isRegisted: false,
+            })
+        } else {
+            req.session.currentUser = {
+                _id: data._id,
+                email: data.email,
+                fullName: data.fullName,
+                avatarUrl: data.avatarUrl,
+            }
+            // response to client
+            res.status(201).json({
+                success: true,
+                data: {
+                    email: data.email,
+                    fullName: data.fullName,
+                    avatarUrl: data.avatarUrl,
+                    id: data._id
+                },
+                isRegisted: true,
+            });
+        }
+    });
 })
 
 module.exports = userRouter;
