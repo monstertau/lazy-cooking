@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { Icon, Button, Typography, Input, Comment, Avatar, Form, List } from 'antd';
+import renderHTML from 'react-render-html';
 const { Title, Paragraph, Text } = Typography;
 const { TextArea } = Input;
+
 
 class DetailPostScreen extends Component {
 
@@ -89,38 +91,38 @@ class DetailPostScreen extends Component {
 
     handleSubmitComment = (event) => {
         event.preventDefault()
-        if(this.state.userComment.trim().length === 0){
+        if (this.state.userComment.trim().length === 0) {
             this.setState({
                 isError: true,
                 message: 'Please input your comment!'
             })
         } else {
             fetch(`http://localhost:3001/posts/comment`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                postId: this.state.id,
-                content: this.state.userComment,
-            }),
-            credentials: 'include',
-        })
-            .then((res) => res.json())
-            .then((data) => {
-                if (data.success == false && data.message == "Unauthenticated") {
-                    window.alert('Please login for vote this!');
-                } else {
-                    this.setState({
-                        comments: data.data,
-                        userComment: '',
-                    })
-                }
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    postId: this.state.id,
+                    content: this.state.userComment,
+                }),
+                credentials: 'include',
             })
-            .catch((error) => {
-                console.log(error);
-                window.alert(error.message);
-            })
+                .then((res) => res.json())
+                .then((data) => {
+                    if (data.success == false && data.message == "Unauthenticated") {
+                        window.alert('Please login for vote this!');
+                    } else {
+                        this.setState({
+                            comments: data.data,
+                            userComment: '',
+                        })
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                    window.alert(error.message);
+                })
         }
     }
 
@@ -165,7 +167,7 @@ class DetailPostScreen extends Component {
                         <img className="postImage" src={this.state.imageUrl} />
                     </div>
                     <div className="detail-content mt-5">
-                        <Text>{this.state.content}</Text>
+                        {renderHTML(`${ this.state.content }`)}
                     </div>
                 </div>
                 <div className="review-react-container mt-5">
@@ -197,20 +199,20 @@ class DetailPostScreen extends Component {
                                 <div className="media">
                                     <img src={this.state.avatarUrl} className="align-self-center mr-3 avatarImage" />
                                     <textarea className="form-control" rows="2" placeholder="Add your comment here!" onInput={this.handleInput}
-                                              value={this.state.userComment}
-                                              onChange={(event) => {
-                                                  this.setState({
-                                                    userComment: event.target.value,
-                                                  });
-                                              }}></textarea>
+                                        value={this.state.userComment}
+                                        onChange={(event) => {
+                                            this.setState({
+                                                userComment: event.target.value,
+                                            });
+                                        }}></textarea>
                                 </div>
                                 {this.state.isError ? (
-                                <div className="form-field col-lg-12 mt-0 text-right">
-                                    <p className="label-error">{this.state.message}</p>
-                                </div>
-                            ) : (
-                                    null
-                                )}
+                                    <div className="form-field col-lg-12 mt-0 text-right">
+                                        <p className="label-error">{this.state.message}</p>
+                                    </div>
+                                ) : (
+                                        null
+                                    )}
                                 <div className="btn-comment text-right">
                                     <button className="btn btn-primary btn-sm">Add Comment</button>
                                 </div>

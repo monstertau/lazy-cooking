@@ -140,7 +140,7 @@ postRouter.get("/get-post-by-id/:postId", (req, res) => {
           });
         } else {
           //return
-
+          // console.log(data);
           res.status(200).json({
             success: true,
             data: {
