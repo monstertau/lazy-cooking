@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Icon, Button, Typography, Input, Comment, Avatar, Form, List } from 'antd';
+import { Icon, Button, Typography, Input, Comment, Avatar, Form, List, Tag } from 'antd';
 import renderHTML from 'react-render-html';
 const { Title, Paragraph, Text } = Typography;
 const { TextArea } = Input;
@@ -90,7 +90,8 @@ class DetailPostScreen extends Component {
     }
 
     handleSubmitComment = (event) => {
-        event.preventDefault()
+        event.preventDefault();
+        
         if (this.state.userComment.trim().length === 0) {
             this.setState({
                 isError: true,
@@ -156,7 +157,7 @@ class DetailPostScreen extends Component {
                         <div className="col-3 align-self-center">
                             <h6><Icon type="profile" /> Nguyên Liệu: {this.state.materials.map((item) => {
                                 return (
-                                    <small className="materials" key={item}>{item}, </small>
+                                    <Tag>{item}</Tag>
                                 )
                             })}</h6>
                         </div>
@@ -216,7 +217,7 @@ class DetailPostScreen extends Component {
                                         null
                                     )}
                                 <div className="btn-comment text-right mt-1">
-                                    <button className="btn btn-primary btn-sm">Bình luận</button>
+                                    <button className="btn btn-primary btn-sm" type='submit'>Bình luận</button>
                                 </div>
                             </form>
                         </div>

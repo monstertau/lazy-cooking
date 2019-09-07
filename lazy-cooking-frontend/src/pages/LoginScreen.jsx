@@ -319,7 +319,7 @@ class LoginScreen extends Component {
                                 <div className="text-center mb-5">
                                     <h3 className="title-login" {...formItemLayout}>Lần đầu đăng nhập</h3>
                                 </div>
-                                <Form {...formItemLayout} onSubmit={this.handleSubmitGGRegister}>
+                                <Form {...formItemLayout} onSubmit={this.handleSubmitGGRegister} layout="vertical"> 
                                     <Form.Item label="E-mail">
                                         {getFieldDecorator('email', {
                                             rules: [
