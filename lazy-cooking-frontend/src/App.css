@@ -106,6 +106,7 @@ h6 {
 
 .label-error {
   color: red;
+  margin: 0px;
 }
 
 .headline{
@@ -180,4 +181,8 @@ h6 {
   line-height: 30px;
   padding-bottom: 30px;
      color: purple;
+}
+
+.title-login{
+  color: rgb(43, 125, 255);
 }
