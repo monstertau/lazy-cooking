@@ -14,6 +14,7 @@ import DetailPostScreen from "./pages/DetailPostScreen";
 import MenuItem from "antd/lib/menu/MenuItem";
 import ShowRecipeScreen from "./pages/ShowRecipeScreen";
 import SimpleMeal from "./pages/SimpleMeal";
+import SearchScreen from "./pages/SearchScreen";
 const { Search } = Input;
 const { SubMenu } = Menu;
 
@@ -143,27 +144,26 @@ class App extends React.Component {
   // }
 
   handleSearch = (keyword) => {
-    this.setState({
-      isSearch: true,
-    });
+    
 
-    fetch(`http://localhost:3001/posts/search/${keyword}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      credentials: 'include',
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        this.setState({
-          searchData: data.data,
-        })
-      })
-      .catch((error) => { 
-        console.log(error);
-        window.alert(error.message);
-      })
+    // fetch(`http://localhost:3001/posts/search/${keyword}`, {
+    //   method: 'GET',
+    //   headers: {
+    //     'Content-Type': 'application/json'
+    //   },
+    //   credentials: 'include',
+    // })
+    //   .then((res) => res.json())
+    //   .then((data) => {
+    //     this.setState({
+    //       searchData: data.data,
+    //     })
+    //   })
+    //   .catch((error) => { 
+    //     console.log(error);
+    //     window.alert(error.message);
+    //   })
+    window.location.replace(`http://localhost:3000/search/${keyword}  `)
 
   }
   render() {
@@ -290,52 +290,12 @@ class App extends React.Component {
           </nav>
         </div>
 
-        <div>
-          <div className="container mt-5 mb-5" >
-            <List
-              itemLayout="vertical"
-              size="large"
-              pagination={{
-                onChange: page => {
-                  console.log(page);
-                },
-                pageSize: 7,
-              }}
-              dataSource={this.state.searchData}
-              renderItem={item => (
-                <List.Item
-                  key={item.title}
-                  actions={[
-                    <IconText type="like-o" text={item.upvote.length} key="list-vertical-like-o" />,
-                    <IconText type="clock-circle" text={`Thời Gian: ${item.timetodone} phút`} key="list-vertical-like-o" />,
-                    <IconText type="bulb" text={`Độ Khó: ${item.level} sao`} key="list-vertical-like-o" />,
-                    <IconText type="user" text={`Người Đăng: ${item.author.fullName}`} key="list-vertical-like-o" />,
-                  ]}
-                  extra={
-                    <img
-                      width={272}
-                      height={272}
-                      alt="logo"
-                      src={item.imageUrl}
-                      style={{ objectFit: "contain" }}
-                    />
-                  }
-                >
-                  <List.Item.Meta
-                    avatar={<Avatar src={item.author.avatarUrl} />}
-                    title={<a href={`/post/${item._id}`}>{item.title}</a>}
-                  />
-                  {item.content}
-                </List.Item>
-              )}
-            />
-          </div>
-        </div>
 
         <BrowserRouter>
           <Route path="/" exact={true} component={HomeScreen} />
           <Route path="/login" exact={true} component={WrappedLoginScreen} />
           <Route path="/register" exact={true} component={RegisterScreen} />
+          <Route path="/search/:keyword" component={SearchScreen} />
           <Route
             path="/profile"
             exact={true}
@@ -363,6 +323,7 @@ class App extends React.Component {
           <Route path="/simple-meal" exact={true}
             component={SimpleMeal}
           />
+          
         </BrowserRouter>
       </div>
 

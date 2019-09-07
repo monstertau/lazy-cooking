@@ -1,7 +1,15 @@
 import React from "react";
 import { Carousel,Row } from "antd";
+import { Button, Input, Menu, Dropdown, Icon, Avatar, List } from "antd";
 import "antd/dist/antd.css";
 import "./HomeScreen.css"
+
+const IconText = ({ type, text }) => (
+  <span>
+    <Icon type={type} style={{ marginRight: 8 }} />
+    {text}
+  </span>
+)
 
 class HomeScreen extends React.Component {
   render() {

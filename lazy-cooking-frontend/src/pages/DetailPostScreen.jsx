@@ -167,20 +167,22 @@ class DetailPostScreen extends Component {
                         <img className="postImage" src={this.state.imageUrl} />
                     </div>
                     <div className="detail-content mt-5">
-                        {renderHTML(`${ this.state.content }`)}
+                        {renderHTML(`${this.state.content}`)}
                     </div>
                 </div>
-                <div className="review-react-container mt-5">
+                <div className="review-react-container mt-5 ">
                     {this.state.voted ? (
                         <div className="icons-list react">
-                            <Button value="small" shape="round" type="primary" onClick={this.handleClickLike}><Icon type="dislike" /></Button> • You and {this.state.totalVote - 1} people like this
-                    </div>
+                            <Button value="small" shape="round" type="primary" onClick={this.handleClickLike}><Icon type="dislike" />
+                            </Button> • Bạn và {this.state.totalVote - 1} người khác thích bài viết này
+                                {renderHTML(`&nbsp&nbsp&nbsp&nbsp`)} <Icon type="message" /> • {this.state.comments.length} bình luận
+                            </div>
                     ) : (
                             <div className="icons-list react">
-                                <Button value="small" shape="round" type="primary" onClick={this.handleClickLike}><Icon type="like" /></Button> • {this.state.totalVote} people like this
-                    </div>
+                                <Button value="small" shape="round" type="primary" onClick={this.handleClickLike}><Icon type="like" /></Button> • {this.state.totalVote} thích bài viết này
+                                    {renderHTML(`&nbsp&nbsp&nbsp&nbsp`)} <Icon type="message" /> • {this.state.comments.length} bình luận
+                            </div>
                         )}
-
                     <div className="review">
                         <div className="comments">
                             {this.state.comments.map((item) => {
@@ -198,7 +200,7 @@ class DetailPostScreen extends Component {
                             <form onSubmit={this.handleSubmitComment}>
                                 <div className="media">
                                     <img src={this.state.avatarUrl} className="align-self-center mr-3 avatarImage" />
-                                    <textarea className="form-control" rows="2" placeholder="Add your comment here!" onInput={this.handleInput}
+                                    <textarea className="form-control" rows="2" placeholder="Thêm bình luận tại đây!" onInput={this.handleInput}
                                         value={this.state.userComment}
                                         onChange={(event) => {
                                             this.setState({
@@ -213,8 +215,8 @@ class DetailPostScreen extends Component {
                                 ) : (
                                         null
                                     )}
-                                <div className="btn-comment text-right">
-                                    <button className="btn btn-primary btn-sm">Add Comment</button>
+                                <div className="btn-comment text-right mt-1">
+                                    <button className="btn btn-primary btn-sm">Bình luận</button>
                                 </div>
                             </form>
                         </div>

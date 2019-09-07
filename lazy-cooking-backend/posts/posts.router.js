@@ -409,10 +409,11 @@ postRouter.get('/search/:keyword', (req, res) => {
           message: error.message
         });
       } else {
-        res.status(200).json({
-          success: true,
-          data: data
-        });
+          res.status(200).json({
+            success: true,
+            data: data
+          });
+        
       }
     });
   ;
