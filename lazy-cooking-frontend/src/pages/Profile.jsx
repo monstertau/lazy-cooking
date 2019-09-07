@@ -46,7 +46,7 @@ class RegistrationForm extends React.Component {
     loading: false,
     avatarFile: undefined,
     load: false,
-    pass: ''
+    pass:''
   };
   handleChange = info => {
     if (info.file.status === 'uploading') {
@@ -137,9 +137,9 @@ class RegistrationForm extends React.Component {
       email: event.target.value
     })
   }
-  handlePassWord = (event) => {
+  handlePassWord = (event)=>{
     this.setState({
-      pass: event.target.value
+      pass : event.target.value
     })
   }
   handleChangeFullName = (event) => {
@@ -173,84 +173,81 @@ class RegistrationForm extends React.Component {
         })
         .then((data) => {
           console.log(data.data.imageUrl);
-          if (!this.state.pass) {
-            if (window.localStorage.getItem('id')) {
-              fetch(`http://localhost:3001/users/update`, {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json',
-                },
-                credentials: 'include',
-                body: JSON.stringify({
-                  id: window.localStorage.getItem('id'),
-                  fullName: this.state.fullName,
-                  phone: this.state.phone,
-                  email: this.state.email,
-                  avatarUrl: data.data.imageUrl
-                })
+          if (window.localStorage.getItem('id')) {
+            fetch(`http://localhost:3001/users/update`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              credentials: 'include',
+              body: JSON.stringify({
+                id: window.localStorage.getItem('id'),
+                fullName: this.state.fullName,
+                phone: this.state.phone,
+                email: this.state.email,
+                avatarUrl: data.data.imageUrl,
+                pass : this.state.pass
               })
-                .then((res) => {
-                  return res.json();
-                })
-                .then((data2) => {
-                  console.log(data2);
-                  if (data2.success) {
-                    this.setState({
-                      load: false
-                    })
-                    window.localStorage.setItem('email', this.state.email);
-                    window.localStorage.setItem('fullName', this.state.fullName);
-                    window.localStorage.setItem('avatarUrl', data.data.imageUrl);
-                    window.location.reload();
-                  }
-                  else {
-                    this.setState({
-                      load: false
-                    })
-                    message.error(data2.message);
-                  }
-                })
-            }
-            else {
-              fetch(`http://localhost:3001/users/update`, {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json',
-                },
-                credentials: 'include',
-                body: JSON.stringify({
-                  id: window.sessionStorage.getItem('id'),
-                  fullName: this.state.fullName,
-                  phone: this.state.phone,
-                  email: this.state.email,
-                  avatarUrl: data.data.imageUrl
-                })
+            })
+              .then((res) => {
+                return res.json();
               })
-                .then((res) => {
-                  return res.json();
-                })
-                .then((data2) => {
-                  console.log(data2);
-                  if (data2.success) {
-                    this.setState({
-                      load: false
-                    })
-                    window.sessionStorage.setItem('email', this.state.email);
-                    window.sessionStorage.setItem('fullName', this.state.fullName);
-                    window.sessionStorage.setItem('avatarUrl', data.data.imageUrl);
-                    window.location.reload();
-                  }
-                  else {
-                    this.setState({
-                      load: false
-                    })
-                    message.error(data2.message);
-                  }
-                })
-            }
+              .then((data2) => {
+                console.log(data2);
+                if (data2.success) {
+                  this.setState({
+                    load: false
+                  })
+                  window.localStorage.setItem('email', this.state.email);
+                  window.localStorage.setItem('fullName', this.state.fullName);
+                  window.localStorage.setItem('avatarUrl', data.data.imageUrl);
+                  window.location.reload();
+                }
+                else {
+                  this.setState({
+                    load: false
+                  })
+                  message.error(data2.message);
+                }
+              })
           }
-          else{
-            
+          else {
+            fetch(`http://localhost:3001/users/update`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              credentials: 'include',
+              body: JSON.stringify({
+                id: window.sessionStorage.getItem('id'),
+                fullName: this.state.fullName,
+                phone: this.state.phone,
+                email: this.state.email,
+                avatarUrl: data.data.imageUrl,
+                pass: this.state.pass
+              })
+            })
+              .then((res) => {
+                return res.json();
+              })
+              .then((data2) => {
+                console.log(data2);
+                if (data2.success) {
+                  this.setState({
+                    load: false
+                  })
+                  window.sessionStorage.setItem('email', this.state.email);
+                  window.sessionStorage.setItem('fullName', this.state.fullName);
+                  window.sessionStorage.setItem('avatarUrl', data.data.imageUrl);
+                  window.location.reload();
+                }
+                else {
+                  this.setState({
+                    load: false
+                  })
+                  message.error(data2.message);
+                }
+              })
           }
         })
     }
@@ -267,7 +264,8 @@ class RegistrationForm extends React.Component {
             fullName: this.state.fullName,
             phone: this.state.phone,
             email: this.state.email,
-            avatarUrl: this.state.avatarUrl
+            avatarUrl: this.state.avatarUrl,
+            pass : this.state.pass
           })
         })
           .then((res) => {
@@ -303,7 +301,8 @@ class RegistrationForm extends React.Component {
             fullName: this.state.fullName,
             phone: this.state.phone,
             email: this.state.email,
-            avatarUrl: this.state.avatarUrl
+            avatarUrl: this.state.avatarUrl,
+            pass : this.state.pass
           })
         })
           .then((res) => {

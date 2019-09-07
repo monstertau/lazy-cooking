@@ -32,7 +32,7 @@ userRouter.post('/register', (req, res) => {
             success: false,
             message: 'Please input full name',
         });
-    } else if (!phone ) {
+    } else if (!phone) {
         res.status(400).json({
             success: false,
             message: 'Phone number must be contain 10 digits!',
@@ -224,7 +224,7 @@ userRouter.post('/update', (req, res) => {
         })
     } else {
         // get data from req.body
-        const { email, fullName, phone, avatarUrl, id } = req.body;
+        const { email, fullName, phone, avatarUrl, id, pass } = req.body;
 
         //validate
         if (!email) {
@@ -249,34 +249,57 @@ userRouter.post('/update', (req, res) => {
             })
         } else {
             // check password
-            UserModel.findOne({ _id:id }, (error, data) => {
+            UserModel.findOne({ _id: id }, (error, data) => {
                 if (error) {
                     res.status(500).json({
                         success: false,
                         message: error.message,
                     });
                 } else if (data) {
-
-                    // update
-                    UserModel.updateOne({ _id: id }, { $set: { fullName: fullName, phone: phone, avatarUrl: avatarUrl, email: email } }, (error, data2) => {
-                        if (error) {
-                            res.status(400).json({
-                                success: false,
-                                message: error.message,
-                            });
-                        } else if (!data) {
-                            res.status(400).json({
-                                success: false,
-                                message: 'deo co data',
-                            });
-                        } else {
-                            // response update success
-                            res.status(201).json({
-                                success: true,
-                                data: data2,
-                            })
-                        }
-                    });
+                    if (!pass) {
+                        // update
+                        UserModel.updateOne({ _id: id }, { $set: { fullName: fullName, phone: phone, avatarUrl: avatarUrl, email: email } }, (error, data2) => {
+                            if (error) {
+                                res.status(400).json({
+                                    success: false,
+                                    message: error.message,
+                                });
+                            } else if (!data) {
+                                res.status(400).json({
+                                    success: false,
+                                    message: 'deo co data',
+                                });
+                            } else {
+                                // response update success
+                                res.status(201).json({
+                                    success: true,
+                                    data: data2,
+                                })
+                            }
+                        });
+                    }
+                    else {
+                        const hassPass = bcryptjs.hashSync(pass, 10);
+                        UserModel.updateOne({ _id: id }, { $set: {password: hassPass, fullName: fullName, phone: phone, avatarUrl: avatarUrl, email: email } }, (error, data2) => {
+                            if (error) {
+                                res.status(400).json({
+                                    success: false,
+                                    message: error.message,
+                                });
+                            } else if (!data) {
+                                res.status(400).json({
+                                    success: false,
+                                    message: 'deo co data',
+                                });
+                            } else {
+                                // response update success
+                                res.status(201).json({
+                                    success: true,
+                                    data: data2,
+                                })
+                            }
+                        });
+                    }
 
                     //update session
                     // UserModel.findOne({ email: email }, (err, user) => {
@@ -317,7 +340,7 @@ userRouter.post('/update', (req, res) => {
 });
 
 userRouter.get('/check-session', (req, res) => {
-    if(req.session.currentUser){
+    if (req.session.currentUser) {
         res.status(201).json({
             success: true,
         })
