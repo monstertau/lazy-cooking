@@ -315,7 +315,7 @@ class LoginScreen extends Component {
                     <div className="container">
                         <div className="row mt-2">
                             <div className="col-2"></div>
-                            <div className="col-8 get-in-touch">
+                            <div className="col-8 get-in-touch login">
                                 <div className="text-center mb-5">
                                     <h3 className="title-login" {...formItemLayout}>Lần đầu đăng nhập</h3>
                                 </div>

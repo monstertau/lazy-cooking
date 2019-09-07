@@ -5,6 +5,9 @@ const cors = require('cors');
 const session = require('express-session');
 const userRouter = require('./users/users.router');
 const postRouter = require('./posts/posts.router');
+const MongoStore = require('connect-mongo')(session);
+const db = mongoose.connection
+
 
 mongoose.connect('mongodb://localhost:27017/lazy-cooking', { useNewUrlParser: true }, (error) => {
     if(error){
@@ -20,6 +23,7 @@ mongoose.connect('mongodb://localhost:27017/lazy-cooking', { useNewUrlParser: tr
         }));
         app.use(session({
             secret: 'keyboard cat',
+            store: new MongoStore({ mongooseConnection: db })
         }));
         app.use(express.static('public'));
 

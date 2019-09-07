@@ -224,7 +224,7 @@ userRouter.post('/update', (req, res) => {
         })
     } else {
         // get data from req.body
-        const { email, fullName, phone, avatarUrl, id } = req.body;
+        const { email, fullName, phone, avatarUrl, id, pass } = req.body;
 
         //validate
         if (!email) {

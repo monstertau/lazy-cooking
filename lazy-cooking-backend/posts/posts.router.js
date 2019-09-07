@@ -236,17 +236,16 @@ postRouter.post("/update-vote", (req, res) => {
           );
         }
       }
-    })
+    });
   } else {
     res.status(403).json({
       success: false,
       message: "Unauthenticated"
     });
   }
-})
+});
 
-postRouter.post('/comment', (req, res) => {
-
+postRouter.post("/comment", (req, res) => {
   if (req.session.currentUser && req.session.currentUser._id) {
     const postId = req.body.postId;
     const content = req.body.content;
@@ -254,8 +253,8 @@ postRouter.post('/comment', (req, res) => {
     if (!content || content.trim().length === 0) {
       res.status(400).json({
         success: false,
-        message: 'Please input your comment',
-      })
+        message: "Please input your comment"
+      });
     } else {
       const commentId = Date.now();
       //get user Name
@@ -263,65 +262,80 @@ postRouter.post('/comment', (req, res) => {
         if (error) {
           res.status(500).json({
             success: false,
-            message: data.message,
-          })
+            message: data.message
+          });
         } else {
           const userName = user.fullName;
           const avatarUrl = user.avatarUrl;
 
           //save to database
-          postModel.update({ _id: postId }, { $push: { comments: { id: commentId, userId: userId, userName: userName, userAvatarUrl: avatarUrl, content: content } } }, (err, data) => {
-            if (err) {
-              res.status(500).json({
-                success: false,
-                message: err.message,
-              })
-            } else {
-              postModel.findById({ _id: postId }, (error, updatedData) => {
-                if (error) {
-                  res.status(500).json({
-                    success: false,
-                    message: updatedData.message,
-                  })
-                } else {
-                  res.status(201).json({
-                    success: true,
-                    data: updatedData.comments,
-                  })
+          postModel.update(
+            { _id: postId },
+            {
+              $push: {
+                comments: {
+                  id: commentId,
+                  userId: userId,
+                  userName: userName,
+                  userAvatarUrl: avatarUrl,
+                  content: content
                 }
-              })
+              }
+            },
+            (err, data) => {
+              if (err) {
+                res.status(500).json({
+                  success: false,
+                  message: err.message
+                });
+              } else {
+                postModel.findById({ _id: postId }, (error, updatedData) => {
+                  if (error) {
+                    res.status(500).json({
+                      success: false,
+                      message: updatedData.message
+                    });
+                  } else {
+                    res.status(201).json({
+                      success: true,
+                      data: updatedData.comments
+                    });
+                  }
+                });
+              }
             }
-          })
+          );
         }
-      })
+      });
     }
   } else {
     res.status(500).json({
       success: false,
-      message: 'Unauthenticated',
-    })
+      message: "Unauthenticated"
+    });
   }
-})
+});
+
 postRouter.get("/get-recipe/:type", (req, res) => {
   console.log(req.params.type);
   if (req.params.type === "all") {
     postModel
-    .find({})
-    .sort({ createdAt: -1 })
-    .populate("author", "avatarUrl fullName")
-    .exec((error, data) => {
-      if (error) {
-        res.status(500).json({
-          success: false,
-          message: error.message
-        });
-      } else {
-        res.status(200).json({
-          success: true,
-          data: data
-        });
-      }
-    });
+      .find({})
+      .sort({ createdAt: -1 })
+      .populate("author", "avatarUrl fullName")
+      .exec((error, data) => {
+        if (error) {
+          res.status(500).json({
+            success: false,
+            message: error.message
+          });
+        } else {
+          res.status(200).json({
+            success: true,
+            data: data
+          });
+        }
+      });
   } else {
     postModel
       .find({ slug: `${req.params.type}` })
@@ -341,5 +355,29 @@ postRouter.get("/get-recipe/:type", (req, res) => {
         }
       });
   }
+});
+postRouter.get(`/simpleMeal`, (req, res) => {
+  console.log(req.query);
+  postModel
+    .find({ 
+      slug:{"$all":req.query.slug},
+      level:Number(req.query.level),
+      timetodone:{"$lte":Number(req.query.timetodone)}
+    } )
+    .sort({ createdAt: -1 })
+    .populate("author", "avatarUrl fullName")
+    .exec((err, data) => {
+      if (err) {
+        res.status(500).json({
+          success: false,
+          message: error.message
+        });
+      } else {
+        res.status(200).json({
+          success: true,
+          data: data
+        });
+      }
+    });
 });
 module.exports = postRouter;

@@ -1,4 +1,5 @@
 import React from "react";
+import { Editor, EditorState, RichUtils } from "draft-js";
 import {
   Form,
   Select,
@@ -24,6 +25,7 @@ class CreatePostScreen extends React.Component {
     categorySlug: [],
     levelSlug: "",
     timeSlug: "",
+    editorState: EditorState.createEmpty()
   };
   ChangeToSlug = item => {
     let str = item.toLowerCase(); // xóa dấu
@@ -40,6 +42,7 @@ class CreatePostScreen extends React.Component {
     str = str.replace(/-+$/g, ""); // return
     return str;
   };
+  onChange = editorState => this.setState({ editorState });
   handleLevelChange = value => {
     console.log(value);
     if (value === 1 || value === 2 || value === 0) {
@@ -56,26 +59,26 @@ class CreatePostScreen extends React.Component {
       });
     }
   };
-  handleTimeChange = value =>{
-    console.log(value)
-    if(value <= 10){
+  handleTimeChange = value => {
+    console.log(value);
+    if (value <= 10) {
       this.setState({
         timeSlug: "duoi-10-phut"
       });
-    }else if(value <= 30){
+    } else if (value <= 30) {
       this.setState({
         timeSlug: "10-den-30-phut"
       });
-    }else if(value <= 60){
+    } else if (value <= 60) {
       this.setState({
         timeSlug: "30-den-60-phut"
       });
-    }else{
+    } else {
       this.setState({
         timeSlug: "tren-60-phut"
       });
     }
-  }
+  };
   handleCategoryChange = value => {
     console.log(value);
     const array = [];
@@ -312,7 +315,7 @@ class CreatePostScreen extends React.Component {
             {getFieldDecorator("timetodone", {
               initialValue: 1,
               rules: [{ required: true, message: "Hãy chọn thời gian làm!" }]
-            })(<InputNumber min={1} onChange={this.handleTimeChange}/>)}
+            })(<InputNumber min={1} onChange={this.handleTimeChange} />)}
             <span className="ant-form-text"> Phút</span>
           </Form.Item>
 
@@ -341,13 +344,11 @@ class CreatePostScreen extends React.Component {
             {getFieldDecorator("content", {
               rules: [{ required: true, message: "Please input your content!" }]
             })(
-              <TextArea
-                rows={30}
-                prefix={
-                  <Icon type="container" style={{ color: "rgba(0,0,0,.25)" }} />
-                }
-                placeholder="Điền nội dung vào đây (ghi rõ các bước)"
-              />
+              // <Editor
+              //   editorState={this.state.editorState}
+              //   onChange={this.onChange}
+              // />
+              <TextArea row={4}></TextArea>
             )}
           </Form.Item>
 
