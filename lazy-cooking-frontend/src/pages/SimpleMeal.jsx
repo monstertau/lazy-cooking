@@ -1,27 +1,37 @@
 import React, { Component } from "react";
-import { BrowserRouter, Route, Link } from "react-router-dom";
 import "./SimpleMeal.css";
 import {
   Form,
   Select,
   InputNumber,
   Button,
-  Upload,
-  Icon,
   Rate,
   Input,
   Row,
-  Col
+  Col,
+  Empty,
+  Avatar,
+  Card,
+  Icon,
+  List
 } from "antd";
 import "antd/dist/antd.css";
 import { foodArr, typeArr } from "./data";
 import HomeScreen from "./HomeScreen";
 const { Option } = Select;
+const { Meta } = Card;
+const IconText = ({ type, text }) => (
+  <span>
+    <Icon type={type} style={{ marginRight: 8 }} />
+    {text}
+  </span>
+);
 class Meal extends Component {
   state = {
     foods: foodArr,
     types: typeArr,
-    data: []
+    data: [],
+    loading: false
   };
   ChangeToSlug = item => {
     let str = item.toLowerCase(); // xóa dấu
@@ -63,6 +73,11 @@ class Meal extends Component {
   handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFields((error, data) => {
+      if (!error) {
+        this.setState({
+          loading: true
+        });
+      }
       console.log(data);
       const slugStr = this.arrayToString(data.materials, data.category);
       console.log(slugStr);
@@ -81,7 +96,8 @@ class Meal extends Component {
           console.log(data);
           if (data.success == true) {
             this.setState({
-              data: data.data
+              data: data.data,
+              loading: false
             });
           }
         })
@@ -126,7 +142,7 @@ class Meal extends Component {
     const { getFieldDecorator } = this.props.form;
 
     return (
-      <div className="container mt-3">
+      <div className="container mt-3  mb-5">
         <h3>Tìm Bữa Ăn Đơn Giản</h3>
         <Form className="ant-advanced-search-form" onSubmit={this.handleSubmit}>
           <Row gutter={24}>
@@ -203,7 +219,6 @@ class Meal extends Component {
               type="primary"
               htmlType="submit"
               loading={this.state.loading}
-              onClick={this.enterLoading}
             >
               Tìm Bữa Ăn
             </Button>
@@ -211,11 +226,78 @@ class Meal extends Component {
         </Form>
         {this.state.data.length > 0 ? (
           <>
-            <div>Success!</div>
+            <div className="mt-4 mb-4">
+              Hiển thị {this.state.data.length} kết quả
+            </div>
+            <List
+              grid={{
+                gutter: 16,
+                xs: 1,
+                sm: 2,
+                md: 4,
+                lg: 4,
+                xl: 4,
+                xxl: 4
+              }}
+              pagination={{
+                onChange: page => {
+                  console.log(page);
+                },
+                pageSize: 12
+              }}
+              dataSource={this.state.data}
+              renderItem={item => (
+                <List.Item>
+                  <a href={`/post/${item._id}`}>
+                    <Card
+                      hoverable
+                      style={{ height: 400 }}
+                      cover={
+                        <img
+                          alt="example"
+                          src={item.imageUrl}
+                          width="100"
+                          height="255"
+                          object-fit="cover"
+                        />
+                      }
+                      actions={[
+                        <IconText
+                          type="like"
+                          text={`${item.upvote.length}`}
+                          key="upvote"
+                        />,
+                        <IconText
+                          type="bulb"
+                          text={"Độ khó: " + item.level}
+                          key="list-vertical-like-o"
+                        />,
+                        <IconText
+                          type="clock-circle"
+                          text={item.timetodone + " phút"}
+                          key="list-vertical-message"
+                        />
+                      ]}
+                    >
+                      <Meta
+                        avatar={<Avatar src={item.author.avatarUrl} />}
+                        title={item.title}
+                        description={
+                          "Người đăng: " + item.author.fullName.split(" ")[2]
+                        }
+                      />
+                    </Card>
+                  </a>
+                </List.Item>
+              )}
+            />
           </>
         ) : (
           <>
-            <h3 className="mt-3">Không tìm thấy bữa ăn phù hợp cho bạn! :( </h3>
+            <div className="mt-4">
+              Hiển thị 0 kết quả
+              <Empty />
+            </div>
           </>
         )}
       </div>

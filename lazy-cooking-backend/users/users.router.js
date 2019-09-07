@@ -256,83 +256,27 @@ userRouter.post('/update', (req, res) => {
                         message: error.message,
                     });
                 } else if (data) {
-                    if (!pass) {
-                        // update
-                        UserModel.updateOne({ _id: id }, { $set: { fullName: fullName, phone: phone, avatarUrl: avatarUrl, email: email } }, (error, data2) => {
-                            if (error) {
-                                res.status(400).json({
-                                    success: false,
-                                    message: error.message,
-                                });
-                            } else if (!data) {
-                                res.status(400).json({
-                                    success: false,
-                                    message: 'deo co data',
-                                });
-                            } else {
-                                // response update success
-                                res.status(201).json({
-                                    success: true,
-                                    data: data2,
-                                })
-                            }
-                        });
-                    }
-                    else {
-                        const hassPass = bcryptjs.hashSync(pass, 10);
-                        UserModel.updateOne({ _id: id }, { $set: {password: hassPass, fullName: fullName, phone: phone, avatarUrl: avatarUrl, email: email } }, (error, data2) => {
-                            if (error) {
-                                res.status(400).json({
-                                    success: false,
-                                    message: error.message,
-                                });
-                            } else if (!data) {
-                                res.status(400).json({
-                                    success: false,
-                                    message: 'deo co data',
-                                });
-                            } else {
-                                // response update success
-                                res.status(201).json({
-                                    success: true,
-                                    data: data2,
-                                })
-                            }
-                        });
-                    }
 
-                    //update session
-                    // UserModel.findOne({ email: email }, (err, user) => {
-                    //     if (err) {
-                    //         res.status(500).json({
-                    //             success: false,
-                    //             message: err.message,
-                    //         });
-                    //     } else if (!user) {
-                    //         res.status(500).json({
-                    //             success: false,
-                    //             message: 'Email does not exist!',
-                    //         });
-                    //     } else {
-                    //         //save current user info to session storage
-                    //         req.session.reload((err) => {
-                    //             if(err){
-                    //                 res.status(400).json({
-                    //                     success: false,
-                    //                     message: err.message,
-                    //                 })
-                    //             } else{
-                    //                 res.render('index', {
-                    //                     _id: user._id,
-                    //                     email: user.email,
-                    //                     fullName: user.fullName,
-                    //                     avatarUrl: user.avatarUrl,
-                    //                 })
-                    //             }
-                    //         })
-                    //     }
-                    // });
-
+                    // update
+                    UserModel.updateOne({ _id: id }, { $set: { fullName: fullName, phone: phone, avatarUrl: avatarUrl, email: email } }, (error, data2) => {
+                        if (error) {
+                            res.status(400).json({
+                                success: false,
+                                message: error.message,
+                            });
+                        } else if (!data) {
+                            res.status(400).json({
+                                success: false,
+                                message: 'deo co data',
+                            });
+                        } else {
+                            // response update success
+                            res.status(201).json({
+                                success: true,
+                                data: data2,
+                            })
+                        }
+                    });
                 }
             });
         }
@@ -349,6 +293,42 @@ userRouter.get('/check-session', (req, res) => {
             success: false,
         })
     }
+})
+
+userRouter.post('/login-with-google', (req, res) => {
+    const { email } = req.body;
+    UserModel.findOne({ email: email }, (error, data) => {
+        if (error) {
+            res.status(500).json({
+                success: false,
+                message: error.message,
+            });
+        } else if (!data) {
+            res.status(500).json({
+                success: true,
+                message: 'Account is not register yet!',
+                isRegisted: false,
+            })
+        } else {
+            req.session.currentUser = {
+                _id: data._id,
+                email: data.email,
+                fullName: data.fullName,
+                avatarUrl: data.avatarUrl,
+            }
+            // response to client
+            res.status(201).json({
+                success: true,
+                data: {
+                    email: data.email,
+                    fullName: data.fullName,
+                    avatarUrl: data.avatarUrl,
+                    id: data._id
+                },
+                isRegisted: true,
+            });
+        }
+    });
 })
 
 module.exports = userRouter;

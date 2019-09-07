@@ -380,4 +380,18 @@ postRouter.get(`/simpleMeal`, (req, res) => {
       }
     });
 });
+postRouter.put("/delete/:postId",(req,res)=>{
+  postModel.findByIdAndDelete(req.params.postId,(error,data)=>{
+    if(error){
+      res.status(500).json({
+        success: false,
+        message: error.message
+      });
+    }else{
+      res.status(201).json({
+        success:true
+      })
+    }
+  })
+})
 module.exports = postRouter;

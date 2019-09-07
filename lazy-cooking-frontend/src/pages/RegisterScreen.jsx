@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Form, Input, Button, } from 'antd';
 
 const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 const phoneRegex = /^\d{10}$/;
@@ -13,77 +14,110 @@ class RegisterScreen extends Component {
         phone: '',
         isError: false,
         message: '',
+        confirmDirty: false,
+        autoCompleteResult: [],
     }
+    handleConfirmBlur = e => {
+        const { value } = e.target;
+        this.setState({ confirmDirty: this.state.confirmDirty || !!value });
+    };
+
+    compareToFirstPassword = (rule, value, callback) => {
+        const { form } = this.props;
+        if (value && value !== form.getFieldValue('password')) {
+            callback('Mật khẩu xác nhận không khớp!');
+        } else {
+            callback();
+        }
+    };
+
+    validateToNextPassword = (rule, value, callback) => {
+        const { form } = this.props;
+        if (value && this.state.confirmDirty) {
+            form.validateFields(['confirm'], { force: true });
+        }
+        callback();
+    };
 
     handleSubmit = (event) => {
         event.preventDefault();
 
-        if(!this.state.email || !emailRegex.test(this.state.email)){
-            this.setState({
-                isError: true,
-                message: 'Invalid Email!',
-            })
-        } else if(!this.state.password || this.state.password.length < 6) {
-            this.setState({
-                isError: true,
-                message: 'Password must be more than 6 characters!'
-            })
-        } else if(this.state.password !== this.state.confirmPassword){
-            this.setState({
-                isError: true,
-                message: 'Wrong confirm password!',
-            })
-        } else if(!this.state.fullName){
-            this.setState({
-                isError: true,
-                message: 'Please input full name!',
-            })
-        } else if(!this.state.phone || !phoneRegex.test(this.state.phone)){
-            this.setState({
-                isError: true,
-                message: 'Phone number must contain 10 digits number!',
-            })
-        } else {
-            this.setState({
-                isError: false,
-            })
-            fetch('http://localhost:3001/users/register', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    email: this.state.email,
-                    password: this.state.password,
-                    fullName: this.state.fullName,
-                    phone: this.state.phone,
-                }),
-                credentials: 'include',
-            })
-                .then((res) => {
-                    return res.json();
+        this.props.form.validateFieldsAndScroll((err, values) => {
+            if (!err) {
+                fetch('http://localhost:3001/users/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email: values.email,
+                        password: values.password,
+                        fullName: values.fullName,
+                        phone: values.phone,
+                    }),
+                    credentials: 'include',
                 })
-                .then((data) => {
-                    //check mail exist
-                    if (!data.success) {
-                        console.log(data);
-                        this.setState({
-                            isError: true,
-                            message: data.message
-                        });
-                    } else {
-                        console.log(data);
-                        //redirect to login page
-                        window.location.replace("http://localhost:3000/login")
-                    }
-                })
-                .catch((error) => {
-                    if (error) {
-                        console.log(error);
-                        window.alert(error.message);
-                    }
-                })
-        }
+                    .then((res) => {
+                        return res.json();
+                    })
+                    .then((data) => {
+                        //check mail exist
+                        if (!data.success) {
+                            this.setState({
+                                isError: true,
+                                message: data.message
+                            });
+                        } else {
+                            //login and redirect to home
+                            fetch('http://localhost:3001/users/login', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify({
+                                    email: values.email,
+                                    password: values.password,
+                                }),
+                                credentials: 'include',
+                            })
+                                .then((res) => {
+                                    return res.json();
+                                })
+                                .then((data) => {
+                                    // save current user to localStorage
+                                    if (values.remember === true) {
+                                        window.localStorage.setItem('email', data.data.email);
+                                        window.localStorage.setItem('fullName', data.data.fullName);
+                                        window.localStorage.setItem('avatarUrl', data.data.avatarUrl);
+                                        window.localStorage.setItem('id', data.data.id);
+                                    } else {
+                                        window.sessionStorage.setItem('email', data.data.email);
+                                        window.sessionStorage.setItem('fullName', data.data.fullName);
+                                        window.sessionStorage.setItem('avatarUrl', data.data.avatarUrl);
+                                        window.sessionStorage.setItem('id', data.data.id);
+                                    }
+                                    //redirect to home page
+                                    window.location.replace("http://localhost:3000/")
+                                })
+                                .catch((error) => {
+                                    if (error) {
+                                        console.log(error);
+                                        window.alert(error.message);
+                                    }
+                                })
+                        }
+                    })
+                    .catch((error) => {
+                        if (error) {
+                            console.log(error);
+                            window.alert(error.message);
+                        }
+                    })
+            }
+        });
+
+
+
     }
 
     handleInput = () => {
@@ -93,75 +127,111 @@ class RegisterScreen extends Component {
     }
 
     render() {
+        const { getFieldDecorator } = this.props.form;
+
+        const formItemLayout = {
+            labelCol: {
+                xs: { span: 24 },
+                sm: { span: 8 },
+            },
+            wrapperCol: {
+                xs: { span: 24 },
+                sm: { span: 16 },
+            },
+        };
+
+        const tailFormItemLayout = {
+            wrapperCol: {
+                xs: {
+                    span: 24,
+                    offset: 0,
+                },
+                sm: {
+                    span: 16,
+                    offset: 8,
+                },
+            },
+        };
+
         return (
             <div className="container">
                 <div className="row mt-2">
                     <div className="col-2"></div>
                     <div className="col-8 get-in-touch">
-                        <h2 className="title ">Register</h2>
-                        <form className="contact-form row mt-0" onSubmit={this.handleSubmit}>
-                            <div className="form-field col-lg-12">
-                                <h6>Email:</h6>
-                                <input className="input-text js-input" type="text" onInput={this.handleInput}
-                                    value={this.state.email}
-                                    onChange={(event) => {
-                                        this.setState({
-                                            email: event.target.value,
-                                        });
-                                    }} />
-
-                            </div>
-                            <div className="form-field col-lg-12 ">
-                                <h6>Password:</h6>
-                                <input className="input-text js-input" type="password" onInput={this.handleInput}
-                                    value={this.state.password}
-                                    onChange={(event) => {
-                                        this.setState({
-                                            password: event.target.value,
-                                        });
-                                    }} />
-                            </div>
-                            <div className="form-field col-lg-12 ">
-                                <h6>Confirm password:</h6>
-                                <input className="input-text js-input" type="password" onInput={this.handleInput}
-                                    value={this.state.confirmPassword}
-                                    onChange={(event) => {
-                                        this.setState({
-                                            confirmPassword: event.target.value,
-                                        });
-                                    }} />
-                            </div>
-                            <div className="form-field col-lg-12 ">
-                                <h6>Full name:</h6>
-                                <input className="input-text js-input" type="text" onInput={this.handleInput}
-                                    value={this.state.fullName}
-                                    onChange={(event) => {
-                                        this.setState({
-                                            fullName: event.target.value,
-                                        });
-                                    }} />
-                            </div>
-                            <div className="form-field col-lg-12">
-                                <h6>Phone:</h6>
-                                <input className="input-text js-input" type="text" onInput={this.handleInput}
-                                    value={this.state.phone}
-                                    onChange={(event) => {
-                                        this.setState({
-                                            phone: event.target.value,
-                                        });
-                                    }} />
-                            </div>
+                        <div className="text-center mb-5">
+                            <h3 className="title-login" {...tailFormItemLayout}>Đăng ký</h3>
+                        </div>
+                        <Form {...formItemLayout} onSubmit={this.handleSubmit}>
+                            <Form.Item label="E-mail">
+                                {getFieldDecorator('email', {
+                                    rules: [
+                                        {
+                                            type: 'email',
+                                            message: 'Email không hợp lệ!',
+                                        },
+                                        {
+                                            required: true,
+                                            message: 'Vui lòng điền Email!',
+                                        },
+                                    ],
+                                })(<Input onChange={this.handleInput} />)}
+                            </Form.Item>
+                            <Form.Item label="Mật khẩu" hasFeedback>
+                                {getFieldDecorator('password', {
+                                    rules: [
+                                        {
+                                            required: true,
+                                            message: 'Vui lòng điền mật khẩu!',
+                                        },
+                                        {
+                                            validator: this.validateToNextPassword,
+                                        }, {
+                                            min: 6,
+                                            message: 'Mật khẩu bao gồm ít nhất 6 ký tự!',
+                                        },
+                                    ],
+                                })(<Input.Password onChange={this.handleInput} />)}
+                            </Form.Item>
+                            <Form.Item label="Xác nhận mật khẩu" hasFeedback>
+                                {getFieldDecorator('confirm', {
+                                    rules: [
+                                        {
+                                            required: true,
+                                            message: 'Vui lòng xác nhận mật khẩu!',
+                                        },
+                                        {
+                                            validator: this.compareToFirstPassword,
+                                        },
+                                    ],
+                                })(<Input.Password onBlur={this.handleConfirmBlur} onChange={this.handleInput} />)}
+                            </Form.Item>
+                            <Form.Item
+                                label={
+                                    <span>
+                                        Tên đầy đủ
+                                    </span>
+                                }>
+                                {getFieldDecorator('fullName', {
+                                    rules: [{ required: true, message: 'Vui lòng điền họ tên đầy đủ của bạn!', whitespace: true }],
+                                })(<Input onChange={this.handleInput} />)}
+                            </Form.Item>
+                            <Form.Item label="Số điện thoại">
+                                {getFieldDecorator('phone', {
+                                    rules: [{ required: true, message: 'Vui lòng điền số điện thoại của bạn!' }, { pattern: phoneRegex, message: 'Số điện thoại bao gồm chính xác 10 chữ số!' }],
+                                })(<Input onChange={this.handleInput} />)}
+                            </Form.Item>
                             {this.state.isError ? (
-                                <div className="form-field col-lg-12 mt-0">
+                                <Form.Item {...tailFormItemLayout}>
                                     <h6 className="label-error">{this.state.message}</h6>
-                                </div>
+                                </Form.Item>
                             ) : (
                                     null
                                 )}
-                            <div className="form-field col-lg-12 mt-0 text-right">
-                                <button className="submit-btn">Register</button>
-                            </div>
-                        </form>
+                            <Form.Item {...tailFormItemLayout}>
+                                <Button type="primary" htmlType="submit">
+                                    Đăng ký</Button>
+                            </Form.Item>
+                        </Form>
                     </div>
                     <div className="col-2"></div>
                 </div>
@@ -170,4 +240,6 @@ class RegisterScreen extends Component {
     }
 }
 
-export default RegisterScreen;
+const WrappedRegisterScreen = Form.create({ name: 'register' })(RegisterScreen);
+
+export default WrappedRegisterScreen;
