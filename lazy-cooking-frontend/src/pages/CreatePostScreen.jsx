@@ -11,6 +11,7 @@ import {
   Input,
   message
 } from "antd";
+import CKEditor from 'ckeditor4-react';
 import "antd/dist/antd.css";
 import { foodArr, typeArr } from "./data";
 const { Option } = Select;
@@ -25,7 +26,7 @@ class CreatePostScreen extends React.Component {
     categorySlug: [],
     levelSlug: "",
     timeSlug: "",
-    editorState: EditorState.createEmpty()
+    content: "",
   };
   ChangeToSlug = item => {
     let str = item.toLowerCase(); // xóa dấu
@@ -42,6 +43,12 @@ class CreatePostScreen extends React.Component {
     str = str.replace(/-+$/g, ""); // return
     return str;
   };
+  onEditorChange = (e)=>{
+    console.log(e.editor.getData());
+    this.setState({
+      content: e.editor.getData(),
+    })
+  }
   onChange = editorState => this.setState({ editorState });
   handleLevelChange = value => {
     console.log(value);
@@ -151,6 +158,7 @@ class CreatePostScreen extends React.Component {
         data.slug = this.state.categorySlug.concat(this.state.materialSlug);
         data.slug = data.slug.concat(this.state.levelSlug);
         data.slug = data.slug.concat(this.state.timeSlug);
+        data.content = this.state.content;
         console.log(data);
         const formData = new FormData();
         formData.append("image", this.state.imageFile);
@@ -250,7 +258,11 @@ class CreatePostScreen extends React.Component {
     return (
       <div className="container" style={{ marginTop: "20px" }}>
         <h3>Tạo công thức</h3>
-        <Form {...formItemLayout} onSubmit={this.handleSubmit} layout="horizontal">
+        <Form
+          {...formItemLayout}
+          onSubmit={this.handleSubmit}
+          layout="horizontal"
+        >
           <Form.Item label="Tiêu đề">
             {getFieldDecorator("title", {
               rules: [
@@ -338,7 +350,7 @@ class CreatePostScreen extends React.Component {
             {getFieldDecorator("fileupload", {
               valuePropName: "fileList",
               getValueFromEvent: this.normFile,
-              rules:[{required: true, message: "Hãy chọn ảnh ví dụ!"}]
+              rules: [{ required: true, message: "Hãy chọn ảnh ví dụ!" }]
             })(
               <Upload
                 name="logo"
@@ -364,7 +376,11 @@ class CreatePostScreen extends React.Component {
               //   editorState={this.state.editorState}
               //   onChange={this.onChange}
               // />
-              <TextArea row={4}></TextArea>
+              <CKEditor
+                    data="<p>Hello from CKEditor 4!</p>"
+                    onChange={this.onEditorChange}
+                />
+              
             )}
           </Form.Item>
 
@@ -372,7 +388,7 @@ class CreatePostScreen extends React.Component {
             <Button
               type="primary"
               htmlType="submit"
-              loading={this.state.loading}
+              // loading={this.state.loading}
               onClick={this.enterLoading}
             >
               Đăng bài
