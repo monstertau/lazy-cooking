@@ -308,22 +308,22 @@ postRouter.get("/get-recipe/:type", (req, res) => {
   console.log(req.params.type);
   if (req.params.type === "all") {
     postModel
-    .find({})
-    .sort({ createdAt: -1 })
-    .populate("author", "avatarUrl fullName")
-    .exec((error, data) => {
-      if (error) {
-        res.status(500).json({
-          success: false,
-          message: error.message
-        });
-      } else {
-        res.status(200).json({
-          success: true,
-          data: data
-        });
-      }
-    });
+      .find({})
+      .sort({ createdAt: -1 })
+      .populate("author", "avatarUrl fullName")
+      .exec((error, data) => {
+        if (error) {
+          res.status(500).json({
+            success: false,
+            message: error.message
+          });
+        } else {
+          res.status(200).json({
+            success: true,
+            data: data
+          });
+        }
+      });
   } else {
     postModel
       .find({ slug: `${req.params.type}` })

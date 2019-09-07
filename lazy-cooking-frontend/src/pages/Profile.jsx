@@ -44,9 +44,9 @@ class RegistrationForm extends React.Component {
     phone: 0,
     avatarUrl: 'https://cdn.pixabay.com/photo/2013/07/13/12/07/avatar-159236_640.png',
     loading: false,
-    emailOld: window.localStorage.getItem('email'),
     avatarFile: undefined,
-    load: false
+    load: false,
+    pass:''
   };
   handleChange = info => {
     if (info.file.status === 'uploading') {
@@ -137,9 +137,9 @@ class RegistrationForm extends React.Component {
       email: event.target.value
     })
   }
-  handleChangePass = (event) => {
+  handlePassWord = (event)=>{
     this.setState({
-      repeatPass: event.target.value
+      pass : event.target.value
     })
   }
   handleChangeFullName = (event) => {
@@ -416,6 +416,24 @@ class RegistrationForm extends React.Component {
               ],
             })(<Input onChange={this.handleChangeEmail} />)}
           </Form.Item>
+          <Form.Item label="Password" hasFeedback>
+            {getFieldDecorator('password', {
+              rules: [
+                {
+                  validator: this.validateToNextPassword,
+                },
+              ],
+            })(<Input.Password onChange={this.handlePassWord} />)}
+          </Form.Item>
+          <Form.Item label="Confirm Password" hasFeedback>
+            {getFieldDecorator('confirm', {
+              rules: [
+                {
+                  validator: this.compareToFirstPassword,
+                },
+              ],
+            })(<Input.Password onBlur={this.handleConfirmBlur} />)}
+          </Form.Item>
           <Form.Item
             label={
               <span>
@@ -435,9 +453,9 @@ class RegistrationForm extends React.Component {
           <Form.Item label="Phone Number">
             {getFieldDecorator('phone', {
               valuePropName: 'value',
-              initialValue:  this.state.phone,
+              initialValue: this.state.phone,
               rules: [{ required: true, message: 'Please input your phone number!' }],
-            })(<Input style={{ width: '100%' }}  onChange={this.handlePhone} />)}
+            })(<Input style={{ width: '100%' }} onChange={this.handlePhone} />)}
           </Form.Item>
           <Form.Item {...tailFormItemLayout}>
             <Button loading={this.state.load} type="primary" htmlType="submit">
