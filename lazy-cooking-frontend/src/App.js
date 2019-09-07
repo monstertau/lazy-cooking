@@ -186,7 +186,7 @@ class App extends React.Component {
           <Button size="large" href="/blog" type="link" icon ="book">
             Blogs{" "}
           </Button>
-          <Button size="large" href="/simpleMeal" type="link" icon ="shopping-cart">
+          <Button size="large" href="/simple-meal" type="link" icon ="shopping-cart">
             Bữa ăn đơn giản{" "}
           </Button>
 
@@ -279,7 +279,7 @@ class App extends React.Component {
           <Route path="/recipe/:type" exact={true}
           component={ShowRecipeScreen}
           />
-          <Route path="/simpleMeal" exact={true}
+          <Route path="/simple-meal" exact={true}
           component={SimpleMeal}
           />
         </BrowserRouter>
