@@ -81,6 +81,7 @@ class MyPostScreen extends Component {
           <Empty />
         ) : (
           <List
+          className="login"
             itemLayout="vertical"
             size="large"
             pagination={{

@@ -142,7 +142,7 @@ class Meal extends Component {
     const { getFieldDecorator } = this.props.form;
 
     return (
-      <div className="container mt-3  mb-5">
+      <div className=" pt-5 pb-3" style={{marginLeft:'10%',marginRight:'10%'}}>
         <h3>Tìm Bữa Ăn Đơn Giản</h3>
         <Form className="ant-advanced-search-form" onSubmit={this.handleSubmit}>
           <Row gutter={24}>
@@ -226,10 +226,11 @@ class Meal extends Component {
         </Form>
         {this.state.data.length > 0 ? (
           <>
-            <div className="mt-4 mb-4">
-              Hiển thị {this.state.data.length} kết quả
+            <div className="mt-3 mb-2">
+              Hiển thị {this.state.data.length} bữa ăn dành cho bạn
             </div>
             <List
+            className="login"
               grid={{
                 gutter: 16,
                 xs: 1,
@@ -250,8 +251,9 @@ class Meal extends Component {
                 <List.Item>
                   <a href={`/post/${item._id}`}>
                     <Card
+                    className="item-inner"
                       hoverable
-                      style={{ height: 400 }}
+                      style={{ }}
                       cover={
                         <img
                           alt="example"
@@ -295,7 +297,7 @@ class Meal extends Component {
         ) : (
           <>
             <div className="mt-4">
-              Hiển thị 0 kết quả
+              Hiển thị 0 bữa ăn dành cho bạn
               <Empty />
             </div>
           </>

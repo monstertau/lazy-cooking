@@ -23,9 +23,8 @@ const IconText = ({ type, text }) => (
     <Icon type={type} style={{ marginRight: 8 }} />
     {text}
   </span>
-)
+);
 class App extends React.Component {
-
   state = {
     currentUser: {
       email: "",
@@ -34,9 +33,9 @@ class App extends React.Component {
       sessionCheck: false,
       avatarUrl: ""
     },
-    keyword: '',
+    keyword: "",
     isSearch: false,
-    searchData: [],
+    searchData: []
   };
   handleLogOut = e => {
     e.preventDefault();
@@ -72,7 +71,6 @@ class App extends React.Component {
       if (email && fullName && id) {
         this.setState({
           currentUser: {
-
             email: email,
             fullName: fullName,
             id: id,
@@ -143,9 +141,7 @@ class App extends React.Component {
 
   // }
 
-  handleSearch = (keyword) => {
-    
-
+  handleSearch = keyword => {
     // fetch(`http://localhost:3001/posts/search/${keyword}`, {
     //   method: 'GET',
     //   headers: {
@@ -159,13 +155,12 @@ class App extends React.Component {
     //       searchData: data.data,
     //     })
     //   })
-    //   .catch((error) => { 
+    //   .catch((error) => {
     //     console.log(error);
     //     window.alert(error.message);
     //   })
-    window.location.replace(`http://localhost:3000/search/${keyword}  `)
-
-  }
+    window.location.replace(`http://localhost:3000/search/${keyword}  `);
+  };
   render() {
     // console.log(this.state);
     return (
@@ -180,50 +175,92 @@ class App extends React.Component {
               href="/"
             >
               Home
-          </Button>
+            </Button>
 
             <Dropdown
               overlay={
                 <Menu mode="inline">
                   <SubMenu title="Thực đơn">
-                    <Menu.Item ><a href="/recipe/bua-sang">Bữa sáng</a></Menu.Item>
-                    <Menu.Item ><a href="/recipe/bua-trua">Bữa trưa</a></Menu.Item>
-                    <Menu.Item ><a href="/recipe/bua-chieu">Bữa chiều</a></Menu.Item>
+                    <Menu.Item>
+                      <a href="/recipe/bua-sang">Bữa sáng</a>
+                    </Menu.Item>
+                    <Menu.Item>
+                      <a href="/recipe/bua-trua">Bữa trưa</a>
+                    </Menu.Item>
+                    <Menu.Item>
+                      <a href="/recipe/bua-chieu">Bữa chiều</a>
+                    </Menu.Item>
                   </SubMenu>
                   <Menu.Divider />
                   <SubMenu title="Nguyên liệu">
-                    <Menu.Item ><a href="/recipe/thit-ga">Thịt gà</a></Menu.Item>
-                    <Menu.Item><a href="/recipe/thit-bo">Thịt gà</a></Menu.Item>
-                    <Menu.Item><a href="/recipe/thit-lon">Thịt lợn</a></Menu.Item>
-                    <Menu.Item><a href="/recipe/thit-ca">Thịt cá</a></Menu.Item>
-                    <Menu.Item><a href="/recipe/thit-cua">Thịt cua</a></Menu.Item>
-                    <Menu.Item><a href="/recipe/thit-tom">Thịt gà</a></Menu.Item>
+                    <Menu.Item>
+                      <a href="/recipe/thit-ga">Thịt gà</a>
+                    </Menu.Item>
+                    <Menu.Item>
+                      <a href="/recipe/thit-bo">Thịt gà</a>
+                    </Menu.Item>
+                    <Menu.Item>
+                      <a href="/recipe/thit-lon">Thịt lợn</a>
+                    </Menu.Item>
+                    <Menu.Item>
+                      <a href="/recipe/thit-ca">Thịt cá</a>
+                    </Menu.Item>
+                    <Menu.Item>
+                      <a href="/recipe/thit-cua">Thịt cua</a>
+                    </Menu.Item>
+                    <Menu.Item>
+                      <a href="/recipe/thit-tom">Thịt gà</a>
+                    </Menu.Item>
                   </SubMenu>
                   <Menu.Divider />
                   <SubMenu title="Độ khó">
-                    <Menu.Item><a href="/recipe/de">Dễ</a></Menu.Item>
-                    <Menu.Item><a href="/recipe/trung-binh">Trung bình</a></Menu.Item>
-                    <Menu.Item><a href="/recipe/kho">Khó</a></Menu.Item>
+                    <Menu.Item>
+                      <a href="/recipe/de">Dễ</a>
+                    </Menu.Item>
+                    <Menu.Item>
+                      <a href="/recipe/trung-binh">Trung bình</a>
+                    </Menu.Item>
+                    <Menu.Item>
+                      <a href="/recipe/kho">Khó</a>
+                    </Menu.Item>
                   </SubMenu>
                   <Menu.Divider />
                   <SubMenu title="Thời gian làm">
-                    <Menu.Item><a href="/recipe/duoi-10-phut">Dưới 10 phút</a></Menu.Item>
-                    <Menu.Item><a href="/recipe/10-den-30-phut">10-30 phút</a></Menu.Item>
-                    <Menu.Item><a href="/recipe/30-den-60-phut">30-60 phút</a></Menu.Item>
-                    <Menu.Item><a href="/recipe/tren-60-phut">Trên 60 phút</a></Menu.Item>
+                    <Menu.Item>
+                      <a href="/recipe/duoi-10-phut">Dưới 10 phút</a>
+                    </Menu.Item>
+                    <Menu.Item>
+                      <a href="/recipe/10-den-30-phut">10-30 phút</a>
+                    </Menu.Item>
+                    <Menu.Item>
+                      <a href="/recipe/30-den-60-phut">30-60 phút</a>
+                    </Menu.Item>
+                    <Menu.Item>
+                      <a href="/recipe/tren-60-phut">Trên 60 phút</a>
+                    </Menu.Item>
                   </SubMenu>
                 </Menu>
               }
             >
-              <Button size="large" href="/recipe/all" type="link" icon="file-done">
+              <Button
+                size="large"
+                href="/recipe/all"
+                type="link"
+                icon="file-done"
+              >
                 Công thức
-            </Button>
+              </Button>
             </Dropdown>
 
             <Button size="large" href="/blog" type="link" icon="book">
               Blogs{" "}
             </Button>
-            <Button size="large" href="/simple-meal" type="link" icon="shopping-cart">
+            <Button
+              size="large"
+              href="/simple-meal"
+              type="link"
+              icon="shopping-cart"
+            >
               Bữa ăn đơn giản{" "}
             </Button>
 
@@ -233,7 +270,8 @@ class App extends React.Component {
               size="large"
               onSearch={this.handleSearch}
             />
-            {(window.localStorage.getItem("email") || window.sessionStorage.getItem("email")) ? (
+            {window.localStorage.getItem("email") ||
+            window.sessionStorage.getItem("email") ? (
               <>
                 <Button
                   icon="form"
@@ -242,7 +280,7 @@ class App extends React.Component {
                   href="/create-recipe"
                 >
                   Đăng công thức
-              </Button>
+                </Button>
                 <Dropdown
                   overlay={
                     <Menu>
@@ -255,7 +293,7 @@ class App extends React.Component {
                       <Menu.Item>
                         <a href={`/my-post/${this.state.currentUser.id}`}>
                           Bài đăng của tôi
-                      </a>
+                        </a>
                       </Menu.Item>
                       <Menu.Item>
                         <a onClick={this.handleLogOut}>Đăng xuất</a>
@@ -273,61 +311,64 @@ class App extends React.Component {
                 </Dropdown>
               </>
             ) : (
-                <>
-                  <Button
-                    size="large"
-                    style={{ marginLeft: "9px", marginRight: "9px" }}
-                    icon="login"
-                    href="/login"
-                  >
-                    Đăng nhập
-              </Button>
-                  <Button size="large" type="danger" icon="logout" href="/register">
-                    Đăng kí
-              </Button>
-                </>
-              )}
+              <>
+                <Button
+                  size="large"
+                  style={{ marginLeft: "9px", marginRight: "9px" }}
+                  icon="login"
+                  href="/login"
+                >
+                  Đăng nhập
+                </Button>
+                <Button
+                  size="large"
+                  type="danger"
+                  icon="logout"
+                  href="/register"
+                >
+                  Đăng kí
+                </Button>
+              </>
+            )}
           </nav>
         </div>
 
-
-        <BrowserRouter>
-          <Route path="/" exact={true} component={HomeScreen} />
-          <Route path="/login" exact={true} component={WrappedLoginScreen} />
-          <Route path="/register" exact={true} component={RegisterScreen} />
-          <Route path="/search/:keyword" component={SearchScreen} />
-          <Route
-            path="/profile"
-            exact={true}
-            component={WrappedRegistrationForm}
-          />
-          <Route
-            path="/create-recipe"
-            exact={true}
-            component={WrappedCreatePostScreen}
-          />
-          <Route path="/blog" exact={true} component={Blog} />
-          <Route
-            path="/my-post/:userId"
-            exact={true}
-            component={MyPostScreen}
-          />
-          <Route
-            path="/post/:postId"
-            exact={true}
-            component={DetailPostScreen}
-          />
-          <Route path="/recipe/:type" exact={true}
-            component={ShowRecipeScreen}
-          />
-          <Route path="/simple-meal" exact={true}
-            component={SimpleMeal}
-          />
-          
-        </BrowserRouter>
+        <div className="body-content">
+          <BrowserRouter>
+            <Route path="/" exact={true} component={HomeScreen} />
+            <Route path="/login" exact={true} component={WrappedLoginScreen} />
+            <Route path="/register" exact={true} component={RegisterScreen} />
+            <Route path="/search/:keyword" component={SearchScreen} />
+            <Route
+              path="/profile"
+              exact={true}
+              component={WrappedRegistrationForm}
+            />
+            <Route
+              path="/create-recipe"
+              exact={true}
+              component={WrappedCreatePostScreen}
+            />
+            <Route path="/blog" exact={true} component={Blog} />
+            <Route
+              path="/my-post/:userId"
+              exact={true}
+              component={MyPostScreen}
+            />
+            <Route
+              path="/post/:postId"
+              exact={true}
+              component={DetailPostScreen}
+            />
+            <Route
+              path="/recipe/:type"
+              exact={true}
+              component={ShowRecipeScreen}
+            />
+            <Route path="/simple-meal" exact={true} component={SimpleMeal} />
+          </BrowserRouter>
+        </div>
       </div>
-
-
     );
   }
 }

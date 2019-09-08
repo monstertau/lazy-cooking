@@ -1,5 +1,4 @@
 import React from "react";
-import { Editor, EditorState, RichUtils } from "draft-js";
 import {
   Form,
   Select,
@@ -11,11 +10,12 @@ import {
   Input,
   message
 } from "antd";
-import CKEditor from 'ckeditor4-react';
+import CKEditor from "ckeditor4-react";
 import "antd/dist/antd.css";
 import { foodArr, typeArr } from "./data";
 const { Option } = Select;
 const { TextArea } = Input;
+CKEditor.editorUrl = "http://localhost:3000/ckeditor/ckeditor.js";
 class CreatePostScreen extends React.Component {
   state = {
     foods: foodArr,
@@ -26,7 +26,7 @@ class CreatePostScreen extends React.Component {
     categorySlug: [],
     levelSlug: "",
     timeSlug: "",
-    content: "",
+    content: ""
   };
   ChangeToSlug = item => {
     let str = item.toLowerCase(); // xóa dấu
@@ -43,12 +43,13 @@ class CreatePostScreen extends React.Component {
     str = str.replace(/-+$/g, ""); // return
     return str;
   };
-  onEditorChange = (e)=>{
+
+  onEditorChange = e => {
     console.log(e.editor.getData());
     this.setState({
-      content: e.editor.getData(),
-    })
-  }
+      content: e.editor.getData()
+    });
+  };
   onChange = editorState => this.setState({ editorState });
   handleLevelChange = value => {
     console.log(value);
@@ -240,6 +241,7 @@ class CreatePostScreen extends React.Component {
         throw error;
       });
   }
+
   render() {
     const foodItems = this.state.foods.map((item, key) => (
       <Option value={item}>{item}</Option>
@@ -256,12 +258,15 @@ class CreatePostScreen extends React.Component {
     };
 
     return (
-      <div className="container" style={{ marginTop: "20px" }}>
-        <h3>Tạo công thức</h3>
+      <div className="container mt-5 mb-5" >
+        <div className="text-center">
+          <h3 className="title-login">Tạo công thức</h3>
+        </div >
         <Form
           {...formItemLayout}
           onSubmit={this.handleSubmit}
           layout="horizontal"
+          className="login"
         >
           <Form.Item label="Tiêu đề">
             {getFieldDecorator("title", {
@@ -372,15 +377,46 @@ class CreatePostScreen extends React.Component {
             {getFieldDecorator("content", {
               rules: [{ required: true, message: "Please input your content!" }]
             })(
-              // <Editor
-              //   editorState={this.state.editorState}
-              //   onChange={this.onChange}
-              // />
               <CKEditor
-                    data="<p>Hello from CKEditor 4!</p>"
-                    onChange={this.onEditorChange}
-                />
-              
+                onChange={this.onEditorChange}
+                config={{
+                  height: "700",
+
+                  toolbarGroups: [
+                    {
+                      name: "document",
+                      groups: ["mode", "document", "doctools"]
+                    },
+                    { name: "clipboard", groups: ["clipboard", "undo"] },
+                    {
+                      name: "editing",
+                      groups: ["find", "selection", "spellchecker", "editing"]
+                    },
+                    { name: "forms", groups: ["forms"] },
+                    { name: "basicstyles", groups: ["basicstyles", "cleanup"] },
+                    {
+                      name: "paragraph",
+                      groups: [
+                        "list",
+                        "indent",
+                        "blocks",
+                        "align",
+                        "bidi",
+                        "paragraph"
+                      ]
+                    },
+                    { name: "links", groups: ["links"] },
+                    { name: "insert", groups: ["insert"] },
+                    { name: "styles", groups: ["styles"] },
+                    { name: "colors", groups: ["colors"] },
+                    { name: "tools", groups: ["tools"] },
+                    { name: "others", groups: ["others"] },
+                    { name: "about", groups: ["about"] }
+                  ],
+                  removeButtons:
+                    "NewPage,Preview,Print,Templates,Save,Source,Form,Checkbox,Radio,TextField,Textarea,Select,Button,ImageButton,HiddenField,Image,Flash,PageBreak,Iframe,About"
+                }}
+              />
             )}
           </Form.Item>
 
