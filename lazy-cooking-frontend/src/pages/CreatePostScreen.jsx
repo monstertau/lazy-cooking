@@ -272,10 +272,7 @@ class CreatePostScreen extends React.Component {
             {getFieldDecorator("title", {
               rules: [
                 { required: true, message: "Please input your title!" },
-                {
-                  max: 50,
-                  message: "Title is below 50 characters"
-                }
+                
               ]
             })(
               <Input

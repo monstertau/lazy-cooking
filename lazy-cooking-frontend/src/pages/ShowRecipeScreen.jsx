@@ -97,7 +97,7 @@ class ShowRecipeScreen extends Component {
                       src={item.imageUrl}
                       width="100"
                       height="255"
-                      object-fit="contain"
+                      object-fit="cover"
                       
                     />
                     

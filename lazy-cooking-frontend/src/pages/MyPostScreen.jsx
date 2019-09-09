@@ -1,6 +1,15 @@
 import React, { Component } from "react";
 import "antd/dist/antd.css";
-import { Empty, List, Avatar, Icon, Button, Popconfirm, message } from "antd";
+import {
+  Empty,
+  List,
+  Avatar,
+  Icon,
+  Button,
+  Popconfirm,
+  message,
+  Tag
+} from "antd";
 const IconText = ({ type, text }) => (
   <span>
     <Icon type={type} style={{ marginRight: 8 }} />
@@ -81,7 +90,7 @@ class MyPostScreen extends Component {
           <Empty />
         ) : (
           <List
-          className="login"
+            className="login"
             itemLayout="vertical"
             size="large"
             pagination={{
@@ -95,9 +104,13 @@ class MyPostScreen extends Component {
               <List.Item
                 key={item.title}
                 actions={[
-                  <IconText type="like" text={item.upvote.length} key="upvote" />,
                   <IconText
-                    type="bulb"
+                    type="like"
+                    text={item.upvote.length}
+                    key="upvote"
+                  />,
+                  <IconText
+                    type="bar-chart"
                     text={`Độ khó: ${item.level}`}
                     key="list-vertical-like-o"
                   />,
@@ -137,7 +150,8 @@ class MyPostScreen extends Component {
                   }
                   // description={item.description}
                 />
-                {item.content}
+                Nguyên liệu:&nbsp;&nbsp;
+                {item.materials.map(i=><Tag color="blue">{i}</Tag>)}
               </List.Item>
             )}
           />
