@@ -142,24 +142,12 @@ class App extends React.Component {
   // }
 
   handleSearch = keyword => {
-    // fetch(`http://localhost:3001/posts/search/${keyword}`, {
-    //   method: 'GET',
-    //   headers: {
-    //     'Content-Type': 'application/json'
-    //   },
-    //   credentials: 'include',
-    // })
-    //   .then((res) => res.json())
-    //   .then((data) => {
-    //     this.setState({
-    //       searchData: data.data,
-    //     })
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //     window.alert(error.message);
-    //   })
-    window.location.replace(`http://localhost:3000/search/${keyword}  `);
+    if(keyword.trim().length === 0) {
+      window.alert('Vui lòng nhập tên món ăn')
+    } else {
+      window.location.replace(`http://localhost:3000/search/${keyword}`);
+    }
+    
   };
   render() {
     // console.log(this.state);
@@ -265,7 +253,7 @@ class App extends React.Component {
             </Button>
 
             <Search
-              placeholder="Nhập công thức muốn tìm kiếm"
+              placeholder="Nhập tên món ăn"
               enterButton
               size="large"
               onSearch={this.handleSearch}

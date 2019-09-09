@@ -1,6 +1,6 @@
 @import '~antd/dist/antd.css';
 * {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: Arial;
   font-size: 14px;
 }
 
@@ -14,9 +14,6 @@
 }
 .body-content{
   background-image: url("")
-}
-*{
-  font-family: 'Roboto Slab', serif;
 }
 .App-header {
   background-color: #282c34;
@@ -153,6 +150,7 @@ h6 {
   padding: 15px;
   box-shadow: 2px 2px 5px 0 rgba(0,0,0,.1);
   border-radius: 12px;
+  margin: 10px;
 }
 
 .main-content{
@@ -191,8 +189,8 @@ h6 {
 }
 
 .image-meal{
-  width: 250px;
-  height: 150px;
+  width: 300px;
+  height: 170px;
 }
 
 .row-meal{
@@ -234,4 +232,13 @@ h6 {
   border-left-style: double;
   border-left-width: 2px;
   border-left-color: red;
+}
+
+.card-new-post{
+  position: relative;
+  background-color: #fff;
+  padding: 15px;
+  box-shadow: 2px 2px 5px 0 rgba(0,0,0,.1);
+  border-radius: 5px;
+  margin: 10px;
 }
