@@ -26,7 +26,11 @@ class CreatePostScreen extends React.Component {
     categorySlug: [],
     levelSlug: "",
     timeSlug: "",
-    content: ""
+    content: "",
+    title:"",
+    level:"",
+    timetodone:Number,
+
   };
   ChangeToSlug = item => {
     let str = item.toLowerCase(); // xóa dấu
@@ -176,38 +180,38 @@ class CreatePostScreen extends React.Component {
           })
           .then(info => {
             console.log(info);
-            fetch("http://localhost:3001/posts/create", {
-              method: "POST",
-              credentials: "include",
-              headers: {
-                "Content-Type": "application/json"
-              },
-              body: JSON.stringify({
-                content: data.content,
-                title: data.title,
-                imageUrl: info.data.imageUrl,
-                category: data.category,
-                materials: data.materials,
-                level: data.level,
-                timetodone: data.timetodone,
-                slug: data.slug
-              })
-            })
-              .then(res => res.json())
-              .then(data1 => {
-                console.log(data1);
-                if (data1.success) {
-                  if (window.localStorage.getItem("id")) {
-                    window.location.href = `/my-post/${window.localStorage.getItem(
-                      "id"
-                    )}`;
-                  } else {
-                    window.location.href = `/my-post/${window.sessionStorage.getItem(
-                      "id"
-                    )}`;
-                  }
-                }
-              });
+            // fetch("http://localhost:3001/posts/create", {
+            //   method: "POST",
+            //   credentials: "include",
+            //   headers: {
+            //     "Content-Type": "application/json"
+            //   },
+            //   body: JSON.stringify({
+            //     content: data.content,
+            //     title: data.title,
+            //     imageUrl: info.data.imageUrl,
+            //     category: data.category,
+            //     materials: data.materials,
+            //     level: data.level,
+            //     timetodone: data.timetodone,
+            //     slug: data.slug
+            //   })
+            // })
+            //   .then(res => res.json())
+            //   .then(data1 => {
+            //     console.log(data1);
+            //     if (data1.success) {
+            //       if (window.localStorage.getItem("id")) {
+            //         window.location.href = `/my-post/${window.localStorage.getItem(
+            //           "id"
+            //         )}`;
+            //       } else {
+            //         window.location.href = `/my-post/${window.sessionStorage.getItem(
+            //           "id"
+            //         )}`;
+            //       }
+            //     }
+            //   });
           })
           .catch(error => {
             throw error;
@@ -240,6 +244,22 @@ class CreatePostScreen extends React.Component {
       .catch(error => {
         throw error;
       });
+      fetch(`http://localhost:3001/posts/get-post-by-id/${this.props.match.params.postId}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include',
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                console.log(data);
+
+            })
+            .catch((error) => {
+                console.log(error);
+                window.alert(error.message);
+            })
   }
 
   render() {
@@ -260,7 +280,7 @@ class CreatePostScreen extends React.Component {
     return (
       <div className="container mt-5 mb-5" >
         <div className="text-center">
-          <h3 className="title-login">Tạo công thức</h3>
+          <h3 className="title-login">Sửa công thức</h3>
         </div >
         <Form
           {...formItemLayout}

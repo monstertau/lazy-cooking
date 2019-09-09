@@ -16,6 +16,7 @@ import MenuItem from "antd/lib/menu/MenuItem";
 import ShowRecipeScreen from "./pages/ShowRecipeScreen";
 import SimpleMeal from "./pages/SimpleMeal";
 import SearchScreen from "./pages/SearchScreen";
+import EditPostScreen from "./pages/EditPostScreen";
 const { Search } = Input;
 const { SubMenu } = Menu;
 
@@ -143,24 +144,12 @@ class App extends React.Component {
   // }
 
   handleSearch = keyword => {
-    // fetch(`http://localhost:3001/posts/search/${keyword}`, {
-    //   method: 'GET',
-    //   headers: {
-    //     'Content-Type': 'application/json'
-    //   },
-    //   credentials: 'include',
-    // })
-    //   .then((res) => res.json())
-    //   .then((data) => {
-    //     this.setState({
-    //       searchData: data.data,
-    //     })
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //     window.alert(error.message);
-    //   })
-    window.location.replace(`http://localhost:3000/search/${keyword}  `);
+    if (keyword.trim().length === 0) {
+      window.alert('Vui lòng nhập tên món ăn')
+    } else {
+      window.location.replace(`http://localhost:3000/search/${keyword}`);
+    }
+
   };
   render() {
     // console.log(this.state);
@@ -266,7 +255,7 @@ class App extends React.Component {
             </Button>
 
             <Search
-              placeholder="Nhập công thức muốn tìm kiếm"
+              placeholder="Nhập tên món ăn"
               enterButton
               size="large"
               onSearch={this.handleSearch}
@@ -367,14 +356,23 @@ class App extends React.Component {
               component={ShowRecipeScreen}
             />
             <Route path="/simple-meal" exact={true} component={SimpleMeal} />
+            <Route path="/edit-post/:postId" exact={true} component={EditPostScreen} />
           </BrowserRouter>
         </div>
-        <div className="text-center ">
-          <footer >
-            <p>Copyright &copy; {new Date().getFullYear()} All rights reserved | This website is made by Lazy Cooking Team </p>
-            <li class="socialMedias"> <img class="facebook" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRchaeuqMLpHta_obpve5pwJu38yAS_tdzQDB-TDSzifr50c5-ZVA" href="https://www.facebook.com/axel.halldin1?fref=ts"/></li>
-          </footer>
-        </div>
+        <footer class="footer-area">
+          <div class="container h-100">
+            <div class="row h-100">
+              <div class="col-12 h-100 d-flex flex-wrap align-items-center justify-content-between">
+                <div class="footer-logo">
+                  <a href="index.html"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSQL6yfKuQ2S9MSqQ9w8DKTlR0SKin-aezRXgVjZgBJ4wcaKdZO" alt=""></img ></a>
+                </div>
+                <p>
+                  Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made by Lazy Cooking Team
+                </p>
+              </div>
+            </div>
+          </div>
+        </footer>
       </div>
     );
   }

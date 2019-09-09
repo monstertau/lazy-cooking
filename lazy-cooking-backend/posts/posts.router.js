@@ -399,7 +399,8 @@ postRouter.get('/search/:keyword', (req, res) => {
 
   const keyword = req.params.keyword;
 
-  postModel.find({ title: { "$regex": keyword, $options: 'i' } })
+  if(keyword.trim().length === 0){
+    postModel.find({})
     .sort({ createdAt: -1 })
     .populate("author", "avatarUrl fullName")
     .exec((err, data) => {
@@ -416,6 +417,56 @@ postRouter.get('/search/:keyword', (req, res) => {
         
       }
     });
-  ;
+  } else {
+    postModel.find({ title: { "$regex": keyword, $options: 'i' } })
+    .sort({ createdAt: -1 })
+    .populate("author", "avatarUrl fullName")
+    .exec((err, data) => {
+      if (err) {
+        res.status(500).json({
+          success: false,
+          message: error.message
+        });
+      } else {
+          res.status(200).json({
+            success: true,
+            data: data
+          });
+        
+      }
+    });
+  }
+})
+
+postRouter.get('/get-six-new', (req, res) => {
+  postModel.find().sort({"createdAt": -1}).populate("author", "avatarUrl fullName").limit(6).exec((err, data) => {
+    if (err) {
+      res.status(500).json({
+        success: false,
+        message: error.message
+      });
+    } else {
+        res.status(200).json({
+          success: true,
+          data: data
+        });
+    }
+  });
+})
+
+postRouter.get('/get-most-like', (req, res) => {
+  postModel.find().sort({"upvote": -1}).populate("author", "avatarUrl fullName").limit(6).exec((err, data) => {
+    if (err) {
+      res.status(500).json({
+        success: false,
+        message: error.message
+      });
+    } else {
+        res.status(200).json({
+          success: true,
+          data: data
+        });
+    }
+  });
 })
 module.exports = postRouter;
