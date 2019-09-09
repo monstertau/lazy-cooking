@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter, Route, Link } from "react-router-dom";
+import { MDBContainer } from 'mdbreact';
 import "./App.css";
 import "antd/dist/antd.css";
 import { Button, Input, Menu, Dropdown, Icon, Avatar, List } from "antd";
@@ -271,65 +272,65 @@ class App extends React.Component {
               onSearch={this.handleSearch}
             />
             {window.localStorage.getItem("email") ||
-            window.sessionStorage.getItem("email") ? (
-              <>
-                <Button
-                  icon="form"
-                  style={{ marginLeft: "5px" }}
-                  size="large"
-                  href="/create-recipe"
-                >
-                  Đăng công thức
+              window.sessionStorage.getItem("email") ? (
+                <>
+                  <Button
+                    icon="form"
+                    style={{ marginLeft: "5px" }}
+                    size="large"
+                    href="/create-recipe"
+                  >
+                    Đăng công thức
                 </Button>
-                <Dropdown
-                  overlay={
-                    <Menu>
-                      <Menu.Item>
-                        <p>Welcome,{this.state.currentUser.fullName} !</p>
-                      </Menu.Item>
-                      <Menu.Item>
-                        <a href={`/profile`}>Profile</a>
-                      </Menu.Item>
-                      <Menu.Item>
-                        <a href={`/my-post/${this.state.currentUser.id}`}>
-                          Bài đăng của tôi
+                  <Dropdown
+                    overlay={
+                      <Menu>
+                        <Menu.Item>
+                          <p>Welcome,{this.state.currentUser.fullName} !</p>
+                        </Menu.Item>
+                        <Menu.Item>
+                          <a href={`/profile`}>Profile</a>
+                        </Menu.Item>
+                        <Menu.Item>
+                          <a href={`/my-post/${this.state.currentUser.id}`}>
+                            Bài đăng của tôi
                         </a>
-                      </Menu.Item>
-                      <Menu.Item>
-                        <a onClick={this.handleLogOut}>Đăng xuất</a>
-                      </Menu.Item>
-                    </Menu>
-                  }
-                >
-                  <a className="ant-dropdown-link" href="/profile">
-                    <Avatar
-                      src={this.state.currentUser.avatarUrl}
-                      style={{ marginLeft: "6px" }}
-                      size={45}
-                    />
-                  </a>
-                </Dropdown>
-              </>
-            ) : (
-              <>
-                <Button
-                  size="large"
-                  style={{ marginLeft: "9px", marginRight: "9px" }}
-                  icon="login"
-                  href="/login"
-                >
-                  Đăng nhập
+                        </Menu.Item>
+                        <Menu.Item>
+                          <a onClick={this.handleLogOut}>Đăng xuất</a>
+                        </Menu.Item>
+                      </Menu>
+                    }
+                  >
+                    <a className="ant-dropdown-link" href="/profile">
+                      <Avatar
+                        src={this.state.currentUser.avatarUrl}
+                        style={{ marginLeft: "6px" }}
+                        size={45}
+                      />
+                    </a>
+                  </Dropdown>
+                </>
+              ) : (
+                <>
+                  <Button
+                    size="large"
+                    style={{ marginLeft: "9px", marginRight: "9px" }}
+                    icon="login"
+                    href="/login"
+                  >
+                    Đăng nhập
                 </Button>
-                <Button
-                  size="large"
-                  type="danger"
-                  icon="logout"
-                  href="/register"
-                >
-                  Đăng kí
+                  <Button
+                    size="large"
+                    type="danger"
+                    icon="logout"
+                    href="/register"
+                  >
+                    Đăng kí
                 </Button>
-              </>
-            )}
+                </>
+              )}
           </nav>
         </div>
 
@@ -367,6 +368,12 @@ class App extends React.Component {
             />
             <Route path="/simple-meal" exact={true} component={SimpleMeal} />
           </BrowserRouter>
+        </div>
+        <div className="text-center ">
+          <footer >
+            <p>Copyright &copy; {new Date().getFullYear()} All rights reserved | This website is made by Lazy Cooking Team </p>
+            <li class="socialMedias"> <img class="facebook" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRchaeuqMLpHta_obpve5pwJu38yAS_tdzQDB-TDSzifr50c5-ZVA" href="https://www.facebook.com/axel.halldin1?fref=ts"/></li>
+          </footer>
         </div>
       </div>
     );
