@@ -9,26 +9,6 @@ const IconText = ({ type, text }) => (
     {text}
   </span>
 );
-const data = [
-  {
-    title: "Title 1"
-  },
-  {
-    title: "Title 2"
-  },
-  {
-    title: "Title 3"
-  },
-  {
-    title: "Title 4"
-  },
-  {
-    title: "Title 5"
-  },
-  {
-    title: "Title 6"
-  }
-];
 class ShowRecipeScreen extends Component {
   state = {
     data: []
@@ -93,11 +73,11 @@ class ShowRecipeScreen extends Component {
                   cover={
                     
                     <img
-                      alt="example"
+                      alt={item.title}
                       src={item.imageUrl}
                       width="100"
                       height="255"
-                      object-fit="contain"
+                      object-fit="cover"
                       
                     />
                     

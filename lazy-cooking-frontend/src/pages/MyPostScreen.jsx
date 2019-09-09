@@ -1,6 +1,15 @@
 import React, { Component } from "react";
 import "antd/dist/antd.css";
-import { Empty, List, Avatar, Icon, Button, Popconfirm, message } from "antd";
+import {
+  Empty,
+  List,
+  Avatar,
+  Icon,
+  Button,
+  Popconfirm,
+  message,
+  Tag
+} from "antd";
 const IconText = ({ type, text }) => (
   <span>
     <Icon type={type} style={{ marginRight: 8 }} />
@@ -81,7 +90,7 @@ class MyPostScreen extends Component {
           <Empty />
         ) : (
           <List
-          className="login"
+            
             itemLayout="vertical"
             size="large"
             pagination={{
@@ -93,11 +102,17 @@ class MyPostScreen extends Component {
             dataSource={this.state.data}
             renderItem={item => (
               <List.Item
+              className="login"
+              style={{marginTop:"30px"}}
                 key={item.title}
                 actions={[
-                  <IconText type="like" text={item.upvote.length} key="upvote" />,
                   <IconText
-                    type="bulb"
+                    type="like"
+                    text={item.upvote.length}
+                    key="upvote"
+                  />,
+                  <IconText
+                    type="bar-chart"
                     text={`Độ khó: ${item.level}`}
                     key="list-vertical-like-o"
                   />,
@@ -131,13 +146,14 @@ class MyPostScreen extends Component {
                 <List.Item.Meta
                   avatar={<Avatar src={item.author.avatarUrl} />}
                   title={
-                    <h5>
-                      <a href={`/post/${item._id}`}>{item.title}</a>
-                    </h5>
+                    <h4>
+                      <a href={`/post/${item._id}`} style={{color:"black"}}>{item.title}</a>
+                    </h4>
                   }
                   // description={item.description}
                 />
-                {item.content}
+                Nguyên liệu:&nbsp;&nbsp;
+                {item.materials.map(i=><Tag color="blue">{i}</Tag>)}
               </List.Item>
             )}
           />

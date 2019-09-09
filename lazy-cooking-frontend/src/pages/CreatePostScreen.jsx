@@ -272,10 +272,7 @@ class CreatePostScreen extends React.Component {
             {getFieldDecorator("title", {
               rules: [
                 { required: true, message: "Please input your title!" },
-                {
-                  max: 50,
-                  message: "Title is below 50 characters"
-                }
+                
               ]
             })(
               <Input
@@ -292,7 +289,7 @@ class CreatePostScreen extends React.Component {
               rules: [
                 {
                   required: true,
-                  message: "Please select your favourite colors!",
+                  message: "Please select your food!",
                   type: "array"
                 }
               ]
@@ -362,7 +359,7 @@ class CreatePostScreen extends React.Component {
                 customRequest={this.dummyRequest}
                 listType="picture"
                 beforeUpload={this.beforeUpload}
-                accept=".png, .jpg"
+                accept=".png, .jpg,.jpeg"
                 onChange={this.handleImageChange.bind(this)}
                 onRemove={this.handleImageRemove}
               >
