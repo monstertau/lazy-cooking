@@ -23,8 +23,8 @@ class SearchScreen extends React.Component {
     componentWillMount() {
         const pathName = window.location.pathname.split("/");
         var keyword = pathName[2];
-        keyword = decodeURI(keyword);
 
+        keyword = decodeURI(keyword);
         this.setState({
             keyword: keyword,
         })
@@ -101,7 +101,7 @@ class SearchScreen extends React.Component {
                             >
                                 <List.Item.Meta
                                     avatar={<Avatar src={item.author.avatarUrl} />}
-                                    title={<a href={`/post/${item._id}`}>{item.title}</a>}
+                                    title={<h6><a href={`/post/${item._id}`}>{item.title}</a></h6>}
                                 />
                                 {renderHTML(`${item.content }`)}
                             </List.Item>
