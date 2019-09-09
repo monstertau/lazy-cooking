@@ -91,7 +91,7 @@ class DetailPostScreen extends Component {
 
     handleSubmitComment = (event) => {
         event.preventDefault();
-        
+
         if (this.state.userComment.trim().length === 0) {
             this.setState({
                 isError: true,
@@ -135,91 +135,96 @@ class DetailPostScreen extends Component {
 
     render() {
         return (
-            <div className="container mt-5">
-                <div className="headline">
-                    <div className="title">
-                        <h2>{this.state.title}</h2>
-                    </div>
-                    <div className="row">
-                        <div className="media col-3">
-                            <img src={this.state.avatarUrl} className="align-self-center avatarImage" />
-                            <div className="media-body ml-1 ">
-                                <h6 className="mt-0">{this.state.authorName}</h6>
-                                <small><Icon type="like" /> Thích: {this.state.totalVote}</small>
+            <div className="abc">
+                <br/>
+                <div className="container detail-post">
+                    <div className="headline">
+                        <div className="title">
+                            <h2>{this.state.title}</h2>
+                        </div>
+                        <div className="row">
+                            <div className="media col-3">
+                                <img src={this.state.avatarUrl} className="align-self-center avatarImage" />
+                                <div className="media-body ml-1 ">
+                                    <h6 className="mt-0">{this.state.authorName}</h6>
+                                    <small><Icon type="like" /> Thích: {this.state.totalVote}</small>
+                                </div>
+                            </div>
+                            <div className="col-3 align-self-center">
+                                <h6><Icon type="clock-circle" /> Thời gian làm: {this.state.timeToDone} phút</h6>
+                            </div>
+                            <div className="col-3 align-self-center">
+                                <h6><Icon type="bulb" /> Độ khó: {this.state.level}</h6>
+                            </div>
+                            <div className="col-3 align-self-center">
+                                <h6><Icon type="profile" /> Nguyên Liệu: {this.state.materials.map((item) => {
+                                    return (
+                                        <Tag>{item}</Tag>
+                                    )
+                                })}</h6>
                             </div>
                         </div>
-                        <div className="col-3 align-self-center">
-                            <h6><Icon type="clock-circle" /> Thời gian làm: {this.state.timeToDone} phút</h6>
-                        </div>
-                        <div className="col-3 align-self-center">
-                            <h6><Icon type="bulb" /> Độ khó: {this.state.level}</h6>
-                        </div>
-                        <div className="col-3 align-self-center">
-                            <h6><Icon type="profile" /> Nguyên Liệu: {this.state.materials.map((item) => {
-                                return (
-                                    <Tag>{item}</Tag>
-                                )
-                            })}</h6>
+                    </div>
+                    <div className="main-content">
+                        <div className="content">
+                            <div className="image text-center mt-5">
+                                <img className="postImage" src={this.state.imageUrl} />
+                            </div>
+                            <div className="detail-content mt-5">
+                                {renderHTML(`${this.state.content}`)}
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div className="content">
-                    <div className="image text-center mt-5">
-                        <img className="postImage" src={this.state.imageUrl} />
-                    </div>
-                    <div className="detail-content mt-5">
-                        {renderHTML(`${this.state.content}`)}
-                    </div>
-                </div>
-                <div className="review-react-container mt-5 ">
-                    {this.state.voted ? (
-                        <div className="icons-list react">
-                            <Button value="small" shape="round" type="primary" onClick={this.handleClickLike}><Icon type="dislike" />
-                            </Button> • Bạn và {this.state.totalVote - 1} người khác thích bài viết này
+                    <div className="review-react-container mt-5 ">
+                        {this.state.voted ? (
+                            <div className="icons-list react">
+                                <Button value="small" shape="round" type="primary" onClick={this.handleClickLike}><Icon type="dislike" />
+                                </Button> • Bạn và {this.state.totalVote - 1} người khác thích bài viết này
                                 {renderHTML(`&nbsp&nbsp&nbsp&nbsp`)} <Icon type="message" /> • {this.state.comments.length} bình luận
                             </div>
-                    ) : (
-                            <div className="icons-list react">
-                                <Button value="small" shape="round" type="primary" onClick={this.handleClickLike}><Icon type="like" /></Button> • {this.state.totalVote} thích bài viết này
+                        ) : (
+                                <div className="icons-list react">
+                                    <Button value="small" shape="round" type="primary" onClick={this.handleClickLike}><Icon type="like" /></Button> • {this.state.totalVote} thích bài viết này
                                     {renderHTML(`&nbsp&nbsp&nbsp&nbsp`)} <Icon type="message" /> • {this.state.comments.length} bình luận
                             </div>
-                        )}
-                    <div className="review">
-                        <div className="comments">
-                            {this.state.comments.map((item) => {
-                                return (
-                                    <div className="media mt-2 user-comment" key={item.id}>
-                                        <img className="align-self-center mr-2 ml-1 avatarImage" src={item.userAvatarUrl} />
-                                        <div className="media-body mb-1">
-                                            <a href=""><h6 className="mt-0" >{item.userName}</h6></a>
-                                            {item.content}</div>
+                            )}
+                        <div className="review">
+                            <div className="comments">
+                                {this.state.comments.map((item) => {
+                                    return (
+                                        <div className="media mt-2 user-comment" key={item.id}>
+                                            <img className="align-self-center mr-2 ml-1 avatarImage" src={item.userAvatarUrl} />
+                                            <div className="media-body mb-1">
+                                                <a href=""><h6 className="mt-1 user" >{item.userName}</h6></a>
+                                                {item.content}</div>
+                                        </div>
+                                    )
+                                })}
+                            </div>
+                            <div className="input-comment mt-3">
+                                <form onSubmit={this.handleSubmitComment}>
+                                    <div className="media">
+                                        <img src={this.state.avatarUrl} className="align-self-center mr-3 avatarImage" />
+                                        <textarea className="form-control" rows="2" placeholder="Thêm bình luận tại đây!" onInput={this.handleInput}
+                                            value={this.state.userComment}
+                                            onChange={(event) => {
+                                                this.setState({
+                                                    userComment: event.target.value,
+                                                });
+                                            }}></textarea>
                                     </div>
-                                )
-                            })}
-                        </div>
-                        <div className="input-comment mt-3">
-                            <form onSubmit={this.handleSubmitComment}>
-                                <div className="media">
-                                    <img src={this.state.avatarUrl} className="align-self-center mr-3 avatarImage" />
-                                    <textarea className="form-control" rows="2" placeholder="Thêm bình luận tại đây!" onInput={this.handleInput}
-                                        value={this.state.userComment}
-                                        onChange={(event) => {
-                                            this.setState({
-                                                userComment: event.target.value,
-                                            });
-                                        }}></textarea>
-                                </div>
-                                {this.state.isError ? (
-                                    <div className="form-field col-lg-12 mt-0 text-right">
-                                        <p className="label-error">{this.state.message}</p>
+                                    {this.state.isError ? (
+                                        <div className="form-field col-lg-12 mt-0 text-right">
+                                            <p className="label-error">{this.state.message}</p>
+                                        </div>
+                                    ) : (
+                                            null
+                                        )}
+                                    <div className="btn-comment text-right mt-1">
+                                        <button className="btn btn-primary btn-sm" type='submit'>Bình luận</button>
                                     </div>
-                                ) : (
-                                        null
-                                    )}
-                                <div className="btn-comment text-right mt-1">
-                                    <button className="btn btn-primary btn-sm" type='submit'>Bình luận</button>
-                                </div>
-                            </form>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>

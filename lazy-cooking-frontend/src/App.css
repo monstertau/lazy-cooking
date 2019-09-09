@@ -1,4 +1,9 @@
 @import '~antd/dist/antd.css';
+* {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+}
+
 .App {
   text-align: center;
 }
@@ -35,7 +40,7 @@
 }
 
 h6 {
-  color: rgb(109, 134, 158);
+  color: rgb(64, 169, 255);
   text-align: left
 }
 
@@ -86,10 +91,6 @@ h6 {
 .user-comment{
   background-color: #fff;
   border-radius: 3px;
-}
-
-.remember{
-  color: #5543ca;
 }
 
 .or{
@@ -149,4 +150,85 @@ h6 {
   padding: 15px;
   box-shadow: 2px 2px 5px 0 rgba(0,0,0,.1);
   border-radius: 12px;
+}
+
+.main-content{
+  margin: 20px;
+  /* background: #ffff;
+  border-radius: 6px; */
+}
+
+.detail-post{
+  margin-top:20px;
+  padding: 10px 20px;
+  background: rgb(255,255,255);
+  border-radius: 6px;
+}
+
+.abc{
+  background: rgb(241,243,244);
+}
+
+.user{
+  color: rgb(56,88,152);
+}
+.title-meal hr {
+  display: inline-block;
+  width: 200px;
+  margin-top: 0.5em;
+  margin-bottom: 0.4em;
+  margin-right: 20px;
+  margin-left: 20px;
+  border: 0.5px solid;
+  border-style: groove;
+}
+
+.title-meal{
+  text-align: center;
+}
+
+.image-meal{
+  width: 250px;
+  height: 150px;
+}
+
+.row-meal{
+  margin-left: 30px;
+  margin-right: 30px;
+  margin-top:20px;
+}
+
+.btn-sang {
+  position: absolute;
+  top: 75%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  background-color: rgb(255, 79, 81);
+  color: white;
+  font-size: 13px;
+  width: 90px;
+  height: 30px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.btn-sang:hover {
+  background-color: rgb(22, 199, 22) ;
+}
+
+.a-sang{
+  color: #fff;
+}
+
+.a-sang:hover {
+  color: #fff;
+}
+
+.title-new-post{
+  border-left-style: double;
+  border-left-width: 2px;
+  border-left-color: red;
 }
