@@ -47,12 +47,11 @@ class MyPostScreen extends Component {
         }
       });
   }
-  handleDeleteChange = itemId => {
-    // console.log(itemId);
-    if (itemId) {
-    } else {
+  handleEditChange = itemId =>{
+    if(itemId){
+      window.location.href = `/edit-post/${itemId}`
     }
-  };
+  }
   confirm = itemId => {
     console.log(itemId);
 
@@ -128,7 +127,7 @@ class MyPostScreen extends Component {
 
                     <div className="mt-2" style={{ textAlign: "right" }}>
                       <Button.Group>
-                        <Button icon="edit">Chỉnh sửa</Button>
+                        <Button icon="edit" onClick={()=>this.handleEditChange(item._id)}>Chỉnh sửa</Button>
                         <Popconfirm
                           title="Bạn có muốn xóa post này không?"
                           onConfirm={() => this.confirm(item._id)}
@@ -147,7 +146,7 @@ class MyPostScreen extends Component {
                   avatar={<Avatar src={item.author.avatarUrl} />}
                   title={
                     <h4>
-                      <a href={`/post/${item._id}`} style={{color:"black"}}>{item.title}</a>
+                      <a href={`/post/${item._id}`} style={{color:"black",}}>{item.title}</a>
                     </h4>
                   }
                   // description={item.description}

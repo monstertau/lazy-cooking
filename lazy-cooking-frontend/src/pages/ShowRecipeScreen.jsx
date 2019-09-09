@@ -104,7 +104,7 @@ class ShowRecipeScreen extends Component {
                     avatar={<Avatar src={item.author.avatarUrl} />}
                     title={item.title}
                     description={
-                      "Người đăng: " + item.author.fullName.split(" ")[2]
+                      "Người đăng: " + item.author.fullName
                     }
                   />
                 </Card>

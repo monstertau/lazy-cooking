@@ -15,6 +15,7 @@ import MenuItem from "antd/lib/menu/MenuItem";
 import ShowRecipeScreen from "./pages/ShowRecipeScreen";
 import SimpleMeal from "./pages/SimpleMeal";
 import SearchScreen from "./pages/SearchScreen";
+import EditPostScreen from "./pages/EditPostScreen";
 const { Search } = Input;
 const { SubMenu } = Menu;
 
@@ -366,6 +367,7 @@ class App extends React.Component {
               component={ShowRecipeScreen}
             />
             <Route path="/simple-meal" exact={true} component={SimpleMeal} />
+            <Route path="/edit-post/:postId" exact={true} component={EditPostScreen} />
           </BrowserRouter>
         </div>
       </div>

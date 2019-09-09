@@ -47,6 +47,8 @@ class Blog extends Component {
           dataSource={this.state.data}
           renderItem={item => (
             <List.Item
+            className="login"
+            style={{marginTop:"30px"}}
               key={item.title}
               actions={[
                 <IconText
@@ -73,16 +75,16 @@ class Blog extends Component {
               extra={
                 <img
                   width={272}
-                  height={272}
+                  
                   alt="logo"
                   src={item.imageUrl}
-                  style={{ objectFit: "contain" }}
+                  style={{ objectFit: "cover" }}
                 />
               }
             >
               <List.Item.Meta
                 avatar={<Avatar src={item.author.avatarUrl} />}
-                title={<h5><a href={`/post/${item._id}`}>{item.title}</a></h5>}
+                title={<h5><a href={`/post/${item._id}`} style={{color:"black"}}>{item.title}</a></h5>}
               />
               Nguyên liệu:&nbsp;&nbsp;
               {item.materials.map(i => (
