@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Link } from "react-router-dom";
 import { MDBContainer } from "mdbreact";
 import "./App.css";
 import "antd/dist/antd.css";
-import { Button, Input, Menu, Dropdown, Icon, Avatar,Badge } from "antd";
+import { Button, Input, Menu, Dropdown, Icon, Avatar, Badge } from "antd";
 import HomeScreen from "./pages/HomeScreen";
 import WrappedLoginScreen from "./pages/LoginScreen";
 import RegisterScreen from "./pages/RegisterScreen";
@@ -17,7 +17,7 @@ import SimpleMeal from "./pages/SimpleMeal";
 import SearchScreen from "./pages/SearchScreen";
 import EditPostScreen from "./pages/EditPostScreen";
 import DetailUser from "./pages/DetailUser";
-import logo from "../src/logo.png"
+import logo from "../src/logo.png";
 import ScrollUpButton from "react-scroll-up-button";
 const { Search } = Input;
 const { SubMenu } = Menu;
@@ -154,7 +154,12 @@ class App extends React.Component {
         <div>
           <nav className="navbar navbar-expand-lg navbar-light bg-light">
             <a href="/">
-            <img src={logo} height={55} width={200} style={{objectFit:"cover"}} />
+              <img
+                src={logo}
+                height={55}
+                width={200}
+                style={{ objectFit: "cover" }}
+              />
             </a>
             <Dropdown
               overlay={
@@ -234,16 +239,15 @@ class App extends React.Component {
             <Button size="large" href="/blog" type="link" icon="book">
               Blogs{" "}
             </Button>
-            <Badge count={"Hot"} className="mr-4">
-            <Button
-              size="large"
-              href="/simple-meal"
-              type="link"
-              icon="shopping-cart"
-              
-            >
-              Bữa ăn đơn giản{" "}
-            </Button>
+            <Badge count={"Hot"} className="mr-5">
+              <Button
+                size="large"
+                href="/simple-meal"
+                type="link"
+                icon="shopping-cart"
+              >
+                Bữa ăn đơn giản{" "}
+              </Button>
             </Badge>
             <Search
               placeholder="Nhập tên món ăn"
@@ -347,66 +351,77 @@ class App extends React.Component {
               component={ShowRecipeScreen}
             />
             <Route path="/simple-meal" exact={true} component={SimpleMeal} />
-            <Route path="/edit-post/:postId" exact={true} component={EditPostScreen} />
-            <Route path="/detailUser/:userId" exact={true} component={DetailUser}></Route>
+            <Route
+              path="/edit-post/:postId"
+              exact={true}
+              component={EditPostScreen}
+            />
+            <Route
+              path="/detailUser/:userId"
+              exact={true}
+              component={DetailUser}
+            ></Route>
           </BrowserRouter>
         </div>
-        
-          <section id="footer">
-            <div class="container">
-              <div class="row">
-                <div class="col-xs-12 col-sm-12 col-md-12">
-                  <ul class="list-unstyled list-inline social text-center">
-                    <li class="list-inline-item">
-                      <a href="javascript:void();">
-                        <i class="fa fa-facebook"></i>
-                      </a>
-                    </li>
-                    <li class="list-inline-item">
-                      <a href="javascript:void();">
-                        <i class="fa fa-twitter"></i>
-                      </a>
-                    </li>
-                    <li class="list-inline-item">
-                      <a href="javascript:void();">
-                        <i class="fa fa-instagram"></i>
-                      </a>
-                    </li>
-                    <li class="list-inline-item">
-                      <a href="javascript:void();">
-                        <i class="fa fa-google-plus"></i>
-                      </a>
-                    </li>
-                    <li class="list-inline-item">
-                      <a href="javascript:void();" target="_blank">
-                        <i class="fa fa-envelope"></i>
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-                <hr />
-              </div>
-              <div class="row">
-              <a class="col-xs-12 col-sm-12 col-md-12 mt-2 mt-sm-2 text-center" href="">
-                <img src={logo} style={{height:120}}/>
-              </a>
-              </div>
 
-              <div class="row">
-                <div class="col-xs-12 col-sm-12 col-md-12 mt-2 mt-sm-2 text-center text-white">
-                  <p>
-                    
-                    Lazy Cooking là một dự án phi lợi nhuận của 1 nhóm 3 bạn trẻ với mục đích hướng tới những
-                    bữa ăn đơn giản, dễ làm, dễ học, với mong muốn góp phần giúp các bạn trẻ có 1 bữa ăn lành mạnh,
-                    tránh những bữa ăn ở ngoài hàng quán vừa không đảm bảo vừa đắt đỏ
-                  </p>
-                  <p class="h6">&copy; 2019 All right Reserved Lazy Cooking </p>
-                </div>
-                <hr />
+        <section id="footer">
+          <div class="container">
+            <div class="row">
+              <div class="col-xs-12 col-sm-12 col-md-12">
+                <ul class="list-unstyled list-inline social text-center">
+                  <li class="list-inline-item">
+                    <a href="javascript:void();">
+                      <i class="fa fa-facebook"></i>
+                    </a>
+                  </li>
+                  <li class="list-inline-item">
+                    <a href="javascript:void();">
+                      <i class="fa fa-twitter"></i>
+                    </a>
+                  </li>
+                  <li class="list-inline-item">
+                    <a href="javascript:void();">
+                      <i class="fa fa-instagram"></i>
+                    </a>
+                  </li>
+                  <li class="list-inline-item">
+                    <a href="javascript:void();">
+                      <i class="fa fa-google-plus"></i>
+                    </a>
+                  </li>
+                  <li class="list-inline-item">
+                    <a href="javascript:void();" target="_blank">
+                      <i class="fa fa-envelope"></i>
+                    </a>
+                  </li>
+                </ul>
               </div>
+              <hr />
             </div>
-          </section>
-        
+            <div class="row">
+              <a
+                class="col-xs-12 col-sm-12 col-md-12 mt-2 mt-sm-2 text-center"
+                href=""
+              >
+                <img src={logo} style={{ height: 120 }} />
+              </a>
+            </div>
+
+            <div class="row">
+              <div class="col-xs-12 col-sm-12 col-md-12 mt-2 mt-sm-2 text-center text-white">
+                <p>
+                  Lazy Cooking là một dự án phi lợi nhuận của 1 nhóm 3 bạn trẻ
+                  với mục đích hướng tới những bữa ăn đơn giản, dễ làm, dễ học,
+                  với mong muốn góp phần giúp các bạn trẻ có 1 bữa ăn lành mạnh,
+                  tránh những bữa ăn ở ngoài hàng quán vừa không đảm bảo vừa đắt
+                  đỏ
+                </p>
+                <p class="h6">&copy; 2019 All right Reserved Lazy Cooking </p>
+              </div>
+              <hr />
+            </div>
+          </div>
+        </section>
       </div>
     );
   }
