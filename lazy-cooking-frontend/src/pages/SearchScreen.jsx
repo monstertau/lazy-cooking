@@ -1,5 +1,5 @@
 import React from "react";
-import {Icon, Avatar, List } from "antd";
+import { Icon, Avatar, List } from "antd";
 import renderHTML from 'react-render-html';
 import "antd/dist/antd.css";
 import "./HomeScreen.css";
@@ -38,7 +38,7 @@ class SearchScreen extends React.Component {
         })
             .then((res) => res.json())
             .then((data) => {
-                if(data.data.length === 0){
+                if (data.data.length === 0) {
                     this.setState({
                         emptyData: true,
                     })
@@ -59,59 +59,62 @@ class SearchScreen extends React.Component {
 
     render() {
         return (
-            <div>
-                {this.state.emptyData ? (
-                    <div className="container mt-5">
-                        <h3><Icon type="meh" /> Không tìm thấy bài viết nào cho '{this.state.keyword}'</h3>
-                    </div>
-                ) : (
-                    <div className="container" style={{ marginTop: "20px" }}>
-                <div className="mt-5">
-                    <h3>Kết quả tìm kiếm cho '{this.state.keyword}'</h3>
-                </div>
-                <div className="container mt-3 mb-5" >
-                    <List
-                        itemLayout="vertical"
-                        size="large"
-                        pagination={{
-                            onChange: page => {
-                                console.log(page);
-                            },
-                            pageSize: 7,
-                        }}
-                        dataSource={this.state.searchData}
-                        renderItem={item => (
-                            <List.Item
-                                key={item.title}
-                                actions={[
-                                    <IconText type="like-o" text={item.upvote.length} key="list-vertical-like-o" />,
-                                    <IconText type="clock-circle" text={`Thời Gian: ${item.timetodone} phút`} key="list-vertical-like-o" />,
-                                    <IconText type="bulb" text={`Độ Khó: ${item.level} sao`} key="list-vertical-like-o" />,
-                                    <IconText type="user" text={`Người Đăng: ${item.author.fullName}`} key="list-vertical-like-o" />,
-                                ]}
-                                extra={
-                                    <img
-                                        width={272}
-                                        height={272}
-                                        alt="logo"
-                                        src={item.imageUrl}
-                                        style={{ objectFit: "contain" }}
+            <div className="abc">
+                <div className="">
+                    {this.state.emptyData ? (
+                        <div className="container mt-5">
+                            <h3><Icon type="meh" /> Không tìm thấy bài viết nào cho '{this.state.keyword}'</h3>
+                        </div>
+                    ) : (
+                            <div className="container detail-post" >
+                                <div className="mt-5">
+                                    <h3>Kết quả tìm kiếm cho '{this.state.keyword}'</h3>
+                                </div>
+                                <div className="container mt-3 mb-5" >
+                                    <List
+                                        itemLayout="vertical"
+                                        size="large"
+                                        pagination={{
+                                            onChange: page => {
+                                                console.log(page);
+                                            },
+                                            pageSize: 7,
+                                        }}
+                                        dataSource={this.state.searchData}
+                                        renderItem={item => (
+                                            <List.Item
+                                                key={item.title}
+                                                actions={[
+                                                    <IconText type="like-o" text={item.upvote.length} key="list-vertical-like-o" />,
+                                                    <IconText type="clock-circle" text={`Thời Gian: ${item.timetodone} phút`} key="list-vertical-like-o" />,
+                                                    <IconText type="bulb" text={`Độ Khó: ${item.level} sao`} key="list-vertical-like-o" />,
+                                                    <IconText type="user" text={`Người Đăng: ${item.author.fullName}`} key="list-vertical-like-o" />,
+                                                ]}
+                                                extra={
+                                                    <img
+                                                        width={272}
+                                                        height={272}
+                                                        alt="logo"
+                                                        src={item.imageUrl}
+                                                        style={{ objectFit: "contain" }}
+                                                    />
+                                                }
+                                            >
+                                                <List.Item.Meta
+                                                    avatar={<Avatar src={item.author.avatarUrl} />}
+                                                    title={<h6><a href={`/post/${item._id}`}>{item.title}</a></h6>}
+                                                />
+                                                {renderHTML(`${item.content}`)}
+                                            </List.Item>
+                                        )}
                                     />
-                                }
-                            >
-                                <List.Item.Meta
-                                    avatar={<Avatar src={item.author.avatarUrl} />}
-                                    title={<h6><a href={`/post/${item._id}`}>{item.title}</a></h6>}
-                                />
-                                {renderHTML(`${item.content }`)}
-                            </List.Item>
-                        )}
-                    />
-                </div>
+                                </div>
 
+                            </div>
+                        )}
+                </div>
             </div>
-                )}
-            </div>
+
         );
     }
 }
