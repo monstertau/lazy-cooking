@@ -43,8 +43,8 @@ class ShowRecipeScreen extends Component {
           <h3 className="title-login">Công thức dành cho bạn!</h3>
         </div>
         <div
-          className=" detail-post"
-          style={{ marginLeft: "10%", marginRight: "10%" }}
+          
+          style={{ marginLeft: "15%", marginRight: "15%" }}
         >
           <List
             // className="login"
