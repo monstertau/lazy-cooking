@@ -14,8 +14,12 @@ import CKEditor from "ckeditor4-react";
 import "antd/dist/antd.css";
 import { foodArr, typeArr } from "./data";
 const { Option } = Select;
-const { TextArea } = Input;
 CKEditor.editorUrl = "http://localhost:3000/ckeditor/ckeditor.js";
+function getBase64(img, callback) {
+  const reader = new FileReader();
+  reader.addEventListener('load', () => callback(reader.result));
+  reader.readAsDataURL(img);
+}
 class CreatePostScreen extends React.Component {
   state = {
     foods: foodArr,
@@ -26,7 +30,8 @@ class CreatePostScreen extends React.Component {
     categorySlug: [],
     levelSlug: "",
     timeSlug: "",
-    content: ""
+    content: "",
+    imageUrl: '',
   };
   ChangeToSlug = item => {
     let str = item.toLowerCase(); // xóa dấu
@@ -112,27 +117,21 @@ class CreatePostScreen extends React.Component {
   enterLoading = () => {
     this.setState({ loading: true });
   };
-  handleImageChange = event => {
-    // event.preventDefault();
-    // event.stopPropagation();
-    if (event.file.status === "done") {
-      const imageFile = event.file.originFileObj;
-      // console.log(imageFile);
-      if (imageFile) {
-        const fileReader = new FileReader();
-        fileReader.readAsDataURL(imageFile);
-        fileReader.onloadend = data => {
-          this.setState({
-            imageFile: imageFile
-          });
-          // console.log(this.state);
-        };
-      }
-    } else if (event.file.status === "removed") {
-      this.setState({
-        imageFile: ""
-      });
-      // console.log(this.state);
+  handleImageChange = info => {
+    if (info.file.status === 'uploading') {
+      this.setState({ loading: true });
+      return;
+    }
+    if (info.file.status === 'done') {
+      console.log(info.file.originFileObj);
+      // Get this url from response in real world.
+      getBase64(info.file.originFileObj, imageUrl =>
+        this.setState({
+          imageFile: info.file.originFileObj,
+          imageUrl,
+          loading: false,
+        }),
+      );
     }
   };
   dummyRequest({ file, onSuccess }) {
@@ -243,6 +242,12 @@ class CreatePostScreen extends React.Component {
   }
 
   render() {
+    const uploadButton = (
+      <div>
+        <Icon type={this.state.loading ? 'loading' : 'plus'} />
+        <div className="ant-upload-text">Upload</div>
+      </div>
+    );
     const foodItems = this.state.foods.map((item, key) => (
       <Option value={item}>{item}</Option>
     ));
@@ -258,7 +263,7 @@ class CreatePostScreen extends React.Component {
     };
 
     return (
-      <div className="container mt-5 mb-5" >
+      <div className="container mt-3 mb-5" >
         <div className="text-center">
           <h3 className="title-login">Tạo công thức</h3>
         </div >
@@ -357,15 +362,14 @@ class CreatePostScreen extends React.Component {
               <Upload
                 name="logo"
                 customRequest={this.dummyRequest}
-                listType="picture"
+                listType="picture-card"
                 beforeUpload={this.beforeUpload}
                 accept=".png, .jpg,.jpeg"
                 onChange={this.handleImageChange.bind(this)}
-                onRemove={this.handleImageRemove}
+                
+                showUploadList={false}
               >
-                <Button>
-                  <Icon type="upload" /> Bấm để tải ảnh
-                </Button>
+                {this.state.imageUrl ? <img src={this.state.imageUrl} alt="upload" style={{ width: '100%' }} /> : uploadButton}
               </Upload>
             )}
           </Form.Item>

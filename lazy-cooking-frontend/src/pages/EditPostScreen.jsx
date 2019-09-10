@@ -14,9 +14,13 @@ import CKEditor from "ckeditor4-react";
 import "antd/dist/antd.css";
 import { foodArr, typeArr } from "./data";
 const { Option } = Select;
-const { TextArea } = Input;
 CKEditor.editorUrl = "http://localhost:3000/ckeditor/ckeditor.js";
-class CreatePostScreen extends React.Component {
+function getBase64(img, callback) {
+  const reader = new FileReader();
+  reader.addEventListener('load', () => callback(reader.result));
+  reader.readAsDataURL(img);
+}
+class EditPostScreen extends React.Component {
   state = {
     foods: foodArr,
     types: typeArr,
@@ -28,9 +32,11 @@ class CreatePostScreen extends React.Component {
     timeSlug: "",
     content: "",
     title:"",
-    level:"",
+    level:Number,
     timetodone:Number,
-
+    materials:[],
+    category:[],
+    imageUrl: '',
   };
   ChangeToSlug = item => {
     let str = item.toLowerCase(); // xóa dấu
@@ -116,27 +122,21 @@ class CreatePostScreen extends React.Component {
   enterLoading = () => {
     this.setState({ loading: true });
   };
-  handleImageChange = event => {
-    // event.preventDefault();
-    // event.stopPropagation();
-    if (event.file.status === "done") {
-      const imageFile = event.file.originFileObj;
-      // console.log(imageFile);
-      if (imageFile) {
-        const fileReader = new FileReader();
-        fileReader.readAsDataURL(imageFile);
-        fileReader.onloadend = data => {
-          this.setState({
-            imageFile: imageFile
-          });
-          // console.log(this.state);
-        };
-      }
-    } else if (event.file.status === "removed") {
-      this.setState({
-        imageFile: ""
-      });
-      // console.log(this.state);
+  handleImageChange = info => {
+    if (info.file.status === 'uploading') {
+      this.setState({ loading: true });
+      return;
+    }
+    if (info.file.status === 'done') {
+      console.log(info.file.originFileObj);
+      // Get this url from response in real world.
+      getBase64(info.file.originFileObj, imageUrl =>
+        this.setState({
+          imageFile: info.file.originFileObj,
+          imageUrl,
+          loading: false,
+        }),
+      );
     }
   };
   dummyRequest({ file, onSuccess }) {
@@ -165,7 +165,8 @@ class CreatePostScreen extends React.Component {
         data.slug = data.slug.concat(this.state.timeSlug);
         data.content = this.state.content;
         console.log(data);
-        const formData = new FormData();
+        if(this.state.imageFile){
+          const formData = new FormData();
         formData.append("image", this.state.imageFile);
         fetch(`http://localhost:3001/posts/image`, {
           method: "POST",
@@ -180,42 +181,76 @@ class CreatePostScreen extends React.Component {
           })
           .then(info => {
             console.log(info);
-            // fetch("http://localhost:3001/posts/create", {
-            //   method: "POST",
-            //   credentials: "include",
-            //   headers: {
-            //     "Content-Type": "application/json"
-            //   },
-            //   body: JSON.stringify({
-            //     content: data.content,
-            //     title: data.title,
-            //     imageUrl: info.data.imageUrl,
-            //     category: data.category,
-            //     materials: data.materials,
-            //     level: data.level,
-            //     timetodone: data.timetodone,
-            //     slug: data.slug
-            //   })
-            // })
-            //   .then(res => res.json())
-            //   .then(data1 => {
-            //     console.log(data1);
-            //     if (data1.success) {
-            //       if (window.localStorage.getItem("id")) {
-            //         window.location.href = `/my-post/${window.localStorage.getItem(
-            //           "id"
-            //         )}`;
-            //       } else {
-            //         window.location.href = `/my-post/${window.sessionStorage.getItem(
-            //           "id"
-            //         )}`;
-            //       }
-            //     }
-            //   });
+            fetch(`http://localhost:3001/posts/update/${this.props.match.params.postId}`, {
+              method: "POST",
+              credentials: "include",
+              headers: {
+                "Content-Type": "application/json"
+              },
+              body: JSON.stringify({
+                content: data.content,
+                title: data.title,
+                imageUrl: info.data.imageUrl,
+                category: data.category,
+                materials: data.materials,
+                level: data.level,
+                timetodone: data.timetodone,
+                slug: data.slug
+              })
+            })
+              .then(res => res.json())
+              .then(data1 => {
+                console.log(data1);
+                if (data1.success) {
+                  if (window.localStorage.getItem("id")) {
+                    window.location.href = `/my-post/${window.localStorage.getItem(
+                      "id"
+                    )}`;
+                  } else {
+                    window.location.href = `/my-post/${window.sessionStorage.getItem(
+                      "id"
+                    )}`;
+                  }
+                }
+              });
           })
           .catch(error => {
             throw error;
           });
+        }else{
+          fetch(`http://localhost:3001/posts/update/${this.props.match.params.postId}`, {
+              method: "POST",
+              credentials: "include",
+              headers: {
+                "Content-Type": "application/json"
+              },
+              body: JSON.stringify({
+                content: data.content,
+                title: data.title,
+                imageUrl: this.state.imageUrl,
+                category: data.category,
+                materials: data.materials,
+                level: data.level,
+                timetodone: data.timetodone,
+                slug: data.slug
+              })
+            })
+              .then(res => res.json())
+              .then(data1 => {
+                console.log(data1);
+                if (data1.success) {
+                  if (window.localStorage.getItem("id")) {
+                    window.location.href = `/my-post/${window.localStorage.getItem(
+                      "id"
+                    )}`;
+                  } else {
+                    window.location.href = `/my-post/${window.sessionStorage.getItem(
+                      "id"
+                    )}`;
+                  }
+                }
+              });
+        }
       } else {
         throw err;
       }
@@ -254,7 +289,15 @@ class CreatePostScreen extends React.Component {
             .then((res) => res.json())
             .then((data) => {
                 console.log(data);
-
+                this.setState({
+                  title:data.data.title,
+                  content:data.data.content,
+                  level:data.data.level,
+                  timetodone:data.data.timetodone,
+                  category:data.data.category,
+                  materials:data.data.materials,
+                  imageUrl:data.data.imageUrl,
+                })
             })
             .catch((error) => {
                 console.log(error);
@@ -263,6 +306,12 @@ class CreatePostScreen extends React.Component {
   }
 
   render() {
+    const uploadButton = (
+      <div>
+        <Icon type={this.state.loading ? 'loading' : 'plus'} />
+        <div className="ant-upload-text">Upload</div>
+      </div>
+    );
     const foodItems = this.state.foods.map((item, key) => (
       <Option value={item}>{item}</Option>
     ));
@@ -293,19 +342,22 @@ class CreatePostScreen extends React.Component {
               rules: [
                 { required: true, message: "Please input your title!" },
                 
-              ]
+              ],
+              initialValue: this.state.title,
             })(
               <Input
                 prefix={
                   <Icon type="container" style={{ color: "rgba(0,0,0,.25)" }} />
                 }
                 placeholder="Tiêu đề"
+                
               />
             )}
           </Form.Item>
 
           <Form.Item label="Chọn nguyên liệu" hasFeedback>
             {getFieldDecorator("materials", {
+              initialValue:this.state.materials,
               rules: [
                 {
                   required: true,
@@ -326,6 +378,7 @@ class CreatePostScreen extends React.Component {
 
           <Form.Item label="Chọn kiểu công thức" hasFeedback>
             {getFieldDecorator("category", {
+              initialValue:this.state.category,
               rules: [
                 {
                   required: true,
@@ -338,6 +391,7 @@ class CreatePostScreen extends React.Component {
                 mode="multiple"
                 placeholder="Bấm vào để chọn kiểu công thức"
                 onChange={this.handleCategoryChange}
+                
               >
                 {typeItems}
 
@@ -350,7 +404,7 @@ class CreatePostScreen extends React.Component {
 
           <Form.Item label="Độ khó">
             {getFieldDecorator("level", {
-              initialValue: 1,
+              initialValue: this.state.level,
               rules: [
                 {
                   required: true,
@@ -362,7 +416,7 @@ class CreatePostScreen extends React.Component {
 
           <Form.Item label="Thời gian làm:">
             {getFieldDecorator("timetodone", {
-              initialValue: 1,
+              initialValue: this.state.timetodone,
               rules: [{ required: true, message: "Hãy chọn thời gian làm!" }]
             })(<InputNumber min={1} onChange={this.handleTimeChange} />)}
             <span className="ant-form-text"> Phút</span>
@@ -372,33 +426,32 @@ class CreatePostScreen extends React.Component {
             {getFieldDecorator("fileupload", {
               valuePropName: "fileList",
               getValueFromEvent: this.normFile,
-              rules: [{ required: true, message: "Hãy chọn ảnh ví dụ!" }]
+              
             })(
               <Upload
                 name="logo"
                 customRequest={this.dummyRequest}
-                listType="picture"
+                listType="picture-card"
                 beforeUpload={this.beforeUpload}
                 accept=".png, .jpg,.jpeg"
                 onChange={this.handleImageChange.bind(this)}
-                onRemove={this.handleImageRemove}
+                showUploadList={false}
               >
-                <Button>
-                  <Icon type="upload" /> Bấm để tải ảnh
-                </Button>
+                {this.state.imageUrl ? <img src={this.state.imageUrl} alt="upload" style={{ width: '100%' }} /> : uploadButton}
               </Upload>
             )}
           </Form.Item>
 
           <Form.Item label="Nội dung ">
             {getFieldDecorator("content", {
-              rules: [{ required: true, message: "Please input your content!" }]
+              
             })(
               <CKEditor
                 onChange={this.onEditorChange}
+                data={this.state.content}
                 config={{
                   height: "700",
-
+                  
                   toolbarGroups: [
                     {
                       name: "document",
@@ -452,7 +505,7 @@ class CreatePostScreen extends React.Component {
     );
   }
 }
-const WrappedCreatePostScreen = Form.create({ name: "validate_other" })(
-  CreatePostScreen
+const WrappedEditPostScreen = Form.create({ name: "validate_other" })(
+  EditPostScreen
 );
-export default WrappedCreatePostScreen;
+export default WrappedEditPostScreen;

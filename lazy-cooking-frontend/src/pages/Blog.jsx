@@ -34,8 +34,14 @@ class Blog extends Component {
   render() {
     // console.log(this.state.data)
     return (
-      <div className="abc ">
-        <div className="container mt-0 mb-5 detail-post">
+      <div>
+        <div className="text-center pt-3">
+          <h3 className="title-login">Blogs mới nổi bật</h3>
+        </div>
+        <div
+          className="detail-post mb-5"
+          style={{ marginLeft: "25%", marginRight: "25%" }}
+        >
           <List
             itemLayout="vertical"
             size="large"
@@ -48,8 +54,7 @@ class Blog extends Component {
             dataSource={this.state.data}
             renderItem={item => (
               <List.Item
-                className="login"
-                style={{ marginTop: "30px" }}
+                style={{ marginBottom: "30px" }}
                 key={item.title}
                 actions={[
                   <IconText
@@ -66,17 +71,16 @@ class Blog extends Component {
                     type="bar-chart"
                     text={`Độ Khó: ${item.level} sao`}
                     key="list-vertical-like-o"
-                  />,
-                  <IconText
-                    type="user"
-                    text={`Người Đăng: ${item.author.fullName}`}
-                    key="list-vertical-like-o"
                   />
+                  // <IconText
+                  //   type="user"
+                  //   text={`Người Đăng: ${item.author.fullName}`}
+                  //   key="list-vertical-like-o"
+                  // />
                 ]}
                 extra={
                   <img
                     width={272}
-
                     alt="logo"
                     src={item.imageUrl}
                     style={{ objectFit: "cover" }}
@@ -85,10 +89,17 @@ class Blog extends Component {
               >
                 <List.Item.Meta
                   avatar={<Avatar src={item.author.avatarUrl} />}
-                  title={<h5><a href={`/post/${item._id}`} style={{ color: "black" }}>{item.title}</a></h5>}
+                  description={`Người Đăng: ${item.author.fullName}`}
+                  title={
+                    <h5>
+                      <a href={`/post/${item._id}`} style={{ color: "black" }}>
+                        {item.title}
+                      </a>
+                    </h5>
+                  }
                 />
                 Nguyên liệu:&nbsp;&nbsp;
-              {item.materials.map(i => (
+                {item.materials.map(i => (
                   <Tag color="blue">{i}</Tag>
                 ))}
               </List.Item>
@@ -96,7 +107,6 @@ class Blog extends Component {
           />
         </div>
       </div>
-
     );
   }
 }
