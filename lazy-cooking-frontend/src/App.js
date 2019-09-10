@@ -16,6 +16,7 @@ import ShowRecipeScreen from "./pages/ShowRecipeScreen";
 import SimpleMeal from "./pages/SimpleMeal";
 import SearchScreen from "./pages/SearchScreen";
 import EditPostScreen from "./pages/EditPostScreen";
+import DetailUser from "./pages/DetailUser";
 const { Search } = Input;
 const { SubMenu } = Menu;
 
@@ -315,69 +316,67 @@ class App extends React.Component {
           </nav>
         </div>
 
-        <BrowserRouter>
-          <Route path="/" exact={true} component={HomeScreen} />
-          <Route path="/login" exact={true} component={WrappedLoginScreen} />
-          <Route path="/register" exact={true} component={RegisterScreen} />
-          <Route path="/search/:keyword" component={SearchScreen} />
-          <Route
-            path="/profile"
-            exact={true}
-            component={WrappedRegistrationForm}
-          />
-          <Route
-            path="/create-recipe"
-            exact={true}
-            component={WrappedCreatePostScreen}
-          />
-          <Route path="/blog" exact={true} component={Blog} />
-          <Route
-            path="/my-post/:userId"
-            exact={true}
-            component={MyPostScreen}
-          />
-          <Route
-            path="/post/:postId"
-            exact={true}
-            component={DetailPostScreen}
-          />
-          <Route
-            path="/recipe/:type"
-            exact={true}
-            component={ShowRecipeScreen}
-          />
-          <Route path="/simple-meal" exact={true} component={SimpleMeal} />
-          <Route
-            path="/edit-post/:postId"
-            exact={true}
-            component={EditPostScreen}
-          />
-        </BrowserRouter>
-        <div>
-          <footer class="footer-area">
-            <div class="container h-100">
-              <div class="row h-100">
-                <div class="col-12 h-100 d-flex flex-wrap align-items-center justify-content-between">
-                  <div class="footer-logo">
-                    {/* <a href="/">
-                      <img
-                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSQL6yfKuQ2S9MSqQ9w8DKTlR0SKin-aezRXgVjZgBJ4wcaKdZO"
-                        alt=""
-                        height="100"
-                      ></img>
-                    </a> */}
-                  </div>
-                  <p>
-                    Copyright &copy;
-                    <script>document.write(new Date().getFullYear());</script>{" "}
-                    All rights reserved | Copyright by Lazy Cooking Team
-                    Team
-                  </p>
+        <div className="body-content">
+          <BrowserRouter>
+            <Route path="/" exact={true} component={HomeScreen} />
+            <Route path="/login" exact={true} component={WrappedLoginScreen} />
+            <Route path="/register" exact={true} component={RegisterScreen} />
+            <Route path="/search/:keyword" component={SearchScreen} />
+            <Route
+              path="/profile"
+              exact={true}
+              component={WrappedRegistrationForm}
+            />
+            <Route
+              path="/create-recipe"
+              exact={true}
+              component={WrappedCreatePostScreen}
+            />
+            <Route path="/blog" exact={true} component={Blog} />
+            <Route
+              path="/my-post/:userId"
+              exact={true}
+              component={MyPostScreen}
+            />
+            <Route
+              path="/post/:postId"
+              exact={true}
+              component={DetailPostScreen}
+            />
+            <Route
+              path="/recipe/:type"
+              exact={true}
+              component={ShowRecipeScreen}
+            />
+            <Route path="/simple-meal" exact={true} component={SimpleMeal} />
+            <Route
+              path="/edit-post/:postId"
+              exact={true}
+              component={EditPostScreen}
+            />
+            <Route
+              path="/detailUser"
+              exact={true}
+              component={DetailUser}
+            ></Route>
+          </BrowserRouter>
+        </div>
+        <footer class="footer-area">
+          <div class="container h-100">
+            <div class="row h-100">
+              <div class="col-12 h-100 d-flex flex-wrap align-items-center justify-content-between">
+                <div class="footer-logo">
+                  <a href="index.html">
+                    <img
+                      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSQL6yfKuQ2S9MSqQ9w8DKTlR0SKin-aezRXgVjZgBJ4wcaKdZO"
+                      alt=""
+                    ></img>
+                  </a>
                 </div>
               </div>
             </div>
-          </footer>
-        </div>
+          </div>
+        </footer>
       </div>
     );
   }
