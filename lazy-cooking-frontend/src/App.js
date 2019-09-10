@@ -239,7 +239,7 @@ class App extends React.Component {
             <Button size="large" href="/blog" type="link" icon="book">
               Blogs{" "}
             </Button>
-            <Badge count={"Hot"} className="mr-5">
+            <Badge count={"Hot"} className="mr-4">
               <Button
                 size="large"
                 href="/simple-meal"
