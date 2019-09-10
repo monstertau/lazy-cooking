@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import "antd/dist/antd.css";
 import { Empty, List, Avatar, Icon, Card, Row, Col } from "antd";
+import {Helmet} from "react-helmet";
 const { Meta } = Card;
 
 const IconText = ({ type, text }) => (
@@ -39,6 +40,9 @@ class ShowRecipeScreen extends Component {
   render() {
     return (
       <div className="pt-1 pb-5">
+        <Helmet>
+          <title>Công thức nấu ăn dành cho bạn</title>
+        </Helmet>
         <div className="text-center pt-3">
           <h3 className="title-login">Công thức dành cho bạn!</h3>
         </div>

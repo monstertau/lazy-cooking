@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './DetailUser.css';
 import { Icon,Avatar } from 'antd';
+import {Helmet} from "react-helmet";
 const IconText = ({ type, text }) => (
     <span>
         <Icon type={type} style={{ marginRight: 8 }} />
@@ -35,6 +36,9 @@ class DetailUser extends Component {
     render() {
         return (
             <div class="container">
+                <Helmet>
+          <title>Chi tiết người đăng</title>
+        </Helmet>
                 <div class="row" style={{ marginLeft: "350px" }}>
                     <div style={{marginRight:"10px"}} >
                         <Avatar size={240} src={this.state.data.avatarUrl} />

@@ -13,6 +13,7 @@ import {
 import CKEditor from "ckeditor4-react";
 import "antd/dist/antd.css";
 import { foodArr, typeArr } from "./data";
+import {Helmet} from "react-helmet";
 const { Option } = Select;
 CKEditor.editorUrl = "http://localhost:3000/ckeditor/ckeditor.js";
 function getBase64(img, callback) {
@@ -328,6 +329,9 @@ class EditPostScreen extends React.Component {
 
     return (
       <div className="container mt-5 mb-5" >
+        <Helmet>
+          <title>Chỉnh sửa bài viết cá nhân</title>
+        </Helmet>
         <div className="text-center">
           <h3 className="title-login">Sửa công thức</h3>
         </div >
@@ -497,7 +501,7 @@ class EditPostScreen extends React.Component {
               // loading={this.state.loading}
               onClick={this.enterLoading}
             >
-              Đăng bài
+              Cập nhật bài viết 
             </Button>
           </Form.Item>
         </Form>

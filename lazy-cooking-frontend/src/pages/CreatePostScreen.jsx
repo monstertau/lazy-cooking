@@ -13,6 +13,7 @@ import {
 import CKEditor from "ckeditor4-react";
 import "antd/dist/antd.css";
 import { foodArr, typeArr } from "./data";
+import {Helmet} from "react-helmet";
 const { Option } = Select;
 CKEditor.editorUrl = "http://localhost:3000/ckeditor/ckeditor.js";
 function getBase64(img, callback) {
@@ -264,6 +265,9 @@ class CreatePostScreen extends React.Component {
 
     return (
       <div className="container mt-3 mb-5" >
+        <Helmet>
+          <title>Tạo công thức</title>
+        </Helmet>
         <div className="text-center">
           <h3 className="title-login">Tạo công thức</h3>
         </div >

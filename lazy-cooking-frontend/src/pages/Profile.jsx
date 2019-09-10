@@ -15,7 +15,7 @@ import {
   Upload,
   message,
 } from 'antd';
-
+import {Helmet} from "react-helmet";
 const { Option } = Select;
 const AutoCompleteOption = AutoComplete.Option;
 function getBase64(img, callback) {
@@ -386,6 +386,9 @@ class RegistrationForm extends React.Component {
 
     return (
       <div className="container  mt-3">
+        <Helmet>
+          <title>Chỉnh sửa trang cá nhân</title>
+        </Helmet>
         <div className="text-center">
           <h3 className="title-login">Chỉnh sửa trang cá nhân</h3>
         </div >

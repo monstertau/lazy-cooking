@@ -10,6 +10,7 @@ import {
   message,
   Tag
 } from "antd";
+import {Helmet} from "react-helmet";
 const IconText = ({ type, text }) => (
   <span>
     <Icon type={type} style={{ marginRight: 8 }} />
@@ -84,6 +85,9 @@ class MyPostScreen extends Component {
   render() {
     return (
       <div className="abc pt-2 pb-5">
+        <Helmet>
+          <title>Bài đăng của tôi</title>
+        </Helmet>
         <div className="text-center pt-3">
           <h3 className="title-login">Công thức của tôi</h3>
         </div>

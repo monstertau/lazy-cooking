@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Icon, Button, Typography, Input, Comment, Avatar, Form, List, Tag } from 'antd';
 import renderHTML from 'react-render-html';
+import {Helmet} from "react-helmet";
 const { Title, Paragraph, Text } = Typography;
 const { TextArea } = Input;
 
@@ -136,6 +137,9 @@ class DetailPostScreen extends Component {
     render() {
         return (
             <div className="abc">
+                <Helmet>
+          <title>{this.state.title}</title>
+        </Helmet>
                 <br/>
                 <div className="container detail-post">
                     <div className="headline">

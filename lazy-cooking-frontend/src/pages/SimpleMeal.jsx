@@ -18,6 +18,7 @@ import {
 import "antd/dist/antd.css";
 import { foodArr, typeArr } from "./data";
 import HomeScreen from "./HomeScreen";
+import {Helmet} from "react-helmet";
 const { Option } = Select;
 const { Meta } = Card;
 const IconText = ({ type, text }) => (
@@ -143,6 +144,9 @@ class Meal extends Component {
 
     return (
       <div className=" pt-3 pb-3" style={{marginLeft:'10%',marginRight:'10%'}}>
+        <Helmet>
+          <title>Bữa ăn đơn giản</title>
+        </Helmet>
         <div className="text-center">
             <h3 className="title-login">Tìm bữa ăn đơn giản</h3>
           </div>
@@ -203,7 +207,7 @@ class Meal extends Component {
             </Col>
             <Col span={12}>
               <Form.Item
-                label="Thời gian làm ít nhất:"
+                label="Thời gian làm dự kiến:"
                 extra="Thời gian làm nhiều nhất là 30 phút!"
               >
                 {getFieldDecorator("timetodone", {

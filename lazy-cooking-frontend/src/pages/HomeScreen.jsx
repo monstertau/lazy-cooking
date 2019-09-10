@@ -3,7 +3,7 @@ import { Carousel } from "antd";
 import { Icon, Avatar, List, Card } from "antd";
 import "antd/dist/antd.css";
 import "./HomeScreen.css"
-
+import {Helmet} from "react-helmet";
 const { Meta } = Card;
 const IconText = ({ type, text }) => (
   <span>
@@ -65,6 +65,9 @@ class HomeScreen extends React.Component {
   render() {
     return (
       <div className='abc'>
+        <Helmet>
+          <title>Lazy Cooking - Trang chủ</title>
+        </Helmet>
         <div className="container detail-post">
           <Carousel autoplay>
             <div className="intro">

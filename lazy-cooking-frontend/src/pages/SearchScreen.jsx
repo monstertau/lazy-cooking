@@ -3,7 +3,7 @@ import { Icon, Avatar, List } from "antd";
 import renderHTML from 'react-render-html';
 import "antd/dist/antd.css";
 import "./HomeScreen.css";
-
+import {Helmet} from "react-helmet";
 const IconText = ({ type, text }) => (
     <span>
         <Icon type={type} style={{ marginRight: 8 }} />
@@ -60,6 +60,9 @@ class SearchScreen extends React.Component {
     render() {
         return (
             <div className="abc">
+                <Helmet>
+          <title>Tìm kiếm</title>
+        </Helmet>
                 <div className="">
                     {this.state.emptyData ? (
                         <div className="container mt-5">

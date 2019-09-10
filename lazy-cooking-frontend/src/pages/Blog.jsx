@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { List, Avatar, Icon, Tag } from "antd";
 import "./Blog.css";
-
+import {Helmet} from "react-helmet";
 const IconText = ({ type, text }) => (
   <span>
     <Icon type={type} style={{ marginRight: 8 }} />
@@ -35,6 +35,9 @@ class Blog extends Component {
     // console.log(this.state.data)
     return (
       <div>
+        <Helmet>
+          <title>Blog</title>
+        </Helmet>
         <div className="text-center pt-3">
           <h3 className="title-login">Blogs mới nổi bật</h3>
         </div>
@@ -90,6 +93,7 @@ class Blog extends Component {
                 <List.Item.Meta
                   avatar={<a href={`/detailUser/${item.author._id}`}><Avatar src={item.author.avatarUrl} /></a>}
                   title={<h5><a href={`/post/${item._id}`} style={{ color: "black" }}>{item.title}</a></h5>}
+                  description={"Người đăng:" + item.author.fullName}
                 />
                 Nguyên liệu:&nbsp;&nbsp;
                 {item.materials.map(i => (
