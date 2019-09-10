@@ -358,7 +358,7 @@ class App extends React.Component {
             />
             <Route path="/simple-meal" exact={true} component={SimpleMeal} />
             <Route path="/edit-post/:postId" exact={true} component={EditPostScreen} />
-            <Route path="/detailUser" exact={true} component={DetailUser}></Route>
+            <Route path="/detailUser/:userId" exact={true} component={DetailUser}></Route>
           </BrowserRouter>
         </div>
         <footer class="footer-area">

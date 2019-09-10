@@ -84,7 +84,7 @@ class Blog extends Component {
                 }
               >
                 <List.Item.Meta
-                  avatar={<Avatar src={item.author.avatarUrl} />}
+                  avatar={<a href={`/detailUser/${item.author._id}`}><Avatar src={item.author.avatarUrl} /></a>}
                   title={<h5><a href={`/post/${item._id}`} style={{ color: "black" }}>{item.title}</a></h5>}
                 />
                 Nguyên liệu:&nbsp;&nbsp;

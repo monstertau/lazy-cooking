@@ -54,7 +54,7 @@ postRouter.get(`/getpost`, (req, res) => {
   postModel
     .find({})
     .sort({ createdAt: -1 })
-    .populate("author", "avatarUrl fullName")
+    .populate("author", "avatarUrl fullName _id")
     .exec((error, data) => {
       if (error) {
         res.status(500).json({
