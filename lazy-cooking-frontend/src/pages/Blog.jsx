@@ -88,15 +88,8 @@ class Blog extends Component {
                 }
               >
                 <List.Item.Meta
-                  avatar={<Avatar src={item.author.avatarUrl} />}
-                  description={`Người Đăng: ${item.author.fullName}`}
-                  title={
-                    <h5>
-                      <a href={`/post/${item._id}`} style={{ color: "black" }}>
-                        {item.title}
-                      </a>
-                    </h5>
-                  }
+                  avatar={<a href={`/detailUser/${item.author._id}`}><Avatar src={item.author.avatarUrl} /></a>}
+                  title={<h5><a href={`/post/${item._id}`} style={{ color: "black" }}>{item.title}</a></h5>}
                 />
                 Nguyên liệu:&nbsp;&nbsp;
                 {item.materials.map(i => (
