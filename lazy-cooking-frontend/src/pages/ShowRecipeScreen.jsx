@@ -40,7 +40,7 @@ class ShowRecipeScreen extends Component {
     return (
       <div className="pt-1 pb-5">
         <div className="text-center pt-3">
-          <h3 className="title-login">Công thức dành cho bạn</h3>
+          <h3 className="title-login">Công thức dành cho bạn!</h3>
         </div>
         <div
           className=" detail-post"

@@ -49,7 +49,41 @@ postRouter.post(`/create`, (req, res) => {
     });
   }
 });
-
+postRouter.post(`/update/:postId`, (req, res) => {
+  if (req.session.currentUser && req.session.currentUser._id) {
+    const post = {
+      content: req.body.content,
+      title: req.body.title,
+      imageUrl: req.body.imageUrl,
+      category: req.body.category,
+      materials: req.body.materials,
+      level: req.body.level,
+      timetodone: req.body.timetodone,
+      author: req.session.currentUser._id,
+      slug: req.body.slug
+    };
+    
+    postModel.findByIdAndUpdate(req.params.postId,post, (error, data) => {
+      if (error) {
+        res.status(500).json({
+          success: false,
+          message: error.message
+        });
+      } else {
+        res.status(201).json({
+          success: true,
+          data: data
+        });
+      }
+    }); //asdasda
+    
+  } else {
+    res.status(403).json({
+      success: false,
+      message: "Unauthenticated"
+    });
+  }
+});
 postRouter.get(`/getpost`, (req, res) => {
   postModel
     .find({})
@@ -469,4 +503,5 @@ postRouter.get('/get-most-like', (req, res) => {
     }
   });
 })
+
 module.exports = postRouter;

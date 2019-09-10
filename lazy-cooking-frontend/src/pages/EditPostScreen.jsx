@@ -165,7 +165,8 @@ class EditPostScreen extends React.Component {
         data.slug = data.slug.concat(this.state.timeSlug);
         data.content = this.state.content;
         console.log(data);
-        const formData = new FormData();
+        if(this.state.imageFile){
+          const formData = new FormData();
         formData.append("image", this.state.imageFile);
         fetch(`http://localhost:3001/posts/image`, {
           method: "POST",
@@ -180,42 +181,76 @@ class EditPostScreen extends React.Component {
           })
           .then(info => {
             console.log(info);
-            // fetch("http://localhost:3001/posts/create", {
-            //   method: "POST",
-            //   credentials: "include",
-            //   headers: {
-            //     "Content-Type": "application/json"
-            //   },
-            //   body: JSON.stringify({
-            //     content: data.content,
-            //     title: data.title,
-            //     imageUrl: info.data.imageUrl,
-            //     category: data.category,
-            //     materials: data.materials,
-            //     level: data.level,
-            //     timetodone: data.timetodone,
-            //     slug: data.slug
-            //   })
-            // })
-            //   .then(res => res.json())
-            //   .then(data1 => {
-            //     console.log(data1);
-            //     if (data1.success) {
-            //       if (window.localStorage.getItem("id")) {
-            //         window.location.href = `/my-post/${window.localStorage.getItem(
-            //           "id"
-            //         )}`;
-            //       } else {
-            //         window.location.href = `/my-post/${window.sessionStorage.getItem(
-            //           "id"
-            //         )}`;
-            //       }
-            //     }
-            //   });
+            fetch(`http://localhost:3001/posts/update/${this.props.match.params.postId}`, {
+              method: "POST",
+              credentials: "include",
+              headers: {
+                "Content-Type": "application/json"
+              },
+              body: JSON.stringify({
+                content: data.content,
+                title: data.title,
+                imageUrl: info.data.imageUrl,
+                category: data.category,
+                materials: data.materials,
+                level: data.level,
+                timetodone: data.timetodone,
+                slug: data.slug
+              })
+            })
+              .then(res => res.json())
+              .then(data1 => {
+                console.log(data1);
+                if (data1.success) {
+                  if (window.localStorage.getItem("id")) {
+                    window.location.href = `/my-post/${window.localStorage.getItem(
+                      "id"
+                    )}`;
+                  } else {
+                    window.location.href = `/my-post/${window.sessionStorage.getItem(
+                      "id"
+                    )}`;
+                  }
+                }
+              });
           })
           .catch(error => {
             throw error;
           });
+        }else{
+          fetch(`http://localhost:3001/posts/update/${this.props.match.params.postId}`, {
+              method: "POST",
+              credentials: "include",
+              headers: {
+                "Content-Type": "application/json"
+              },
+              body: JSON.stringify({
+                content: data.content,
+                title: data.title,
+                imageUrl: this.state.imageUrl,
+                category: data.category,
+                materials: data.materials,
+                level: data.level,
+                timetodone: data.timetodone,
+                slug: data.slug
+              })
+            })
+              .then(res => res.json())
+              .then(data1 => {
+                console.log(data1);
+                if (data1.success) {
+                  if (window.localStorage.getItem("id")) {
+                    window.location.href = `/my-post/${window.localStorage.getItem(
+                      "id"
+                    )}`;
+                  } else {
+                    window.location.href = `/my-post/${window.sessionStorage.getItem(
+                      "id"
+                    )}`;
+                  }
+                }
+              });
+        }
       } else {
         throw err;
       }
@@ -391,7 +426,7 @@ class EditPostScreen extends React.Component {
             {getFieldDecorator("fileupload", {
               valuePropName: "fileList",
               getValueFromEvent: this.normFile,
-              rules: [{ required: true, message: "Hãy chọn ảnh ví dụ!" }]
+              
             })(
               <Upload
                 name="logo"

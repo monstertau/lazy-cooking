@@ -155,14 +155,14 @@ class MyPostScreen extends Component {
                   <List.Item.Meta
                     avatar={<Avatar src={item.author.avatarUrl} />}
                     title={
-                      <h4>
+                      <h5>
                         <a
                           href={`/post/${item._id}`}
                           style={{ color: "black" }}
                         >
                           {item.title}
                         </a>
-                      </h4>
+                      </h5>
                     }
                     // description={item.description}
                   />
