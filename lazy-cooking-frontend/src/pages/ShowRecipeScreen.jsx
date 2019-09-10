@@ -38,83 +38,77 @@ class ShowRecipeScreen extends Component {
   }
   render() {
     return (
-      <div className=" pt-5 pb-5" style={{marginLeft:'10%',marginRight:'10%'}}>
-        <div className="text-center ">
+      <div className="pt-1 pb-5">
+        <div className="text-center pt-3">
           <h3 className="title-login">Công thức dành cho bạn</h3>
         </div>
-        <List
-        className="login"
-          grid={{
-            gutter: 20,
-            xs: 1,
-            sm: 1,
-            md: 2,
-            lg: 2,
-            xl: 3,
-            xxl: 4
-          }}
-          pagination={{
-            onChange: page => {
-              console.log(page);
-            },
-            pageSize: 12
-          }}
-          dataSource={this.state.data}
-          renderItem={item => (
-            
-            <List.Item>
-              
-              <a href={`/post/${item._id}`} >
-                
-                <Card
-                className="item-inner"
-                  hoverable
-                  style={{ }}
-                  cover={
-                    
-                    <img
-                      alt={item.title}
-                      src={item.imageUrl}
-                      width="100"
-                      height="255"
-                      object-fit="cover"
-                      
-                    />
-                    
-                  }
-                  actions={[
-                    <IconText
-                      type="like"
-                      text={`${item.upvote.length}`}
-                      key="upvote"
-                    />,
-                    <IconText
-                      type="bulb"
-                      text={"Độ khó: " + item.level}
-                      key="list-vertical-like-o"
-                    />,
-                    <IconText
-                      type="clock-circle"
-                      text={item.timetodone + " phút"}
-                      key="list-vertical-message"
-                    />
-                  ]}
-                >
-                  <Meta
-                    avatar={<Avatar src={item.author.avatarUrl} />}
-                    title={item.title}
-                    description={
-                      "Người đăng: " + item.author.fullName
+        <div
+          className=" detail-post"
+          style={{ marginLeft: "10%", marginRight: "10%" }}
+        >
+          <List
+            // className="login"
+            grid={{
+              gutter: 20,
+              xs: 1,
+              sm: 1,
+              md: 2,
+              lg: 2,
+              xl: 3,
+              xxl: 4
+            }}
+            pagination={{
+              onChange: page => {
+                console.log(page);
+              },
+              pageSize: 12
+            }}
+            dataSource={this.state.data}
+            renderItem={item => (
+              <List.Item>
+                <a href={`/post/${item._id}`}>
+                  <Card
+                    className="item-inner"
+                    hoverable
+                    style={{}}
+                    cover={
+                      <img
+                        alt={item.title}
+                        src={item.imageUrl}
+                        width="100"
+                        height="200"
+                        object-fit="cover"
+                      />
                     }
-                  />
-                </Card>
-                
-              </a>
-              
-            </List.Item>
-            
-          )}
-        />
+                    actions={[
+                      <IconText
+                        type="like"
+                        text={`${item.upvote.length}`}
+                        key="upvote"
+                      />,
+                      <IconText
+                        type="bar-chart"
+                        text={"Độ khó: " + item.level}
+                        key="list-vertical-like-o"
+                      />,
+                      <IconText
+                        type="clock-circle"
+                        text={item.timetodone + " phút"}
+                        key="list-vertical-message"
+                      />
+                    ]}
+                  >
+                    <Meta
+                      avatar={<Avatar src={item.author.avatarUrl} />}
+                      title={item.title}
+                      description={"Người đăng: " + item.author.fullName.split(" ").pop()}
+                    />
+                  </Card>
+                </a>
+              </List.Item>
+            )}
+          />
+        </div>
       </div>
     );
   }

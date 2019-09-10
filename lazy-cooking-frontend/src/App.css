@@ -1,9 +1,8 @@
 @import '~antd/dist/antd.css';
-* {
-  font-family: Arial;
+*{
+  font-family: 'Roboto Slab', serif;
   font-size: 14px;
 }
-
 .App {
   text-align: center;
 }
@@ -12,12 +11,7 @@
   height: 40vmin;
   pointer-events: none;
 }
-.body-content{
-  background-image: url("")
-}
-*{
-  font-family: 'Roboto Slab', serif;
-}
+
 
 .App-header {
   background-color: #282c34;

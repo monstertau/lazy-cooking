@@ -1,8 +1,8 @@
 import React from "react";
-import { BrowserRouter, Route, Link } from "react-router-dom";
+import { BrowserRouter, Route } from "react-router-dom";
 import "./App.css";
 import "antd/dist/antd.css";
-import { Button, Input, Menu, Dropdown, Icon, Avatar, List } from "antd";
+import { Button, Input, Menu, Dropdown, Icon, Avatar } from "antd";
 import HomeScreen from "./pages/HomeScreen";
 import WrappedLoginScreen from "./pages/LoginScreen";
 import RegisterScreen from "./pages/RegisterScreen";
@@ -11,7 +11,6 @@ import WrappedCreatePostScreen from "./pages/CreatePostScreen";
 import Blog from "./pages/Blog";
 import MyPostScreen from "./pages/MyPostScreen";
 import DetailPostScreen from "./pages/DetailPostScreen";
-import MenuItem from "antd/lib/menu/MenuItem";
 import ShowRecipeScreen from "./pages/ShowRecipeScreen";
 import SimpleMeal from "./pages/SimpleMeal";
 import SearchScreen from "./pages/SearchScreen";
@@ -19,12 +18,6 @@ import EditPostScreen from "./pages/EditPostScreen";
 const { Search } = Input;
 const { SubMenu } = Menu;
 
-const IconText = ({ type, text }) => (
-  <span>
-    <Icon type={type} style={{ marginRight: 8 }} />
-    {text}
-  </span>
-);
 class App extends React.Component {
   state = {
     currentUser: {
@@ -322,7 +315,7 @@ class App extends React.Component {
           </nav>
         </div>
 
-        <div className="body-content">
+        
           <BrowserRouter>
             <Route path="/" exact={true} component={HomeScreen} />
             <Route path="/login" exact={true} component={WrappedLoginScreen} />
@@ -357,7 +350,7 @@ class App extends React.Component {
             <Route path="/simple-meal" exact={true} component={SimpleMeal} />
             <Route path="/edit-post/:postId" exact={true} component={EditPostScreen} />
           </BrowserRouter>
-        </div>
+        
       </div>
     );
   }

@@ -47,11 +47,11 @@ class MyPostScreen extends Component {
         }
       });
   }
-  handleEditChange = itemId =>{
-    if(itemId){
-      window.location.href = `/edit-post/${itemId}`
+  handleEditChange = itemId => {
+    if (itemId) {
+      window.location.href = `/edit-post/${itemId}`;
     }
-  }
+  };
   confirm = itemId => {
     console.log(itemId);
 
@@ -83,80 +83,98 @@ class MyPostScreen extends Component {
   };
   render() {
     return (
-      <div className="container mt-5 mb-5">
-        <h3>Công thức của tôi</h3>
-        {this.state.havePost === false ? (
-          <Empty />
-        ) : (
-          <List
-            
-            itemLayout="vertical"
-            size="large"
-            pagination={{
-              onChange: page => {
-                console.log(page);
-              },
-              pageSize: 10
-            }}
-            dataSource={this.state.data}
-            renderItem={item => (
-              <List.Item
-              className="login"
-              style={{marginTop:"30px"}}
-                key={item.title}
-                actions={[
-                  <IconText
-                    type="like"
-                    text={item.upvote.length}
-                    key="upvote"
-                  />,
-                  <IconText
-                    type="bar-chart"
-                    text={`Độ khó: ${item.level}`}
-                    key="list-vertical-like-o"
-                  />,
-                  <IconText
-                    type="clock-circle"
-                    text={`Thời gian: ${item.timetodone} phút`}
-                    key="list-vertical-message"
-                  />
-                ]}
-                extra={
-                  <>
-                    <img width={272} alt="logo" src={item.imageUrl} />
+      <div className="abc pt-2 pb-5">
+        <div className="text-center pt-3">
+          <h3 className="title-login">Công thức của tôi</h3>
+        </div>
+        <div
+          className="detail-post"
+          style={{ marginLeft: "25%", marginRight: "25%" }}
+        >
+          {this.state.havePost === false ? (
+            <Empty />
+          ) : (
+            <List
+              itemLayout="vertical"
+              size="large"
+              pagination={{
+                onChange: page => {
+                  console.log(page);
+                },
+                pageSize: 10
+              }}
+              dataSource={this.state.data}
+              renderItem={item => (
+                <List.Item
+                  className=""
+                  style={{ marginBottom: "30px" }}
+                  key={item.title}
+                  actions={[
+                    <IconText
+                      type="like"
+                      text={item.upvote.length}
+                      key="upvote"
+                    />,
+                    <IconText
+                      type="bar-chart"
+                      text={`Độ khó: ${item.level}`}
+                      key="list-vertical-like-o"
+                    />,
+                    <IconText
+                      type="clock-circle"
+                      text={`Thời gian: ${item.timetodone} phút`}
+                      key="list-vertical-message"
+                    />
+                  ]}
+                  extra={
+                    <>
+                      <img width={272} alt="logo" src={item.imageUrl} />
 
-                    <div className="mt-2" style={{ textAlign: "right" }}>
-                      <Button.Group>
-                        <Button icon="edit" onClick={()=>this.handleEditChange(item._id)}>Chỉnh sửa</Button>
-                        <Popconfirm
-                          title="Bạn có muốn xóa post này không?"
-                          onConfirm={() => this.confirm(item._id)}
-                          onCancel={this.cancel}
-                          okText="Có"
-                          cancelText="Không"
-                        >
-                          <Button icon="delete">Xóa</Button>
-                        </Popconfirm>
-                      </Button.Group>
-                    </div>
-                  </>
-                }
-              >
-                <List.Item.Meta
-                  avatar={<Avatar src={item.author.avatarUrl} />}
-                  title={
-                    <h4>
-                      <a href={`/post/${item._id}`} style={{color:"black",}}>{item.title}</a>
-                    </h4>
+                      <div className="mt-2" style={{ textAlign: "right" }}>
+                        <Button.Group>
+                          <Button
+                            icon="edit"
+                            onClick={() => this.handleEditChange(item._id)}
+                          >
+                            Chỉnh sửa
+                          </Button>
+                          <Popconfirm
+                            title="Bạn có muốn xóa post này không?"
+                            onConfirm={() => this.confirm(item._id)}
+                            onCancel={this.cancel}
+                            okText="Có"
+                            cancelText="Không"
+                          >
+                            <Button icon="delete">Xóa</Button>
+                          </Popconfirm>
+                        </Button.Group>
+                      </div>
+                    </>
                   }
-                  // description={item.description}
-                />
-                Nguyên liệu:&nbsp;&nbsp;
-                {item.materials.map(i=><Tag color="blue">{i}</Tag>)}
-              </List.Item>
-            )}
-          />
-        )}
+                >
+                  <List.Item.Meta
+                    avatar={<Avatar src={item.author.avatarUrl} />}
+                    title={
+                      <h4>
+                        <a
+                          href={`/post/${item._id}`}
+                          style={{ color: "black" }}
+                        >
+                          {item.title}
+                        </a>
+                      </h4>
+                    }
+                    // description={item.description}
+                  />
+                  Nguyên liệu:&nbsp;&nbsp;
+                  {item.materials.map(i => (
+                    <Tag color="blue">{i}</Tag>
+                  ))}
+                </List.Item>
+              )}
+            />
+          )}
+        </div>
       </div>
     );
   }

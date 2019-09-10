@@ -21,7 +21,6 @@ export const foodArr = [
   "Bánh Kem Chocolate",
   "Côn Trùng",
   "Dược Liệu Cây Thuốc",
-  "",
   "Gia Vị",
   "Sữa",
   "Mứt",
