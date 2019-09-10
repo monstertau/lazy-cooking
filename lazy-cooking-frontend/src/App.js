@@ -1,9 +1,9 @@
 import React from "react";
 import { BrowserRouter, Route, Link } from "react-router-dom";
-import { MDBContainer } from 'mdbreact';
+import { MDBContainer } from "mdbreact";
 import "./App.css";
 import "antd/dist/antd.css";
-import { Button, Input, Menu, Dropdown, Icon, Avatar, List } from "antd";
+import { Button, Input, Menu, Dropdown, Icon, Avatar } from "antd";
 import HomeScreen from "./pages/HomeScreen";
 import WrappedLoginScreen from "./pages/LoginScreen";
 import RegisterScreen from "./pages/RegisterScreen";
@@ -12,7 +12,6 @@ import WrappedCreatePostScreen from "./pages/CreatePostScreen";
 import Blog from "./pages/Blog";
 import MyPostScreen from "./pages/MyPostScreen";
 import DetailPostScreen from "./pages/DetailPostScreen";
-import MenuItem from "antd/lib/menu/MenuItem";
 import ShowRecipeScreen from "./pages/ShowRecipeScreen";
 import SimpleMeal from "./pages/SimpleMeal";
 import SearchScreen from "./pages/SearchScreen";
@@ -21,12 +20,6 @@ import DetailUser from "./pages/DetailUser";
 const { Search } = Input;
 const { SubMenu } = Menu;
 
-const IconText = ({ type, text }) => (
-  <span>
-    <Icon type={type} style={{ marginRight: 8 }} />
-    {text}
-  </span>
-);
 class App extends React.Component {
   state = {
     currentUser: {
@@ -146,11 +139,10 @@ class App extends React.Component {
 
   handleSearch = keyword => {
     if (keyword.trim().length === 0) {
-      window.alert('Vui lòng nhập tên món ăn')
+      window.alert("Vui lòng nhập tên món ăn");
     } else {
       window.location.replace(`http://localhost:3000/search/${keyword}`);
     }
-
   };
   render() {
     // console.log(this.state);
@@ -262,65 +254,65 @@ class App extends React.Component {
               onSearch={this.handleSearch}
             />
             {window.localStorage.getItem("email") ||
-              window.sessionStorage.getItem("email") ? (
-                <>
-                  <Button
-                    icon="form"
-                    style={{ marginLeft: "5px" }}
-                    size="large"
-                    href="/create-recipe"
-                  >
-                    Đăng công thức
+            window.sessionStorage.getItem("email") ? (
+              <>
+                <Button
+                  icon="form"
+                  style={{ marginLeft: "5px" }}
+                  size="large"
+                  href="/create-recipe"
+                >
+                  Đăng công thức
                 </Button>
-                  <Dropdown
-                    overlay={
-                      <Menu>
-                        <Menu.Item>
-                          <p>Welcome,{this.state.currentUser.fullName} !</p>
-                        </Menu.Item>
-                        <Menu.Item>
-                          <a href={`/profile`}>Profile</a>
-                        </Menu.Item>
-                        <Menu.Item>
-                          <a href={`/my-post/${this.state.currentUser.id}`}>
-                            Bài đăng của tôi
+                <Dropdown
+                  overlay={
+                    <Menu>
+                      <Menu.Item>
+                        <p>Welcome,{this.state.currentUser.fullName} !</p>
+                      </Menu.Item>
+                      <Menu.Item>
+                        <a href={`/profile`}>Profile</a>
+                      </Menu.Item>
+                      <Menu.Item>
+                        <a href={`/my-post/${this.state.currentUser.id}`}>
+                          Bài đăng của tôi
                         </a>
-                        </Menu.Item>
-                        <Menu.Item>
-                          <a onClick={this.handleLogOut}>Đăng xuất</a>
-                        </Menu.Item>
-                      </Menu>
-                    }
-                  >
-                    <a className="ant-dropdown-link" href="/profile">
-                      <Avatar
-                        src={this.state.currentUser.avatarUrl}
-                        style={{ marginLeft: "6px" }}
-                        size={45}
-                      />
-                    </a>
-                  </Dropdown>
-                </>
-              ) : (
-                <>
-                  <Button
-                    size="large"
-                    style={{ marginLeft: "9px", marginRight: "9px" }}
-                    icon="login"
-                    href="/login"
-                  >
-                    Đăng nhập
+                      </Menu.Item>
+                      <Menu.Item>
+                        <a onClick={this.handleLogOut}>Đăng xuất</a>
+                      </Menu.Item>
+                    </Menu>
+                  }
+                >
+                  <a className="ant-dropdown-link" href="/profile">
+                    <Avatar
+                      src={this.state.currentUser.avatarUrl}
+                      style={{ marginLeft: "6px" }}
+                      size={45}
+                    />
+                  </a>
+                </Dropdown>
+              </>
+            ) : (
+              <>
+                <Button
+                  size="large"
+                  style={{ marginLeft: "9px", marginRight: "9px" }}
+                  icon="login"
+                  href="/login"
+                >
+                  Đăng nhập
                 </Button>
-                  <Button
-                    size="large"
-                    type="danger"
-                    icon="logout"
-                    href="/register"
-                  >
-                    Đăng kí
+                <Button
+                  size="large"
+                  type="danger"
+                  icon="logout"
+                  href="/register"
+                >
+                  Đăng kí
                 </Button>
-                </>
-              )}
+              </>
+            )}
           </nav>
         </div>
 
@@ -366,11 +358,13 @@ class App extends React.Component {
             <div class="row h-100">
               <div class="col-12 h-100 d-flex flex-wrap align-items-center justify-content-between">
                 <div class="footer-logo">
-                  <a href="index.html"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSQL6yfKuQ2S9MSqQ9w8DKTlR0SKin-aezRXgVjZgBJ4wcaKdZO" alt=""></img ></a>
+                  <a href="index.html">
+                    <img
+                      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSQL6yfKuQ2S9MSqQ9w8DKTlR0SKin-aezRXgVjZgBJ4wcaKdZO"
+                      alt=""
+                    ></img>
+                  </a>
                 </div>
-                <p>
-                  Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made by Lazy Cooking Team
-                </p>
               </div>
             </div>
           </div>

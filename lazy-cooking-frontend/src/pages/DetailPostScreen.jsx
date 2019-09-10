@@ -142,21 +142,21 @@ class DetailPostScreen extends Component {
                         <div className="title">
                             <h2>{this.state.title}</h2>
                         </div>
-                        <div className="row">
+                        <div className="row mt-4">
                             <div className="media col-3">
-                                <img src={this.state.avatarUrl} className="align-self-center avatarImage" />
+                                <img src={this.state.avatarUrl} className="avatarImage" />
                                 <div className="media-body ml-1 ">
                                     <h6 className="mt-0">{this.state.authorName}</h6>
                                     <small><Icon type="like" /> Thích: {this.state.totalVote}</small>
                                 </div>
                             </div>
-                            <div className="col-3 align-self-center">
+                            <div className="col-3 ">
                                 <h6><Icon type="clock-circle" /> Thời gian làm: {this.state.timeToDone} phút</h6>
                             </div>
-                            <div className="col-3 align-self-center">
+                            <div className="col-3 ">
                                 <h6><Icon type="bulb" /> Độ khó: {this.state.level}</h6>
                             </div>
-                            <div className="col-3 align-self-center">
+                            <div className="col-3 ">
                                 <h6><Icon type="profile" /> Nguyên Liệu: {this.state.materials.map((item) => {
                                     return (
                                         <Tag>{item}</Tag>

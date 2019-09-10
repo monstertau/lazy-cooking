@@ -385,11 +385,11 @@ class RegistrationForm extends React.Component {
 
 
     return (
-      <div className="container  mt-5">
+      <div className="container  mt-3">
         <div className="text-center">
           <h3 className="title-login">Chỉnh sửa trang cá nhân</h3>
         </div >
-        <Form {...formItemLayout} onSubmit={this.handleSubmit} className="login mt-5">
+        <Form {...formItemLayout} onSubmit={this.handleSubmit} className="login mt-3">
 
           <div style={{ marginLeft: "600px" }}>
             <Upload

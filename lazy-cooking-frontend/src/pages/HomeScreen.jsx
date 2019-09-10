@@ -1,6 +1,6 @@
 import React from "react";
-import { Carousel, Row } from "antd";
-import { Button, Input, Menu, Dropdown, Icon, Avatar, List, Card } from "antd";
+import { Carousel } from "antd";
+import { Icon, Avatar, List, Card } from "antd";
 import "antd/dist/antd.css";
 import "./HomeScreen.css"
 
@@ -65,7 +65,7 @@ class HomeScreen extends React.Component {
   render() {
     return (
       <div className='abc'>
-        <div className="container mt-0 detail-post">
+        <div className="container detail-post">
           <Carousel autoplay>
             <div className="intro">
               <img src="https://static.toiimg.com/photo/68283907.cms" className="imageCarousel" />
@@ -142,7 +142,7 @@ class HomeScreen extends React.Component {
                               alt={item.title}
                               src={item.imageUrl}
                               width="100"
-                              height="255"
+                              height="200"
                               object-fit="cover"
                             />
                           }
@@ -210,7 +210,7 @@ class HomeScreen extends React.Component {
                               alt={item.title}
                               src={item.imageUrl}
                               width="100"
-                              height="255"
+                              height="200"
                               object-fit="cover"
                             />
                           }

@@ -142,8 +142,10 @@ class Meal extends Component {
     const { getFieldDecorator } = this.props.form;
 
     return (
-      <div className=" pt-5 pb-3" style={{marginLeft:'10%',marginRight:'10%'}}>
-        <h3>Tìm Bữa Ăn Đơn Giản</h3>
+      <div className=" pt-3 pb-3" style={{marginLeft:'10%',marginRight:'10%'}}>
+        <div className="text-center">
+            <h3 className="title-login">Tìm bữa ăn đơn giản</h3>
+          </div>
         <Form className="ant-advanced-search-form" onSubmit={this.handleSubmit}>
           <Row gutter={24}>
             <Col span={12}>
@@ -270,7 +272,7 @@ class Meal extends Component {
                           key="upvote"
                         />,
                         <IconText
-                          type="bulb"
+                          type="bar-chart"
                           text={"Độ khó: " + item.level}
                           key="list-vertical-like-o"
                         />,
