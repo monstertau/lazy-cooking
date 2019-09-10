@@ -17,6 +17,7 @@ import ShowRecipeScreen from "./pages/ShowRecipeScreen";
 import SimpleMeal from "./pages/SimpleMeal";
 import SearchScreen from "./pages/SearchScreen";
 import EditPostScreen from "./pages/EditPostScreen";
+import DetailUser from "./pages/DetailUser";
 const { Search } = Input;
 const { SubMenu } = Menu;
 
@@ -357,6 +358,7 @@ class App extends React.Component {
             />
             <Route path="/simple-meal" exact={true} component={SimpleMeal} />
             <Route path="/edit-post/:postId" exact={true} component={EditPostScreen} />
+            <Route path="/detailUser" exact={true} component={DetailUser}></Route>
           </BrowserRouter>
         </div>
         <footer class="footer-area">
