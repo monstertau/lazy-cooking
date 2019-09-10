@@ -86,6 +86,7 @@ h6 {
   border-radius: 50%;
   width: 35px;
   height: 35px;
+  margin-top: 4px;
 }
 
 .postImage{
@@ -245,6 +246,7 @@ h6 {
   border-radius: 5px;
   margin: 10px;
 }
+
 .footer-area {
   position: relative;
   z-index: 1;
