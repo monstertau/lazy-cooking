@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import { Icon, Button, Typography, Input, Comment, Avatar, Form, List, Tag } from 'antd';
+import { Icon, Button, Tag } from 'antd';
 import renderHTML from 'react-render-html';
 import {Helmet} from "react-helmet";
 import "./DetailPostScreen.css"
-const { Title, Paragraph, Text } = Typography;
-const { TextArea } = Input;
+
 
 
 class DetailPostScreen extends Component {
@@ -83,7 +82,7 @@ class DetailPostScreen extends Component {
             .then((res) => res.json())
             .then((data) => {
                 console.log(data);
-                if (data.success == false && data.message == "Unauthenticated") {
+                if (data.success === false && data.message === "Unauthenticated") {
                     window.alert('Please login for vote this!');
                 } else {
                     this.setState({
@@ -120,7 +119,7 @@ class DetailPostScreen extends Component {
             })
                 .then((res) => res.json())
                 .then((data) => {
-                    if (data.success == false && data.message == "Unauthenticated") {
+                    if (data.success === false && data.message === "Unauthenticated") {
                         window.alert('Please login for vote this!');
                     } else {
                         this.setState({

@@ -4,20 +4,17 @@ import {
   Input,
   Tooltip,
   Icon,
-  Cascader,
-  Select,
-  Row,
-  Col,
-  Checkbox,
+
+
+
+
   Button,
-  AutoComplete,
-  Avatar,
+
+
   Upload,
   message,
 } from 'antd';
 import {Helmet} from "react-helmet";
-const { Option } = Select;
-const AutoCompleteOption = AutoComplete.Option;
 function getBase64(img, callback) {
   const reader = new FileReader();
   reader.addEventListener('load', () => callback(reader.result));
@@ -362,7 +359,7 @@ class RegistrationForm extends React.Component {
 
   render() {
     const { getFieldDecorator } = this.props.form;
-    const { autoCompleteResult, fullName, avatarUrl } = this.state;
+    const {  avatarUrl } = this.state;
     const uploadButton = (
       <div>
         <Icon type={this.state.loading ? 'loading' : 'plus'} />

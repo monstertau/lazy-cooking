@@ -1,13 +1,10 @@
 import React, { Component } from "react";
 import "antd/dist/antd.css";
 import {
-  Empty,
   List,
   Avatar,
   Icon,
   Card,
-  Row,
-  Col,
   Button,
   Popconfirm,
   message

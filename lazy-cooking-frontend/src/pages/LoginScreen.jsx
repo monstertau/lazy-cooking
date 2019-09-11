@@ -1,12 +1,9 @@
 import React, { Component } from "react";
-import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
 import firebase from "firebase";
-import { Form, Icon, Input, Button, Checkbox, Typography } from "antd";
+import { Form, Icon, Input, Button, Checkbox } from "antd";
 import "./LoginScreen.css";
-import FormItem from "antd/lib/form/FormItem";
 import { Helmet } from "react-helmet";
 
-const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 const phoneRegex = /^\d{10}$/;
 const config = {
   apiKey: "AIzaSyCkrqRgSiubYxCkhBCbWHPQ27-tm3VnE2Y",
@@ -197,8 +194,7 @@ class LoginScreen extends Component {
       })
       .catch(function(error) {
         // Handle Errors here.
-        var errorCode = error.code;
-        var errorMessage = error.message;
+        
       });
   };
 
