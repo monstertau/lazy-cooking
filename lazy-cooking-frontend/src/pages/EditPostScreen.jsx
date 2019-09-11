@@ -186,9 +186,41 @@ class EditPostScreen extends React.Component {
           data.slug = data.slug.concat(this.state.materialSlug).unique();
         }
         if (this.state.levelSlug) {
+          if(data.slug.includes("de") || data.slug.includes("trung-binh") || data.slug.includes("kho")){
+            const index1 = data.slug.indexOf("de");
+            if (index1 > -1) {
+              data.slug.splice(index1, 1);
+            }
+            const index2 = data.slug.indexOf("trung-binh");
+            if (index2 > -1) {
+              data.slug.splice(index2, 1);
+            }
+            const index3 = data.slug.indexOf("kho");
+            if (index3 > -1) {
+              data.slug.splice(index3, 1);
+            }
+          }
           data.slug = data.slug.concat(this.state.levelSlug).unique();
         }
         if (this.state.timeSlug) {
+          if(data.slug.includes("duoi-10-phut") || data.slug.includes("10-den-30-phut") || data.slug.includes("30-den-60-phut") || data.slug.includes("tren-60-phut")){
+            const index1 = data.slug.indexOf("duoi-10-phut");
+            if (index1 > -1) {
+              data.slug.splice(index1, 1);
+            }
+            const index2 = data.slug.indexOf("10-den-30-phut");
+            if (index2 > -1) {
+              data.slug.splice(index2, 1);
+            }
+            const index3 = data.slug.indexOf("30-den-60-phut");
+            if (index3 > -1) {
+              data.slug.splice(index3, 1);
+            }
+            const index4 = data.slug.indexOf("tren-60-phut");
+            if (index3 > -1) {
+              data.slug.splice(index4, 1);
+            }
+          }
           data.slug = data.slug.concat(this.state.timeSlug).unique();
         }
         data.content = this.state.content;

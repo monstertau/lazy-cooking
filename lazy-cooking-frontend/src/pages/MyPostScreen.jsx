@@ -47,7 +47,14 @@ class MyPostScreen extends Component {
             });
         }
       });
+      window.addEventListener("resize", this.updateDimensions);
   }
+  updateDimensions = () => {
+    this.setState({
+      height: window.innerHeight,
+      width: window.innerWidth
+    });
+  };
   handleEditChange = itemId => {
     if (itemId) {
       window.location.href = `/edit-post/${itemId}`;
@@ -92,8 +99,8 @@ class MyPostScreen extends Component {
           <h3 className="title-login">Công thức của tôi</h3>
         </div>
         <div
-          className="detail-post"
-          style={{ marginLeft: "25%", marginRight: "25%" }}
+          className={this.state.width > 1000?("detail-post"):("detail-post container")}
+          style={{marginLeft:this.state.width > 1000?"25%":"",marginRight:this.state.width > 1000?"25%":""}}
         >
           {this.state.havePost === false ? (
             <Empty />

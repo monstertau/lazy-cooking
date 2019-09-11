@@ -32,7 +32,9 @@ class Meal extends Component {
     foods: foodArr,
     types: typeArr,
     data: [],
-    loading: false
+    loading: false,
+    height: window.innerHeight,
+    width: window.innerWidth
   };
   ChangeToSlug = item => {
     let str = item.toLowerCase(); // xóa dấu
@@ -130,7 +132,14 @@ class Meal extends Component {
       .catch(error => {
         throw error;
       });
+      window.addEventListener("resize", this.updateDimensions);
   }
+  updateDimensions = () => {
+    this.setState({
+      height: window.innerHeight,
+      width: window.innerWidth
+    });
+  };
   render() {
     const foodItems = this.state.foods.map((item, key) => (
       <Option value={item}>{item}</Option>
@@ -150,7 +159,7 @@ class Meal extends Component {
         <div className="text-center">
             <h3 className="title-login">Tìm bữa ăn đơn giản</h3>
           </div>
-        <Form className="ant-advanced-search-form" onSubmit={this.handleSubmit}>
+        <Form className={this.state.width > 1000?"ant-advanced-search-form":""} onSubmit={this.handleSubmit}>
           <Row gutter={24}>
             <Col span={12}>
               <Form.Item label="Chọn nguyên liệu" hasFeedback>

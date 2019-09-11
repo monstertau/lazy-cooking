@@ -10,9 +10,16 @@ const IconText = ({ type, text }) => (
 );
 class Blog extends Component {
   state = {
-    data: []
+    data: [],
+    height: window.innerHeight,
+    width: window.innerWidth
   };
-
+  updateDimensions = () => {
+    this.setState({
+      height: window.innerHeight,
+      width: window.innerWidth
+    });
+  };
   componentDidMount() {
     fetch(`http://localhost:3001/posts/getpost`, {
       method: "GET",
@@ -30,9 +37,11 @@ class Blog extends Component {
           data: data.data
         });
       });
+      window.addEventListener("resize", this.updateDimensions);
+      
   }
   render() {
-    // console.log(this.state.data)
+    console.log(this.state.width)
     return (
       <div>
         <Helmet>
@@ -42,8 +51,8 @@ class Blog extends Component {
           <h3 className="title-login">Blogs mới nổi bật</h3>
         </div>
         <div
-          className="detail-post mb-5"
-          style={{ marginLeft: "25%", marginRight: "25%" }}
+          className={this.state.width > 1000?("detail-post mb-5"):("detail-post mb-5 container")}
+          style={{marginLeft:this.state.width > 1000?"25%":"",marginRight:this.state.width > 1000?"25%":""}}
         >
           <List
             itemLayout="vertical"

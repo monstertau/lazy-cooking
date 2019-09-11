@@ -46,7 +46,9 @@ class RegistrationForm extends React.Component {
     loading: false,
     avatarFile: undefined,
     load: false,
-    pass:''
+    pass:'',
+    height: window.innerHeight,
+      width: window.innerWidth
   };
   handleChange = info => {
     if (info.file.status === 'uploading') {
@@ -131,7 +133,14 @@ class RegistrationForm extends React.Component {
         }
       })
       .catch(error => { throw (error) })
+      window.addEventListener("resize", this.updateDimensions);
   }
+  updateDimensions = () => {
+    this.setState({
+      height: window.innerHeight,
+      width: window.innerWidth
+    });
+  };
   handleChangeEmail = (event) => {
     this.setState({
       email: event.target.value
@@ -394,7 +403,7 @@ class RegistrationForm extends React.Component {
         </div >
         <Form {...formItemLayout} onSubmit={this.handleSubmit} className="login mt-3">
 
-          <div style={{ marginLeft: "600px" }}>
+          <div style={{ marginLeft: this.state.width > 1000?"600px":"" }}>
             <Upload
               style={{ height: "120px" }}
               name="avatar"
