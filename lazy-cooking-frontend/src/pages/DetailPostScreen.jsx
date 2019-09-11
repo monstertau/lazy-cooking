@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Icon, Button, Typography, Input, Comment, Avatar, Form, List, Tag } from 'antd';
 import renderHTML from 'react-render-html';
 import {Helmet} from "react-helmet";
+import "./DetailPostScreen.css"
 const { Title, Paragraph, Text } = Typography;
 const { TextArea } = Input;
 
@@ -26,8 +27,14 @@ class DetailPostScreen extends Component {
         userComment: '',
         isError: false,
         message: '',
+        width: window.innerWidth,
     }
-
+    updateDimensions = () => {
+        this.setState({
+          
+          width: window.innerWidth
+        });
+      };
     componentWillMount() {
         fetch(`http://localhost:3001/posts/get-post-by-id/${this.props.match.params.postId}`, {
             method: 'GET',
@@ -59,6 +66,7 @@ class DetailPostScreen extends Component {
                 console.log(error);
                 window.alert(error.message);
             })
+            window.addEventListener("resize", this.updateDimensions);
     }
 
     handleClickLike = () => {
@@ -148,7 +156,7 @@ class DetailPostScreen extends Component {
                         </div>
                         <div className="row mt-4">
                             <div className="media col-3">
-                                <img src={this.state.avatarUrl} className="avatarImage" />
+                                <img src={this.state.avatarUrl} className="avatarImage"/>
                                 <div className="media-body ml-1 ">
                                     <h6 className="mt-0">{this.state.authorName}</h6>
                                     <small><Icon type="like" /> Thích: {this.state.totalVote}</small>
@@ -172,7 +180,7 @@ class DetailPostScreen extends Component {
                     <div className="main-content">
                         <div className="content">
                             <div className="image text-center mt-5">
-                                <img className="postImage" src={this.state.imageUrl} />
+                                <img className="postImage" src={this.state.imageUrl} style={{width:this.state.width<1000?"90%":"",objectFit:"cover"}}/>
                             </div>
                             <div className="detail-content mt-5">
                                 {renderHTML(`${this.state.content}`)}

@@ -433,9 +433,9 @@ class RegistrationForm extends React.Component {
                   message: 'Please input your E-mail!',
                 },
               ],
-            })(<Input onChange={this.handleChangeEmail} />)}
+            })(<Input onChange={this.handleChangeEmail} disabled/>)}
           </Form.Item>
-          <Form.Item label="Password" hasFeedback>
+          <Form.Item label="Đổi mật khẩu" hasFeedback>
             {getFieldDecorator('password', {
               rules: [
                 {
@@ -444,7 +444,7 @@ class RegistrationForm extends React.Component {
               ],
             })(<Input.Password onChange={this.handlePassWord} />)}
           </Form.Item>
-          <Form.Item label="Confirm Password" hasFeedback>
+          <Form.Item label="Xác nhận mật khẩu" hasFeedback>
             {getFieldDecorator('confirm', {
               rules: [
                 {
@@ -456,7 +456,7 @@ class RegistrationForm extends React.Component {
           <Form.Item
             label={
               <span>
-                Fullname&nbsp;
+                Tên đầy đủ&nbsp;
                 <Tooltip title="What do you want others to call you?">
                   <Icon type="question-circle-o" />
                 </Tooltip>
@@ -469,7 +469,7 @@ class RegistrationForm extends React.Component {
               rules: [{ required: true, message: 'Please input your nickname!', whitespace: true }],
             })(<Input onChange={this.handleChangeFullName} />)}
           </Form.Item>
-          <Form.Item label="Phone Number">
+          <Form.Item label="Số điện thoại">
             {getFieldDecorator('phone', {
               valuePropName: 'value',
               initialValue: this.state.phone,
