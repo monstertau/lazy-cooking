@@ -651,7 +651,7 @@ class App extends React.Component {
                   class="col-xs-12 col-sm-12 col-md-12 mt-2 mt-sm-2 text-center"
                   href=""
                 >
-                  <img src={logo} style={{ height: 120 }} />
+                  <img src={logo} style={{ height: 120,objectFit:"cover" }} />
                 </a>
               </div>
 
