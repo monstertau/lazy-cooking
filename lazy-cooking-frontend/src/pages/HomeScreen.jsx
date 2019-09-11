@@ -162,7 +162,7 @@ class HomeScreen extends React.Component {
 
           <div className="new-post mt-5">
             <div className="title-new-post">
-              <h4 className="ml-2">Bài viết mới nhất</h4>
+              <h4 className="ml-2">Blog mới nhất</h4>
             </div>
             <div className="new-post ml-4 mr-4">
               <div className="pt-3 pb-5">
@@ -231,7 +231,7 @@ class HomeScreen extends React.Component {
 
           <div className="most-like mt-5">
             <div className="title-new-post">
-              <h4 className="ml-2">Bài viết được yêu thích nhất</h4>
+              <h4 className="ml-2">Công thức được yêu thích nhất</h4>
             </div>
             <div className="new-post ml-4 mr-4">
               <div className="pt-3 pb-5">

@@ -475,7 +475,7 @@ postRouter.get("/search/:keyword", (req, res) => {
 
 postRouter.get("/get-six-new", (req, res) => {
   postModel
-    .find()
+    .find({type: "Blog"})
     .sort({ createdAt: -1 })
     .populate("author", "avatarUrl fullName")
     .limit(6)
@@ -496,7 +496,7 @@ postRouter.get("/get-six-new", (req, res) => {
 
 postRouter.get("/get-most-like", (req, res) => {
   postModel
-    .find()
+    .find({type: "Công thức"})
     .sort({ upvote: -1 })
     .populate("author", "avatarUrl fullName")
     .limit(6)
