@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Carousel } from "antd";
 import "./SimpleMeal.css";
 import {
   Form,
@@ -153,7 +154,16 @@ class Meal extends Component {
 
     return (
       <div className=" pt-3 pb-3" style={{marginLeft:'10%',marginRight:'10%'}}>
-        <Helmet>
+        <Carousel autoplay>
+            <div className="intro">
+              <img
+                src="https://res.cloudinary.com/hz3gmuqw6/image/upload/c_fill,h_594,q_60,w_1900/private-chef-385_1900x594_mueghs"
+                className="imageCarousel simple-meal-image"
+              />
+            </div>
+          </Carousel>
+        <div className="mt-4">
+        <Helmet >
           <title>Bữa ăn đơn giản</title>
         </Helmet>
         <div className="text-center">
@@ -239,6 +249,9 @@ class Meal extends Component {
             </Button>
           </Form.Item>
         </Form>
+        </div>
+
+        
         {this.state.data.length > 0 ? (
           <>
             <div className="mt-3 mb-2">

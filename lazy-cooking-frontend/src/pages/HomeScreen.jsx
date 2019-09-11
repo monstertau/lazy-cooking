@@ -70,27 +70,21 @@ class HomeScreen extends React.Component {
         </Helmet>
         <div className="container detail-post">
           <Carousel autoplay>
+          <div>
+              <img
+                src="https://static.toiimg.com/photo/68283907.cms"
+                className="imageCarousel"
+              />
+            </div>
             <div className="intro">
               <img
-                src="https://static.toiimg.com/photo/68283907.cms"
+                src="https://passport2it.com/wp-content/uploads/2017/11/o-KITCHEN-COOKING-facebook.jpg"
                 className="imageCarousel"
               />
             </div>
             <div>
               <img
-                src="https://static.toiimg.com/photo/68283907.cms"
-                className="imageCarousel"
-              />
-            </div>
-            <div>
-              <img
-                src="https://static.toiimg.com/photo/68283907.cms"
-                className="imageCarousel"
-              />
-            </div>
-            <div>
-              <img
-                src="https://static.toiimg.com/photo/68283907.cms"
+                src="https://img-s-msn-com.akamaized.net/tenant/amp/entityid/AAFAjK9.img?h=630&w=1200&m=6&q=60&o=t&l=f&f=jpg&x=1060&y=1065"
                 className="imageCarousel"
               />
             </div>
