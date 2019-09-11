@@ -50,7 +50,7 @@ class App extends React.Component {
         window.localStorage.removeItem("fullName");
         window.localStorage.removeItem("avatarUrl");
         window.localStorage.removeItem("id");
-        window.location.reload();
+        window.location.href="/";
         // clear fullname + email in state
       })
       .catch(error => {

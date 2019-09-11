@@ -47,6 +47,10 @@ const PostSchema = mongoose.Schema({
     comments: {
         type: Array,
         default: [],
+    },
+    type:{
+        type: String,
+        require:true,
     }
 })
 const postModel = mongoose.model('Posts',PostSchema);

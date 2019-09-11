@@ -20,7 +20,8 @@ postRouter.post(`/create`, (req, res) => {
       level: req.body.level,
       timetodone: req.body.timetodone,
       author: req.session.currentUser._id,
-      slug: req.body.slug
+      slug: req.body.slug,
+      type:req.body.type
     };
     // if (title.length > 50 || content.length > 1000) {
     //   res.status(400).json({
@@ -60,7 +61,8 @@ postRouter.post(`/update/:postId`, (req, res) => {
       level: req.body.level,
       timetodone: req.body.timetodone,
       author: req.session.currentUser._id,
-      slug: req.body.slug
+      slug: req.body.slug,
+      type: req.body.type
     };
     
     postModel.findByIdAndUpdate(req.params.postId,post, (error, data) => {

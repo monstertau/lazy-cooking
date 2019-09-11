@@ -13,12 +13,12 @@ import {
 import CKEditor from "ckeditor4-react";
 import "antd/dist/antd.css";
 import { foodArr, typeArr } from "./data";
-import {Helmet} from "react-helmet";
+import { Helmet } from "react-helmet";
 const { Option } = Select;
 CKEditor.editorUrl = "http://localhost:3000/ckeditor/ckeditor.js";
 function getBase64(img, callback) {
   const reader = new FileReader();
-  reader.addEventListener('load', () => callback(reader.result));
+  reader.addEventListener("load", () => callback(reader.result));
   reader.readAsDataURL(img);
 }
 class CreatePostScreen extends React.Component {
@@ -32,7 +32,7 @@ class CreatePostScreen extends React.Component {
     levelSlug: "",
     timeSlug: "",
     content: "",
-    imageUrl: '',
+    imageUrl: ""
   };
   ChangeToSlug = item => {
     let str = item.toLowerCase(); // xóa dấu
@@ -119,19 +119,19 @@ class CreatePostScreen extends React.Component {
     this.setState({ loading: true });
   };
   handleImageChange = info => {
-    if (info.file.status === 'uploading') {
+    if (info.file.status === "uploading") {
       this.setState({ loading: true });
       return;
     }
-    if (info.file.status === 'done') {
+    if (info.file.status === "done") {
       console.log(info.file.originFileObj);
       // Get this url from response in real world.
       getBase64(info.file.originFileObj, imageUrl =>
         this.setState({
           imageFile: info.file.originFileObj,
           imageUrl,
-          loading: false,
-        }),
+          loading: false
+        })
       );
     }
   };
@@ -190,7 +190,8 @@ class CreatePostScreen extends React.Component {
                 materials: data.materials,
                 level: data.level,
                 timetodone: data.timetodone,
-                slug: data.slug
+                slug: data.slug,
+                type:data.type
               })
             })
               .then(res => res.json())
@@ -245,7 +246,7 @@ class CreatePostScreen extends React.Component {
   render() {
     const uploadButton = (
       <div>
-        <Icon type={this.state.loading ? 'loading' : 'plus'} />
+        <Icon type={this.state.loading ? "loading" : "plus"} />
         <div className="ant-upload-text">Upload</div>
       </div>
     );
@@ -264,13 +265,13 @@ class CreatePostScreen extends React.Component {
     };
 
     return (
-      <div className="container mt-3 mb-5" >
+      <div className="container mt-3 mb-5">
         <Helmet>
           <title>Tạo công thức</title>
         </Helmet>
         <div className="text-center">
           <h3 className="title-login">Tạo công thức</h3>
-        </div >
+        </div>
         <Form
           {...formItemLayout}
           onSubmit={this.handleSubmit}
@@ -279,10 +280,7 @@ class CreatePostScreen extends React.Component {
         >
           <Form.Item label="Tiêu đề">
             {getFieldDecorator("title", {
-              rules: [
-                { required: true, message: "Please input your title!" },
-                
-              ]
+              rules: [{ required: true, message: "Please input your title!" }]
             })(
               <Input
                 prefix={
@@ -318,7 +316,7 @@ class CreatePostScreen extends React.Component {
               rules: [
                 {
                   required: true,
-                  message: "Please select your favourite colors!",
+                  message: "Hãy chọn kiểu công thức!",
                   type: "array"
                 }
               ]
@@ -370,14 +368,36 @@ class CreatePostScreen extends React.Component {
                 beforeUpload={this.beforeUpload}
                 accept=".png, .jpg,.jpeg"
                 onChange={this.handleImageChange.bind(this)}
-                
                 showUploadList={false}
               >
-                {this.state.imageUrl ? <img src={this.state.imageUrl} alt="upload" style={{ width: '100%' }} /> : uploadButton}
+                {this.state.imageUrl ? (
+                  <img
+                    src={this.state.imageUrl}
+                    alt="upload"
+                    style={{ width: "100%" }}
+                  />
+                ) : (
+                  uploadButton
+                )}
               </Upload>
             )}
           </Form.Item>
-
+          <Form.Item label="Blog/ Công thức " hasFeedback>
+            {getFieldDecorator("type", {
+              rules: [
+                {
+                  required: true,
+                  message: "Hãy chọn dạng bài viết!",
+                  
+                }
+              ]
+            })(
+              <Select placeholder="Bấm vào để chọn dạng bài viết">
+                <Option value="Công thức">Công thức</Option>
+                <Option value="Blog">Blog</Option>
+              </Select>
+            )}
+          </Form.Item>
           <Form.Item label="Nội dung ">
             {getFieldDecorator("content", {
               rules: [{ required: true, message: "Please input your content!" }]

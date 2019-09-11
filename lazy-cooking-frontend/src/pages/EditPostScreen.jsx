@@ -13,12 +13,12 @@ import {
 import CKEditor from "ckeditor4-react";
 import "antd/dist/antd.css";
 import { foodArr, typeArr } from "./data";
-import {Helmet} from "react-helmet";
+import { Helmet } from "react-helmet";
 const { Option } = Select;
 CKEditor.editorUrl = "http://localhost:3000/ckeditor/ckeditor.js";
 function getBase64(img, callback) {
   const reader = new FileReader();
-  reader.addEventListener('load', () => callback(reader.result));
+  reader.addEventListener("load", () => callback(reader.result));
   reader.readAsDataURL(img);
 }
 class EditPostScreen extends React.Component {
@@ -32,12 +32,13 @@ class EditPostScreen extends React.Component {
     levelSlug: "",
     timeSlug: "",
     content: "",
-    title:"",
-    level:Number,
-    timetodone:Number,
-    materials:[],
-    category:[],
-    imageUrl: '',
+    title: "",
+    level: Number,
+    timetodone: Number,
+    materials: [],
+    category: [],
+    imageUrl: "",
+    type: ""
   };
   ChangeToSlug = item => {
     let str = item.toLowerCase(); // xóa dấu
@@ -124,19 +125,19 @@ class EditPostScreen extends React.Component {
     this.setState({ loading: true });
   };
   handleImageChange = info => {
-    if (info.file.status === 'uploading') {
+    if (info.file.status === "uploading") {
       this.setState({ loading: true });
       return;
     }
-    if (info.file.status === 'done') {
+    if (info.file.status === "done") {
       console.log(info.file.originFileObj);
       // Get this url from response in real world.
       getBase64(info.file.originFileObj, imageUrl =>
         this.setState({
           imageFile: info.file.originFileObj,
           imageUrl,
-          loading: false,
-        }),
+          loading: false
+        })
       );
     }
   };
@@ -166,60 +167,66 @@ class EditPostScreen extends React.Component {
         data.slug = data.slug.concat(this.state.timeSlug);
         data.content = this.state.content;
         console.log(data);
-        if(this.state.imageFile){
+        if (this.state.imageFile) {
           const formData = new FormData();
-        formData.append("image", this.state.imageFile);
-        fetch(`http://localhost:3001/posts/image`, {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            Accept: "application/json"
-          },
-          body: formData
-        })
-          .then(res => {
-            return res.json();
+          formData.append("image", this.state.imageFile);
+          fetch(`http://localhost:3001/posts/image`, {
+            method: "POST",
+            credentials: "include",
+            headers: {
+              Accept: "application/json"
+            },
+            body: formData
           })
-          .then(info => {
-            console.log(info);
-            fetch(`http://localhost:3001/posts/update/${this.props.match.params.postId}`, {
-              method: "POST",
-              credentials: "include",
-              headers: {
-                "Content-Type": "application/json"
-              },
-              body: JSON.stringify({
-                content: data.content,
-                title: data.title,
-                imageUrl: info.data.imageUrl,
-                category: data.category,
-                materials: data.materials,
-                level: data.level,
-                timetodone: data.timetodone,
-                slug: data.slug
-              })
+            .then(res => {
+              return res.json();
             })
-              .then(res => res.json())
-              .then(data1 => {
-                console.log(data1);
-                if (data1.success) {
-                  if (window.localStorage.getItem("id")) {
-                    window.location.href = `/my-post/${window.localStorage.getItem(
-                      "id"
-                    )}`;
-                  } else {
-                    window.location.href = `/my-post/${window.sessionStorage.getItem(
-                      "id"
-                    )}`;
-                  }
+            .then(info => {
+              console.log(info);
+              fetch(
+                `http://localhost:3001/posts/update/${this.props.match.params.postId}`,
+                {
+                  method: "POST",
+                  credentials: "include",
+                  headers: {
+                    "Content-Type": "application/json"
+                  },
+                  body: JSON.stringify({
+                    content: data.content,
+                    title: data.title,
+                    imageUrl: info.data.imageUrl,
+                    category: data.category,
+                    materials: data.materials,
+                    level: data.level,
+                    timetodone: data.timetodone,
+                    slug: data.slug,
+                    type:data.type
+                  })
                 }
-              });
-          })
-          .catch(error => {
-            throw error;
-          });
-        }else{
-          fetch(`http://localhost:3001/posts/update/${this.props.match.params.postId}`, {
+              )
+                .then(res => res.json())
+                .then(data1 => {
+                  console.log(data1);
+                  if (data1.success) {
+                    if (window.localStorage.getItem("id")) {
+                      window.location.href = `/my-post/${window.localStorage.getItem(
+                        "id"
+                      )}`;
+                    } else {
+                      window.location.href = `/my-post/${window.sessionStorage.getItem(
+                        "id"
+                      )}`;
+                    }
+                  }
+                });
+            })
+            .catch(error => {
+              throw error;
+            });
+        } else {
+          fetch(
+            `http://localhost:3001/posts/update/${this.props.match.params.postId}`,
+            {
               method: "POST",
               credentials: "include",
               headers: {
@@ -233,24 +240,26 @@ class EditPostScreen extends React.Component {
                 materials: data.materials,
                 level: data.level,
                 timetodone: data.timetodone,
-                slug: data.slug
+                slug: data.slug,
+                type:data.type
               })
-            })
-              .then(res => res.json())
-              .then(data1 => {
-                console.log(data1);
-                if (data1.success) {
-                  if (window.localStorage.getItem("id")) {
-                    window.location.href = `/my-post/${window.localStorage.getItem(
-                      "id"
-                    )}`;
-                  } else {
-                    window.location.href = `/my-post/${window.sessionStorage.getItem(
-                      "id"
-                    )}`;
-                  }
+            }
+          )
+            .then(res => res.json())
+            .then(data1 => {
+              console.log(data1);
+              if (data1.success) {
+                if (window.localStorage.getItem("id")) {
+                  window.location.href = `/my-post/${window.localStorage.getItem(
+                    "id"
+                  )}`;
+                } else {
+                  window.location.href = `/my-post/${window.sessionStorage.getItem(
+                    "id"
+                  )}`;
                 }
-              });
+              }
+            });
         }
       } else {
         throw err;
@@ -280,36 +289,40 @@ class EditPostScreen extends React.Component {
       .catch(error => {
         throw error;
       });
-      fetch(`http://localhost:3001/posts/get-post-by-id/${this.props.match.params.postId}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            credentials: 'include',
-        })
-            .then((res) => res.json())
-            .then((data) => {
-                console.log(data);
-                this.setState({
-                  title:data.data.title,
-                  content:data.data.content,
-                  level:data.data.level,
-                  timetodone:data.data.timetodone,
-                  category:data.data.category,
-                  materials:data.data.materials,
-                  imageUrl:data.data.imageUrl,
-                })
-            })
-            .catch((error) => {
-                console.log(error);
-                window.alert(error.message);
-            })
+    fetch(
+      `http://localhost:3001/posts/get-post-by-id/${this.props.match.params.postId}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        credentials: "include"
+      }
+    )
+      .then(res => res.json())
+      .then(data => {
+        console.log(data);
+        this.setState({
+          title: data.data.title,
+          content: data.data.content,
+          level: data.data.level,
+          timetodone: data.data.timetodone,
+          category: data.data.category,
+          materials: data.data.materials,
+          imageUrl: data.data.imageUrl,
+          type: data.data.type
+        });
+      })
+      .catch(error => {
+        console.log(error);
+        window.alert(error.message);
+      });
   }
 
   render() {
     const uploadButton = (
       <div>
-        <Icon type={this.state.loading ? 'loading' : 'plus'} />
+        <Icon type={this.state.loading ? "loading" : "plus"} />
         <div className="ant-upload-text">Upload</div>
       </div>
     );
@@ -328,13 +341,13 @@ class EditPostScreen extends React.Component {
     };
 
     return (
-      <div className="container mt-5 mb-5" >
+      <div className="container mt-5 mb-5">
         <Helmet>
           <title>Chỉnh sửa bài viết cá nhân</title>
         </Helmet>
         <div className="text-center">
           <h3 className="title-login">Sửa công thức</h3>
-        </div >
+        </div>
         <Form
           {...formItemLayout}
           onSubmit={this.handleSubmit}
@@ -343,25 +356,21 @@ class EditPostScreen extends React.Component {
         >
           <Form.Item label="Tiêu đề">
             {getFieldDecorator("title", {
-              rules: [
-                { required: true, message: "Please input your title!" },
-                
-              ],
-              initialValue: this.state.title,
+              rules: [{ required: true, message: "Please input your title!" }],
+              initialValue: this.state.title
             })(
               <Input
                 prefix={
                   <Icon type="container" style={{ color: "rgba(0,0,0,.25)" }} />
                 }
                 placeholder="Tiêu đề"
-                
               />
             )}
           </Form.Item>
 
           <Form.Item label="Chọn nguyên liệu" hasFeedback>
             {getFieldDecorator("materials", {
-              initialValue:this.state.materials,
+              initialValue: this.state.materials,
               rules: [
                 {
                   required: true,
@@ -382,7 +391,7 @@ class EditPostScreen extends React.Component {
 
           <Form.Item label="Chọn kiểu công thức" hasFeedback>
             {getFieldDecorator("category", {
-              initialValue:this.state.category,
+              initialValue: this.state.category,
               rules: [
                 {
                   required: true,
@@ -395,7 +404,6 @@ class EditPostScreen extends React.Component {
                 mode="multiple"
                 placeholder="Bấm vào để chọn kiểu công thức"
                 onChange={this.handleCategoryChange}
-                
               >
                 {typeItems}
 
@@ -429,8 +437,7 @@ class EditPostScreen extends React.Component {
           <Form.Item label="Ảnh ví dụ" extra="kích thước tối đa 2mb">
             {getFieldDecorator("fileupload", {
               valuePropName: "fileList",
-              getValueFromEvent: this.normFile,
-              
+              getValueFromEvent: this.normFile
             })(
               <Upload
                 name="logo"
@@ -441,21 +448,42 @@ class EditPostScreen extends React.Component {
                 onChange={this.handleImageChange.bind(this)}
                 showUploadList={false}
               >
-                {this.state.imageUrl ? <img src={this.state.imageUrl} alt="upload" style={{ width: '100%' }} /> : uploadButton}
+                {this.state.imageUrl ? (
+                  <img
+                    src={this.state.imageUrl}
+                    alt="upload"
+                    style={{ width: "100%" }}
+                  />
+                ) : (
+                  uploadButton
+                )}
               </Upload>
             )}
           </Form.Item>
-
-          <Form.Item label="Nội dung ">
-            {getFieldDecorator("content", {
-              
+          <Form.Item label="Blog/ Công thức " hasFeedback>
+            {getFieldDecorator("type", {
+              initialValue: this.state.type,
+              rules: [
+                {
+                  required: true,
+                  message: "Hãy chọn dạng bài viết!"
+                }
+              ]
             })(
+              <Select placeholder="Bấm vào để chọn dạng bài viết">
+                <Option value="Công thức">Công thức</Option>
+                <Option value="Blog">Blog</Option>
+              </Select>
+            )}
+          </Form.Item>
+          <Form.Item label="Nội dung ">
+            {getFieldDecorator("content", {})(
               <CKEditor
                 onChange={this.onEditorChange}
                 data={this.state.content}
                 config={{
                   height: "700",
-                  
+
                   toolbarGroups: [
                     {
                       name: "document",
@@ -501,7 +529,7 @@ class EditPostScreen extends React.Component {
               // loading={this.state.loading}
               onClick={this.enterLoading}
             >
-              Cập nhật bài viết 
+              Cập nhật bài viết
             </Button>
           </Form.Item>
         </Form>

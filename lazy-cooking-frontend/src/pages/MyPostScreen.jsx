@@ -168,7 +168,7 @@ class MyPostScreen extends Component {
                         </a>
                       </h5>
                     }
-                    // description={item.description}
+                    description={"Dạng bài đăng: " + item.type}
                   />
                   Nguyên liệu:&nbsp;&nbsp;
                   {item.materials.map(i => (
