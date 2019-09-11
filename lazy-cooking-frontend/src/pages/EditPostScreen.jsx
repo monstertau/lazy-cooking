@@ -16,6 +16,18 @@ import { foodArr, typeArr } from "./data";
 import { Helmet } from "react-helmet";
 const { Option } = Select;
 CKEditor.editorUrl = "http://localhost:3000/ckeditor/ckeditor.js";
+Array.prototype.unique = function() {
+  var a = this.concat();
+  for(var i=0; i<a.length; ++i) {
+      for(var j=i+1; j<a.length; ++j) {
+          if(a[i] === a[j])
+              a.splice(j--, 1);
+      }
+  }
+
+  return a;
+};
+
 function getBase64(img, callback) {
   const reader = new FileReader();
   reader.addEventListener("load", () => callback(reader.result));
@@ -38,7 +50,8 @@ class EditPostScreen extends React.Component {
     materials: [],
     category: [],
     imageUrl: "",
-    type: ""
+    type: "",
+    slug: []
   };
   ChangeToSlug = item => {
     let str = item.toLowerCase(); // xóa dấu
@@ -162,9 +175,22 @@ class EditPostScreen extends React.Component {
     e.preventDefault();
     this.props.form.validateFields((err, data) => {
       if (!err) {
-        data.slug = this.state.categorySlug.concat(this.state.materialSlug);
-        data.slug = data.slug.concat(this.state.levelSlug);
-        data.slug = data.slug.concat(this.state.timeSlug);
+        console.log(this.state.slug);
+        data.slug = this.state.slug;
+        // console.log(this.state.categorySlug.concat(this.state.materialSlug))
+        // data.slug = this.state.categorySlug.concat(this.state.materialSlug);
+        if (this.state.categorySlug ) {
+          data.slug = data.slug.concat(this.state.categorySlug).unique();
+        }
+        if (this.state.materialSlug) {
+          data.slug = data.slug.concat(this.state.materialSlug).unique();
+        }
+        if (this.state.levelSlug) {
+          data.slug = data.slug.concat(this.state.levelSlug).unique();
+        }
+        if (this.state.timeSlug) {
+          data.slug = data.slug.concat(this.state.timeSlug).unique();
+        }
         data.content = this.state.content;
         console.log(data);
         if (this.state.imageFile) {
@@ -200,7 +226,7 @@ class EditPostScreen extends React.Component {
                     level: data.level,
                     timetodone: data.timetodone,
                     slug: data.slug,
-                    type:data.type
+                    type: data.type
                   })
                 }
               )
@@ -241,7 +267,7 @@ class EditPostScreen extends React.Component {
                 level: data.level,
                 timetodone: data.timetodone,
                 slug: data.slug,
-                type:data.type
+                type: data.type
               })
             }
           )
@@ -310,7 +336,8 @@ class EditPostScreen extends React.Component {
           category: data.data.category,
           materials: data.data.materials,
           imageUrl: data.data.imageUrl,
-          type: data.data.type
+          type: data.data.type,
+          slug: data.data.slug
         });
       })
       .catch(error => {
@@ -339,7 +366,7 @@ class EditPostScreen extends React.Component {
       labelCol: { span: 6 },
       wrapperCol: { span: 14 }
     };
-
+    // console.log(this.state)
     return (
       <div className="container mt-5 mb-5">
         <Helmet>

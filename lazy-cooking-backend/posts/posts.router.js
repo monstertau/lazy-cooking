@@ -21,7 +21,7 @@ postRouter.post(`/create`, (req, res) => {
       timetodone: req.body.timetodone,
       author: req.session.currentUser._id,
       slug: req.body.slug,
-      type:req.body.type
+      type: req.body.type
     };
     // if (title.length > 50 || content.length > 1000) {
     //   res.status(400).json({
@@ -64,8 +64,8 @@ postRouter.post(`/update/:postId`, (req, res) => {
       slug: req.body.slug,
       type: req.body.type
     };
-    
-    postModel.findByIdAndUpdate(req.params.postId,post, (error, data) => {
+
+    postModel.findByIdAndUpdate(req.params.postId, post, (error, data) => {
       if (error) {
         res.status(500).json({
           success: false,
@@ -78,7 +78,6 @@ postRouter.post(`/update/:postId`, (req, res) => {
         });
       }
     }); //asdasda
-    
   } else {
     res.status(403).json({
       success: false,
@@ -88,7 +87,7 @@ postRouter.post(`/update/:postId`, (req, res) => {
 });
 postRouter.get(`/getpost`, (req, res) => {
   postModel
-    .find({})
+    .find({ type: "Blog" })
     .sort({ createdAt: -1 })
     .populate("author", "avatarUrl fullName _id")
     .exec((error, data) => {
@@ -356,7 +355,7 @@ postRouter.get("/get-recipe/:type", (req, res) => {
   console.log(req.params.type);
   if (req.params.type === "all") {
     postModel
-      .find({})
+      .find({ type: "Công thức" })
       .sort({ createdAt: -1 })
       .populate("author", "avatarUrl fullName")
       .exec((error, data) => {
@@ -374,7 +373,7 @@ postRouter.get("/get-recipe/:type", (req, res) => {
       });
   } else {
     postModel
-      .find({ slug: `${req.params.type}` })
+      .find({ slug: `${req.params.type}`, type: "Công thức" })
       .sort({ createdAt: -1 })
       .populate("author", "avatarUrl fullName")
       .exec((err, data) => {
@@ -396,9 +395,10 @@ postRouter.get(`/simpleMeal`, (req, res) => {
   console.log(req.query);
   postModel
     .find({
-      slug: { "$all": req.query.slug },
-      level: Number(req.query.level),
-      timetodone: { "$lte": Number(req.query.timetodone) }
+      slug: { $all: req.query.slug },
+      level:  { $lte:Number(req.query.level),$gte:Number(req.query.level)},
+      timetodone: { $lte: Number(req.query.timetodone) },
+      type:"Công thức"
     })
     .sort({ createdAt: -1 })
     .populate("author", "avatarUrl fullName")
@@ -426,37 +426,59 @@ postRouter.put("/delete/:postId", (req, res) => {
     } else {
       res.status(201).json({
         success: true
-      })
+      });
     }
-  })
-})
+  });
+});
 
-postRouter.get('/search/:keyword', (req, res) => {
-
+postRouter.get("/search/:keyword", (req, res) => {
   const keyword = req.params.keyword;
 
-  if(keyword.trim().length === 0){
-    postModel.find({})
-    .sort({ createdAt: -1 })
-    .populate("author", "avatarUrl fullName")
-    .exec((err, data) => {
-      if (err) {
-        res.status(500).json({
-          success: false,
-          message: error.message
-        });
-      } else {
+  if (keyword.trim().length === 0) {
+    postModel
+      .find({})
+      .sort({ createdAt: -1 })
+      .populate("author", "avatarUrl fullName")
+      .exec((err, data) => {
+        if (err) {
+          res.status(500).json({
+            success: false,
+            message: error.message
+          });
+        } else {
           res.status(200).json({
             success: true,
             data: data
           });
-        
-      }
-    });
+        }
+      });
   } else {
-    postModel.find({ title: { "$regex": keyword, $options: 'i' } })
+    postModel
+      .find({ title: { $regex: keyword, $options: "i" } })
+      .sort({ createdAt: -1 })
+      .populate("author", "avatarUrl fullName")
+      .exec((err, data) => {
+        if (err) {
+          res.status(500).json({
+            success: false,
+            message: error.message
+          });
+        } else {
+          res.status(200).json({
+            success: true,
+            data: data
+          });
+        }
+      });
+  }
+});
+
+postRouter.get("/get-six-new", (req, res) => {
+  postModel
+    .find()
     .sort({ createdAt: -1 })
     .populate("author", "avatarUrl fullName")
+    .limit(6)
     .exec((err, data) => {
       if (err) {
         res.status(500).json({
@@ -464,46 +486,33 @@ postRouter.get('/search/:keyword', (req, res) => {
           message: error.message
         });
       } else {
-          res.status(200).json({
-            success: true,
-            data: data
-          });
-        
+        res.status(200).json({
+          success: true,
+          data: data
+        });
       }
     });
-  }
-})
+});
 
-postRouter.get('/get-six-new', (req, res) => {
-  postModel.find().sort({"createdAt": -1}).populate("author", "avatarUrl fullName").limit(6).exec((err, data) => {
-    if (err) {
-      res.status(500).json({
-        success: false,
-        message: error.message
-      });
-    } else {
+postRouter.get("/get-most-like", (req, res) => {
+  postModel
+    .find()
+    .sort({ upvote: -1 })
+    .populate("author", "avatarUrl fullName")
+    .limit(6)
+    .exec((err, data) => {
+      if (err) {
+        res.status(500).json({
+          success: false,
+          message: error.message
+        });
+      } else {
         res.status(200).json({
           success: true,
           data: data
         });
-    }
-  });
-})
-
-postRouter.get('/get-most-like', (req, res) => {
-  postModel.find().sort({"upvote": -1}).populate("author", "avatarUrl fullName").limit(6).exec((err, data) => {
-    if (err) {
-      res.status(500).json({
-        success: false,
-        message: error.message
-      });
-    } else {
-        res.status(200).json({
-          success: true,
-          data: data
-        });
-    }
-  });
-})
+      }
+    });
+});
 
 module.exports = postRouter;
