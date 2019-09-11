@@ -53,6 +53,10 @@ class App extends React.Component {
         window.localStorage.removeItem("fullName");
         window.localStorage.removeItem("avatarUrl");
         window.localStorage.removeItem("id");
+        window.sessionStorage.removeItem("email");
+        window.sessionStorage.removeItem("fullName");
+        window.sessionStorage.removeItem("avatarUrl");
+        window.sessionStorage.removeItem("id");
         window.location.href = "/";
         // clear fullname + email in state
       })
