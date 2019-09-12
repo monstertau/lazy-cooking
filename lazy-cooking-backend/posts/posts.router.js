@@ -181,6 +181,7 @@ postRouter.get("/get-post-by-id/:postId", (req, res) => {
             data: {
               ...data._doc,
               id: data._id,
+              authorId: user._id,
               authorName: user.fullName,
               avatarUrl: user.avatarUrl,
               totalVote: data._doc.upvote.length,

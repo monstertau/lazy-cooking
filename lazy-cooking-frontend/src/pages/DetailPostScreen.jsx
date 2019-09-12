@@ -10,6 +10,7 @@ class DetailPostScreen extends Component {
 
     state = {
         id: '',
+        authorId: '',
         authorName: '',
         avatarUrl: '',
         title: '',
@@ -40,6 +41,7 @@ class DetailPostScreen extends Component {
             .then((data) => {
                 this.setState({
                     id: data.data.id,
+                    authorId: data.data.authorId,
                     authorName: data.data.authorName,
                     avatarUrl: data.data.avatarUrl,
                     title: data.data.title,
@@ -134,6 +136,10 @@ class DetailPostScreen extends Component {
         })
     }
 
+    handleAClick = () => {
+        window.location.replace(`http://localhost:3000/detailUser/${this.state.authorId}`);
+    }
+
     render() {
         return (
             <div className="abc">
@@ -150,7 +156,7 @@ class DetailPostScreen extends Component {
                             <div className="media col-3">
                                 <img src={this.state.avatarUrl} className="avatarImage" />
                                 <div className="media-body ml-1 ">
-                                    <h6 className="mt-0">{this.state.authorName}</h6>
+                                   <a onClick={this.handleAClick}><h6 className="mt-0">{this.state.authorName}</h6></a> 
                                     <small><Icon type="like" /> Thích: {this.state.totalVote}</small>
                                 </div>
                             </div>
