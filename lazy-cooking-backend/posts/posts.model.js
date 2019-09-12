@@ -13,7 +13,7 @@ const PostSchema = mongoose.Schema({
         require:true
     },
     imageUrl:{
-        type:String, 
+        type:String 
     },
     author:{
         type: mongoose.Schema.Types.ObjectId,
