@@ -1,8 +1,8 @@
 import React from "react";
-import { BrowserRouter, Route, Link } from "react-router-dom";
+import { BrowserRouter, Route } from "react-router-dom";
 import "./App.css";
 import "antd/dist/antd.css";
-import { Button, Input, Menu, Dropdown, Icon, Avatar, Badge } from "antd";
+import { Button, Input, Menu, Dropdown, Avatar, Badge } from "antd";
 import HomeScreen from "./pages/HomeScreen";
 import WrappedLoginScreen from "./pages/LoginScreen";
 import RegisterScreen from "./pages/RegisterScreen";
@@ -18,7 +18,6 @@ import EditPostScreen from "./pages/EditPostScreen";
 import DetailUser from "./pages/DetailUser";
 import logo from "../src/logo.png";
 import ScrollUpButton from "react-scroll-up-button";
-import windowSize from "react-window-size";
 
 const { Search } = Input;
 const { SubMenu } = Menu;
@@ -124,34 +123,9 @@ class App extends React.Component {
         });
     }
     window.addEventListener("resize", this.updateDimensions);
-    // fetch("http://localhost:3001/users/check-session", {
-    //   method: "GET",
-    //   credentials: "include"
-    // })
-    //   .then(res => res.json())
-    //   .then(data => {
-    //     if (data.success === true) {
-
-    //     } else {
-    //       console.log(data);
-    //       window.localStorage.removeItem("email");
-    //       window.localStorage.removeItem("fullName");
-    //       window.localStorage.removeItem("avatarUrl");
-    //       window.localStorage.removeItem("id");
-    //       window.sessionStorage.removeItem("email");
-    //       window.sessionStorage.removeItem("fullName");
-    //       window.sessionStorage.removeItem("avatarUrl");
-    //       window.sessionStorage.removeItem("id");
-    //     }
-    //   })
-    //   .catch(error => {
-    //     throw error;
-    //   });
+    
   }
-  // checkSession = e =>{
-  //   e.preventDefault();
-
-  // }
+  
 
   handleSearch = keyword => {
     if (keyword.trim().length === 0) {
@@ -161,7 +135,6 @@ class App extends React.Component {
     }
   };
   render() {
-    console.log(this.state.width);
     return (
       <div>
         <ScrollUpButton />
@@ -174,6 +147,7 @@ class App extends React.Component {
                   height={55}
                   width={200}
                   style={{ objectFit: "cover" }}
+                  alt="logo"
                 />
               </a>
               <Dropdown
@@ -230,6 +204,22 @@ class App extends React.Component {
                       </Menu.Item>
                       <Menu.Item>
                         <a href="/recipe/thit-tom">Thịt tôm</a>
+                      </Menu.Item>
+                      
+                      <Menu.Item>
+                        <a href="/recipe/sua">Sữa</a>
+                      </Menu.Item>
+                      <Menu.Item>
+                        <a href="/recipe/tra-che-thach">Trà-Chè-Thạch</a>
+                      </Menu.Item>
+                      <Menu.Item>
+                        <a href="/recipe/trai-cay">Trái Cây</a>
+                      </Menu.Item>
+                      <Menu.Item>
+                        <a href="/recipe/trung">Trứng</a>
+                      </Menu.Item>
+                      <Menu.Item>
+                        <a href="/recipe/thuc-uong">Thức Uống</a>
                       </Menu.Item>
                     </SubMenu>
                     <Menu.Divider />
@@ -353,17 +343,18 @@ class App extends React.Component {
               )}
             </nav>
           ) : (
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
-              <a class="navbar-brand" href="/">
+            <nav className="navbar navbar-expand-lg navbar-light bg-light">
+              <a className="navbar-brand" href="/">
                 <img
                   src={logo}
                   height={55}
                   width={200}
                   style={{ objectFit: "cover" }}
+                  alt="logo"
                 />
               </a>
               <button
-                class="navbar-toggler"
+                className="navbar-toggler"
                 type="button"
                 data-toggle="collapse"
                 data-target="#navbarSupportedContent"
@@ -371,14 +362,14 @@ class App extends React.Component {
                 aria-expanded="false"
                 aria-label="Toggle navigation"
               >
-                <span class="navbar-toggler-icon"></span>
+                <span className="navbar-toggler-icon"></span>
               </button>
 
-              <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto">
-                  <li class="nav-item dropdown">
+              <div className="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul className="navbar-nav mr-auto">
+                  <li className="nav-item dropdown">
                     <a
-                      class="nav-link dropdown-toggle"
+                      className="nav-link dropdown-toggle"
                       href="/recipe/all"
                       id="navbarDropdown"
                       role="button"
@@ -388,101 +379,101 @@ class App extends React.Component {
                     >
                       Công thức
                     </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <div className="dropdown-menu" aria-labelledby="navbarDropdown">
                       <h6>
                         Thực đơn
-                        <a class="dropdown-item" href="/recipe/bua-sang">
+                        <a className="dropdown-item" href="/recipe/bua-sang">
                           Bữa sáng
                         </a>
-                        <a class="dropdown-item" href="/recipe/bua-trua">
+                        <a className="dropdown-item" href="/recipe/bua-trua">
                           Bữa trưa
                         </a>
-                        <a class="dropdown-item" href="/recipe/bua-chieu">
+                        <a className="dropdown-item" href="/recipe/bua-chieu">
                           Bữa chiều
                         </a>
-                        <a class="dropdown-item" href="/recipe/khai-vi">
+                        <a className="dropdown-item" href="/recipe/khai-vi">
                           Khai vị
                         </a>
-                        <a class="dropdown-item" href="/recipe/giam-can">
+                        <a className="dropdown-item" href="/recipe/giam-can">
                           Giảm cân
                         </a>
-                        <a class="dropdown-item" href="/recipe/mon-chay">
+                        <a className="dropdown-item" href="/recipe/mon-chay">
                           Món chay
                         </a>
-                        <a class="dropdown-item" href="/recipe/an-vat">
+                        <a className="dropdown-item" href="/recipe/an-vat">
                           Ăn vặt
                         </a>
-                        <a class="dropdown-item" href="/recipe/banh">
+                        <a className="dropdown-item" href="/recipe/banh">
                           Bánh
                         </a>
-                        <a class="dropdown-item" href="/recipe/mon-nhau">
+                        <a className="dropdown-item" href="/recipe/mon-nhau">
                           Món nhậu
                         </a>
-                        <a class="dropdown-item" href="/recipe/an-kieng">
+                        <a className="dropdown-item" href="/recipe/an-kieng">
                           Ăn kiêng
                         </a>
                       </h6>
-                      <div class="dropdown-divider"></div>
+                      <div className="dropdown-divider"></div>
                       <h6>
                         Nguyên liệu
-                        <a class="dropdown-item" href="/recipe/thit-ga">
+                        <a className="dropdown-item" href="/recipe/thit-ga">
                           Thịt gà
                         </a>
-                        <a class="dropdown-item" href="/recipe/thit-bo">
+                        <a className="dropdown-item" href="/recipe/thit-bo">
                           Thịt bò
                         </a>
-                        <a class="dropdown-item" href="/recipe/thit-lon">
+                        <a className="dropdown-item" href="/recipe/thit-lon">
                           Thịt lợn
                         </a>
-                        <a class="dropdown-item" href="/recipe/thit-ca">
+                        <a className="dropdown-item" href="/recipe/thit-ca">
                           Thịt cá
                         </a>
-                        <a class="dropdown-item" href="/recipe/thit-cua">
+                        <a className="dropdown-item" href="/recipe/thit-cua">
                           Thịt cua
                         </a>
-                        <a class="dropdown-item" href="/recipe/thit-tom">
+                        <a className="dropdown-item" href="/recipe/thit-tom">
                           Thịt tôm
                         </a>
                       </h6>
-                      <div class="dropdown-divider"></div>
+                      <div className="dropdown-divider"></div>
                       <h6>
                         Độ khó
-                        <a class="dropdown-item" href="/recipe/de">
+                        <a className="dropdown-item" href="/recipe/de">
                           Dễ
                         </a>
-                        <a class="dropdown-item" href="/recipe/trung-binh">
+                        <a className="dropdown-item" href="/recipe/trung-binh">
                           Trung bình
                         </a>
-                        <a class="dropdown-item" href="/recipe/kho">
+                        <a className="dropdown-item" href="/recipe/kho">
                           Khó
                         </a>
                       </h6>
-                      <div class="dropdown-divider"></div>
+                      <div className="dropdown-divider"></div>
                       <h6>
                         Thời gian làm
-                        <a class="dropdown-item" href="/recipe/duoi-10-phut">
+                        <a className="dropdown-item" href="/recipe/duoi-10-phut">
                           Dưới 10 phút
                         </a>
-                        <a class="dropdown-item" href="/recipe/10-den-30-phut">
+                        <a className="dropdown-item" href="/recipe/10-den-30-phut">
                           10-30 phút
                         </a>
-                        <a class="dropdown-item" href="/recipe/30-den-60-phut">
+                        <a className="dropdown-item" href="/recipe/30-den-60-phut">
                           30-60 phút
                         </a>
-                        <a class="dropdown-item" href="/recipe/tren-60-phut">
+                        <a className="dropdown-item" href="/recipe/tren-60-phut">
                           Trên 60 phút
                         </a>
                       </h6>
                     </div>
                   </li>
 
-                  <li class="nav-item">
-                    <a class="nav-link" href="/blog">
+                  <li className="nav-item">
+                    <a className="nav-link" href="/blog">
                       Blog
                     </a>
                   </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="/simple-meal">
+                  <li className="nav-item">
+                    <a className="nav-link" href="/simple-meal">
                       Bữa ăn đơn giản
                     </a>
                   </li>
@@ -492,12 +483,12 @@ class App extends React.Component {
                   enterButton
                   size="large"
                   onSearch={this.handleSearch}
-                  className="mb-2"
+                  classNameName="mb-2"
                 />
                 {window.localStorage.getItem("email") ||
                 window.sessionStorage.getItem("email") ? (
                   <>
-                    <ul class="navbar-nav mr-auto">
+                    <ul className="navbar-nav mr-auto">
                       <Button
                         icon="form"
                         style={{ marginLeft: "5px" }}
@@ -507,9 +498,9 @@ class App extends React.Component {
                         Đăng công thức
                       </Button>
 
-                      <li class="nav-item dropdown">
+                      <li className="nav-item dropdown">
                         <a
-                          class="nav-link dropdown-toggle"
+                          className="nav-link dropdown-toggle"
                           href="#"
                           id="navbarDropdown"
                           role="button"
@@ -520,21 +511,21 @@ class App extends React.Component {
                           Welcome,{this.state.currentUser.fullName} !
                         </a>
                         <div
-                          class="dropdown-menu"
+                          className="dropdown-menu"
                           aria-labelledby="navbarDropdown"
                         >
-                          <a class="dropdown-item" href={`/profile`}>
+                          <a className="dropdown-item" href={`/profile`}>
                             Profile
                           </a>
-                          <div class="dropdown-divider"></div>
+                          <div className="dropdown-divider"></div>
                           <a
-                            class="dropdown-item"
+                            className="dropdown-item"
                             href={`/my-post/${this.state.currentUser.id}`}
                           >
                             Bài đăng của tôi
                           </a>
-                          <div class="dropdown-divider"></div>
-                          <a class="dropdown-item" onClick={this.handleLogOut}>
+                          <div className="dropdown-divider"></div>
+                          <a className="dropdown-item" onClick={this.handleLogOut}>
                             Đăng xuất
                           </a>
                         </div>
@@ -566,7 +557,7 @@ class App extends React.Component {
           )}
         </div>
 
-        <div className="body-content mb-5">
+        <div classNameName="body-content mb-5">
           <BrowserRouter>
             <Route path="/" exact={true} component={HomeScreen} />
             <Route path="/login" exact={true} component={WrappedLoginScreen} />
@@ -611,52 +602,52 @@ class App extends React.Component {
             ></Route>
           </BrowserRouter>
         </div>
-        <div className="pt-5">
+        <div classNameName="pt-5">
           <section id="footer">
-            <div class="container">
-              <div class="row">
-                <div class="col-xs-12 col-sm-12 col-md-12">
-                  <ul class="list-unstyled list-inline social text-center">
-                    <li class="list-inline-item">
-                      <a href="javascript:void();">
-                        <i class="fa fa-facebook"></i>
+            <div className="container">
+              <div className="row">
+                <div className="col-xs-12 col-sm-12 col-md-12">
+                  <ul className="list-unstyled list-inline social text-center">
+                    <li className="list-inline-item">
+                      <a >
+                        <i className="fa fa-facebook"></i>
                       </a>
                     </li>
-                    <li class="list-inline-item">
-                      <a href="javascript:void();">
-                        <i class="fa fa-twitter"></i>
+                    <li className="list-inline-item">
+                      <a >
+                        <i className="fa fa-twitter"></i>
                       </a>
                     </li>
-                    <li class="list-inline-item">
-                      <a href="javascript:void();">
-                        <i class="fa fa-instagram"></i>
+                    <li className="list-inline-item">
+                      <a >
+                        <i className="fa fa-instagram"></i>
                       </a>
                     </li>
-                    <li class="list-inline-item">
-                      <a href="javascript:void();">
-                        <i class="fa fa-google-plus"></i>
+                    <li className="list-inline-item">
+                      <a >
+                        <i className="fa fa-google-plus"></i>
                       </a>
                     </li>
-                    <li class="list-inline-item">
-                      <a href="javascript:void();" target="_blank">
-                        <i class="fa fa-envelope"></i>
+                    <li className="list-inline-item">
+                      <a>
+                        <i className="fa fa-envelope"></i>
                       </a>
                     </li>
                   </ul>
                 </div>
                 <hr />
               </div>
-              <div class="row">
+              <div className="row">
                 <a
-                  class="col-xs-12 col-sm-12 col-md-12 mt-2 mt-sm-2 text-center"
+                  className="col-xs-12 col-sm-12 col-md-12 mt-2 mt-sm-2 text-center"
                   href=""
                 >
-                  <img src={logo} style={{ height: 120 }} />
+                  <img src={logo} style={{ height: 120, objectFit: "cover" }} />
                 </a>
               </div>
 
-              <div class="row">
-                <div class="col-xs-12 col-sm-12 col-md-12 mt-2 mt-sm-2 text-center text-white">
+              <div className="row">
+                <div className="col-xs-12 col-sm-12 col-md-12 mt-2 mt-sm-2 text-center text-white">
                   <p>
                     Lazy Cooking là một dự án phi lợi nhuận của 1 nhóm 3 bạn trẻ
                     với mục đích hướng tới những bữa ăn đơn giản, dễ làm, dễ
@@ -664,7 +655,7 @@ class App extends React.Component {
                     lành mạnh, tránh những bữa ăn ở ngoài hàng quán vừa không
                     đảm bảo vừa đắt đỏ
                   </p>
-                  <p class="h6">
+                  <p className="h6">
                     &copy; 2019 All right Reserved Lazy Cooking Team
                   </p>
                 </div>

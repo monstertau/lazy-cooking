@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { Icon, Button, Typography, Input, Comment, Avatar, Form, List, Tag } from 'antd';
+import { Icon, Button, Tag } from 'antd';
 import renderHTML from 'react-render-html';
 import {Helmet} from "react-helmet";
-const { Title, Paragraph, Text } = Typography;
-const { TextArea } = Input;
+import "./DetailPostScreen.css"
+
 
 
 class DetailPostScreen extends Component {
@@ -27,8 +27,14 @@ class DetailPostScreen extends Component {
         userComment: '',
         isError: false,
         message: '',
+        width: window.innerWidth,
     }
-
+    updateDimensions = () => {
+        this.setState({
+          
+          width: window.innerWidth
+        });
+      };
     componentWillMount() {
         fetch(`http://localhost:3001/posts/get-post-by-id/${this.props.match.params.postId}`, {
             method: 'GET',
@@ -61,6 +67,7 @@ class DetailPostScreen extends Component {
                 console.log(error);
                 window.alert(error.message);
             })
+            window.addEventListener("resize", this.updateDimensions);
     }
 
     handleClickLike = () => {
@@ -77,7 +84,7 @@ class DetailPostScreen extends Component {
             .then((res) => res.json())
             .then((data) => {
                 console.log(data);
-                if (data.success == false && data.message == "Unauthenticated") {
+                if (data.success === false && data.message === "Unauthenticated") {
                     window.alert('Please login for vote this!');
                 } else {
                     this.setState({
@@ -114,7 +121,7 @@ class DetailPostScreen extends Component {
             })
                 .then((res) => res.json())
                 .then((data) => {
-                    if (data.success == false && data.message == "Unauthenticated") {
+                    if (data.success === false && data.message === "Unauthenticated") {
                         window.alert('Please login for vote this!');
                     } else {
                         this.setState({
@@ -153,20 +160,20 @@ class DetailPostScreen extends Component {
                             <h2>{this.state.title}</h2>
                         </div>
                         <div className="row mt-4">
-                            <div className="media col-3">
-                                <img src={this.state.avatarUrl} className="avatarImage" />
+                            <div className={this.state.width>1000?"media col-3":"media col-6"}>
+                                <img src={this.state.avatarUrl} className="avatarImage"/>
                                 <div className="media-body ml-1 ">
                                    <a onClick={this.handleAClick}><h6 className="mt-0">{this.state.authorName}</h6></a> 
                                     <small><Icon type="like" /> Thích: {this.state.totalVote}</small>
                                 </div>
                             </div>
-                            <div className="col-3 ">
+                            <div className={this.state.width>1000?"col-3":"col-6"}>
                                 <h6><Icon type="clock-circle" /> Thời gian làm: {this.state.timeToDone} phút</h6>
                             </div>
-                            <div className="col-3 ">
+                            <div className={this.state.width>1000?"col-3":"col-6"}>
                                 <h6><Icon type="bulb" /> Độ khó: {this.state.level}</h6>
                             </div>
-                            <div className="col-3 ">
+                            <div className={this.state.width>1000?"col-3":"col-6"}>
                                 <h6><Icon type="profile" /> Nguyên Liệu: {this.state.materials.map((item) => {
                                     return (
                                         <Tag>{item}</Tag>
@@ -178,7 +185,7 @@ class DetailPostScreen extends Component {
                     <div className="main-content">
                         <div className="content">
                             <div className="image text-center mt-5">
-                                <img className="postImage" src={this.state.imageUrl} />
+                                <img className="postImage" src={this.state.imageUrl} style={{width:this.state.width<1000?"90%":"",objectFit:"cover"}}/>
                             </div>
                             <div className="detail-content mt-5">
                                 {renderHTML(`${this.state.content}`)}

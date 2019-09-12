@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Form, Input, Button } from "antd";
 import { Helmet } from "react-helmet";
-const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 const phoneRegex = /^\d{10}$/;
 
 class RegisterScreen extends Component {

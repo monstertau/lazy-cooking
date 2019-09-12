@@ -72,20 +72,23 @@ class HomeScreen extends React.Component {
           <Carousel autoplay>
           <div>
               <img
-                src="https://static.toiimg.com/photo/68283907.cms"
+                src="https://www.reynoldskitchens.com/sites/default/files/styles/background_plain/public/heroes/collection/rey_resolutiontable_landingpage.jpg?itok=tgKJqeBT"
                 className="imageCarousel"
+                alt="anh1"
               />
             </div>
             <div className="intro">
               <img
                 src="https://passport2it.com/wp-content/uploads/2017/11/o-KITCHEN-COOKING-facebook.jpg"
                 className="imageCarousel"
+                alt="anh2"
               />
             </div>
             <div>
               <img
                 src="https://img-s-msn-com.akamaized.net/tenant/amp/entityid/AAFAjK9.img?h=630&w=1200&m=6&q=60&o=t&l=f&f=jpg&x=1060&y=1065"
                 className="imageCarousel"
+                alt="anh3"
               />
             </div>
           </Carousel>

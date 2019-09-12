@@ -7,7 +7,6 @@ import {
   InputNumber,
   Button,
   Rate,
-  Input,
   Row,
   Col,
   Empty,
@@ -18,7 +17,6 @@ import {
 } from "antd";
 import "antd/dist/antd.css";
 import { foodArr, typeArr } from "./data";
-import HomeScreen from "./HomeScreen";
 import {Helmet} from "react-helmet";
 const { Option } = Select;
 const { Meta } = Card;
@@ -98,7 +96,7 @@ class Meal extends Component {
         .then(res => res.json())
         .then(data => {
           console.log(data);
-          if (data.success == true) {
+          if (data.success === true) {
             this.setState({
               data: data.data,
               loading: false
