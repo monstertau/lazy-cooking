@@ -214,7 +214,7 @@ class DetailPostScreen extends Component {
                                         <div className="media mt-2 user-comment" key={item.id}>
                                             <img className="align-self-center mr-2 ml-1 avatarImage" src={item.userAvatarUrl} />
                                             <div className="media-body mb-1">
-                                                <a ><h6 className="mt-1 user" >{item.userName}</h6></a>
+                                                <h6 className="mt-1 user" >{item.userName}</h6>
                                                 {item.content}</div>
                                         </div>
                                     )
