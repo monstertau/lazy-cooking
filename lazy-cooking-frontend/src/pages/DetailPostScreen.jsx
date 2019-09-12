@@ -13,6 +13,7 @@ class DetailPostScreen extends Component {
         authorId: '',
         authorName: '',
         avatarUrl: '',
+        avatarCurrentUser: '',
         title: '',
         content: '',
         imageUrl: '',
@@ -50,6 +51,7 @@ class DetailPostScreen extends Component {
                     authorId: data.data.authorId,
                     authorName: data.data.authorName,
                     avatarUrl: data.data.avatarUrl,
+                    avatarCurrentUser: window.localStorage.getItem("avatarUrl"),
                     title: data.data.title,
                     content: data.data.content,
                     imageUrl: data.data.imageUrl,
@@ -212,7 +214,7 @@ class DetailPostScreen extends Component {
                                         <div className="media mt-2 user-comment" key={item.id}>
                                             <img className="align-self-center mr-2 ml-1 avatarImage" src={item.userAvatarUrl} />
                                             <div className="media-body mb-1">
-                                                <a href=""><h6 className="mt-1 user" >{item.userName}</h6></a>
+                                                <a ><h6 className="mt-1 user" >{item.userName}</h6></a>
                                                 {item.content}</div>
                                         </div>
                                     )
@@ -221,7 +223,7 @@ class DetailPostScreen extends Component {
                             <div className="input-comment mt-3">
                                 <form onSubmit={this.handleSubmitComment}>
                                     <div className="media">
-                                        <img src={this.state.avatarUrl} className="align-self-center mr-3 avatarImage" />
+                                        <img src={this.state.avatarCurrentUser} className="align-self-center mr-3 avatarImage" />
                                         <textarea className="form-control" rows="2" placeholder="Thêm bình luận tại đây!" onInput={this.handleInput}
                                             value={this.state.userComment}
                                             onChange={(event) => {
